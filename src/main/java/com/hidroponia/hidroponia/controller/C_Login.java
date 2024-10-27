@@ -26,6 +26,11 @@ public class C_Login {
         return "index";
     }
 
+    @GetMapping("/home")
+    public String getHome(){
+        return "home/home";
+    }
+
     @PostMapping("/login")
     public String postlogin(@RequestParam("username") String username,
                             @RequestParam("senha") String senha,
@@ -35,7 +40,7 @@ public class C_Login {
         // Se o login for bem-sucedido
         if (s_login.validaLogin(username, senha)) {
             model.addAttribute("logo");
-            return "index";  // Página "home.html" será renderizada
+            return "home/home";  // Página "home.html" será renderizada
         } else {
             model.addAttribute("lasco", "Senha incorreta!");
               // Página "index.html" será renderizada

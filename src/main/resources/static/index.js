@@ -14,29 +14,4 @@ if (bottonLine) {
     console.log("Elemento não encontrado.");//em caso de erro
 }
 
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Impede o envio normal do formulário
 
-    login(); // Chama a função login
-});
-
-function login() {
-    let username = $("#username").val();
-    let senha = $("#senha").val();
-
-    $.ajax({
-        url: "/login",
-        method: "POST",
-
-        data: {
-            username: username,
-            senha: senha
-        },
-        success: function(response) {
-        },
-        error: function(xhr, status, error) {
-            console.error("Erro no login: ", xhr.responseText);  // Log de erro mais detalhado
-            alert("deu ruim");
-        }
-    });
-}
