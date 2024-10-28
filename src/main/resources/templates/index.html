@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -23,7 +23,7 @@
 <div class="container">
     <div class="login-box">
         <h2>Login</h2>
-        <form action="/login" id="loginForm" method="post">
+        <form action="@{/login}" method="post" th:action="@{/login}" id="loginForm">
             <div class="user-box">
                 <input type="text" name="username" required="" id="username" autocomplete="off">
                 <Label>Username</Label>

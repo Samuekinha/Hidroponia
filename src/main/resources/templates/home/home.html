@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<div class="container.fluid">
+<div class="container-fluid">
     <div class="row">
         <div class="topBar"></div>
     </div>
@@ -34,43 +34,25 @@
 
         <div class="col-5">
             <div class="row">
-
                 <div class="row d-flex justify-content-center">
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-2">
-                            <img src="img/teste.png" alt="foto" class="foto">
-                        </div>
-                        <div class="col-10">
-                            <p class="text-light ">Nome d/user c/thymeleaf</p>
-                        </div>
-                    </div>
-
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-6">
-                            <p class="text-light d-flex justify-content-center">nivel</p>
-                        </div>
-                        <div class="col-6">
-                            <p class="text-light d-flex justify-content-center">email</p>
-                        </div>
-                    </div>
-
-                    <div class="bt-line-large"></div>
+                    <!-- home/home.html -->
+                    <div th:insert="~{fragments/usuario-fragment :: fragment}"></div>
                 </div>
 
                 <div class="row">
                     <div class="col-6">
                         <div class="row d-flex justify-content-center mt-4">
-                            <a class="mb-1" href="/cadastrar">Cadastar usuario</a>
+                            <a class="mb-1" href="/cadastrar">Cadastrar usuário</a>
                             <div class="bt-line"></div>
                         </div>
 
                         <div class="row d-flex justify-content-center mt-4">
-                            <a class="mb-1" href="/listausuarios">Lista usuarios</a>
+                            <a class="mb-1" href="/listausuarios">Lista usuários</a>
                             <div class="bt-line"></div>
                         </div>
 
                         <div class="row d-flex justify-content-center mt-4 mb-4">
-                            <a class="mb-1" href="/atualizarusuario">Atualizar usuario</a>
+                            <a class="mb-1" href="/atualizarusuario">Atualizar usuário</a>
                             <div class="bt-line"></div>
                         </div>
                     </div>
@@ -87,12 +69,11 @@
                         </div>
 
                         <div class="row d-flex justify-content-center mt-4 mb-4">
-                            <a class="mb-1" href="/atualizairrigacao">Atualiza irrigação</a>
+                            <a class="mb-1" href="/atualizairrigacao">Atualizar irrigação</a>
                             <div class="bt-line"></div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -101,8 +82,7 @@
 <div class="container">
     <div class="row d-flex justify-content-center">
         <div class="bottonLineArea d-flex justify-content-center">
-            <div class="bottonLine" id="bottonLine">
-            </div>
+            <div class="bottonLine" id="bottonLine"></div>
         </div>
     </div>
 </div>
