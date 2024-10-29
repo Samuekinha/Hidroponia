@@ -34,7 +34,11 @@ public class C_Login {
         System.out.println("Requisição recebida: " + username);
         // Se o login for bem-sucedido
         if (s_login.validaLogin(username, senha)) {
+<<<<<<< HEAD
             model.addAttribute("usuario");
+=======
+            model.addAttribute("logo");
+>>>>>>> ebba9967459b64532e646185f976f83d3093f2a3
             return "home/home";  // Página "usuario-fragment.html" será renderizada
         } else {
             model.addAttribute("lasco", "Senha incorreta!");
@@ -43,9 +47,25 @@ public class C_Login {
         }
     }
 
+<<<<<<< HEAD
     @GetMapping("/agendar-irrigacao")
     public String getAgendaIrrigacao(){
         return "agendar-irrigacao";
+=======
+    @GetMapping("/home")
+    public String homeUser(Model model) {
+        // Obter o usuário logado
+        M_Usuario usuarioLogado = s_login.buscarUsuarioLogado();
+
+        if (usuarioLogado != null) {
+            model.addAttribute("usuario", usuarioLogado);
+        } else {
+            // Lidar com o caso em que o usuário não está encontrado (se necessário)
+            model.addAttribute("errorMessage", "Usuário não encontrado!");
+        }
+
+        return "home/home"; // Seu template principal
+>>>>>>> ebba9967459b64532e646185f976f83d3093f2a3
     }
 
 }

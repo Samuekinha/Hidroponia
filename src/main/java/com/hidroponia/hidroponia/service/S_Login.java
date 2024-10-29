@@ -27,6 +27,7 @@ public class S_Login {
         }
     }
 
+<<<<<<< HEAD
 //    public M_Usuario buscarUsuarioLogado() {
 //        // Obter o nome de usuário do contexto de segurança
 //        String username = obterUsernameUsuarioLogado();
@@ -46,6 +47,27 @@ public class S_Login {
 //            return principal.toString();
 //        }
 //    }
+=======
+    public M_Usuario buscarUsuarioLogado() {
+        // Obter o nome de usuário do contexto de segurança
+        String username = obterUsernameUsuarioLogado();
+
+        // Buscar o usuário no banco de dados pelo nome de usuário
+        M_Usuario usuario = r_usuario.findByNome(username);
+        return usuario; // Retorna o objeto M_Usuario ou null se não encontrado
+    }
+
+    // Método para obter o nome do usuário autenticado
+    public String obterUsernameUsuarioLogado() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
+    }
+>>>>>>> ebba9967459b64532e646185f976f83d3093f2a3
 }
 
 
