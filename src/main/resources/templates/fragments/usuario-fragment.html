@@ -1,0 +1,30 @@
+<!-- src/main/resources/templates/fragments/usuario-fragment.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/home.css">
+</head>
+<body>
+<div th:fragment="fragment">
+    <div class="row d-flex justify-content-center">
+        <div class="row d-flex justify-content-center">
+            <div class="col-2">
+                <img src="img/teste.png" alt="foto" class="foto">
+            </div>
+            <div class="col-10">
+                <p class="text-light">Username:</p>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-6">
+                <p class="text-light d-flex justify-content-center">Nivel:</p>
+            </div>
+            <div class="col-6">
+                <p class="text-light d-flex justify-content-center">Email:</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
