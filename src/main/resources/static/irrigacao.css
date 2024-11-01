@@ -65,3 +65,24 @@ h1{
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0,0,0,.6);
 }
+
+h4{
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.bt-line{
+    width: fit-content; /* Definir um tamanho fixo ou ajuste conforme necessário */
+    min-width: 60px;
+    height: 1px; /* Um pouco mais grosso para maior visibilidade */
+    background-color: white;
+    margin-top: -1px;
+    margin-bottom: 1px;
+    display: flex;
+    justify-content: center;
+}
+
+p{
+    color: white;
+}
