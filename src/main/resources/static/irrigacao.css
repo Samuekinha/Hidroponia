@@ -86,3 +86,76 @@ h4{
 p{
     color: white;
 }
+
+.login-box .user-box {
+  position: relative;
+}
+
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+.login-box .user-box label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #03e9f4;
+  font-size: 12px;
+}
+
+label{
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.md-line{
+    width: 1px;
+    height: 100%; /* Um pouco mais grosso para maior visibilidade */
+    background-color: white;
+}
+
+.bt-line{
+    width: fit-content; /* Definir um tamanho fixo ou ajuste conforme necessário */
+    min-width: 60px;
+    height: 1px; /* Um pouco mais grosso para maior visibilidade */
+    background-color: white;
+}
+
+.submitLogin{ /*botao de submit do login*/
+    background-color: #5E5D4D;
+    color: white;
+    font-size: 16px;
+    text-decoration: none;
+    border: 2px; /* Borda quebrada (pontilhada ou tracejada) */
+    transition: 0.5s ease;
+}
+
+.submitLogin:hover{
+    color: #bcbb9b;
+}
+
+.submit-line {/*linha abaixo do botão de login*/
+    width: fit-content; /* A linha se ajusta ao tamanho do conteúdo */
+    min-width: 60px;
+    height: 0.5px;
+    background-color: white; /* Cor da linha */
+}

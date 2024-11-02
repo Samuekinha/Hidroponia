@@ -40,10 +40,4 @@ public class C_Login {
             return "redirect:/index";
         }
     }
-
-    @GetMapping("/agendar-irrigacao")
-    public String getAgendaIrrigacao() {
-        return "agendar-irrigacao";
-    }
-
 }
