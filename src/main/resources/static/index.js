@@ -14,4 +14,3 @@ if (bottonLine) {
     console.log("Elemento não encontrado.");//em caso de erro
 }
 
-
