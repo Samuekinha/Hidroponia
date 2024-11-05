@@ -1,0 +1,109 @@
+/* Resetando margens e preenchimentos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden; /* barra de rolagem horizontal removida */
+    background-color: #bcbb9b;
+    font-family: Arial, sans-serif;
+}
+
+/* Barra superior */
+.topBar {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 8px;
+}
+
+/* Área de efeito da linha inferior */
+.bottonLineArea {
+    position: absolute;
+    bottom: -3.5%; /* Posição a 3.5% da parte inferior */
+    width: 200px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0); /* Área clicável invisível */
+}
+
+.bottonLine {
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 60px;
+    height: 2px;
+    transition: transform 1s ease;
+}
+
+
+
+/* Estilizando o título */
+h1 {
+    text-align: center;
+    font-size: 36px;
+    color: #333;
+    margin-top: 20px;
+}
+
+/* Estilizando a tabela */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    border: 1px solid #555;
+}
+
+/* Adicionando uma linha de fundo alternada */
+
+
+/* Estilo para links dentro da tabela */
+a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    transition: 0.3s ease;
+}
+
+
+/* Linhas decorativas (para links ou botões) */
+.bt-line {
+    width: fit-content;
+    min-width: 60px;
+    height: 1px;
+    background-color: white;
+}
+
+.md-line {
+    width: 1px;
+    height: 100%;
+    background-color: white;
+}
+
+.bt-line-large {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    height: 1px;
+    background-color: white;
+}
+
+.cor{
+background-color: rgba(0, 0, 0,  0.2);
+
+
+}

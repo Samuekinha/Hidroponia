@@ -11,3 +11,28 @@ public interface R_Usuario extends JpaRepository<M_Usuario, Long> {
     @Query(value = "SELECT * FROM usuario WHERE username = :username", nativeQuery = true)
     M_Usuario findByNome(@Param("username") String username);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
