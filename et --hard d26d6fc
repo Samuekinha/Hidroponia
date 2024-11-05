@@ -1,0 +1,88 @@
+[33mcommit 33353f10fb6ba7528a4315444e8e4bb8ae990861[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32msamuel[m[33m)[m
+Merge: d26d6fc bf789ac
+Author: Semeel baldosco cugumello <samuelcomunello@gmail.com>
+Date:   Tue Nov 5 19:44:26 2024 -0300
+
+    resolved merge conflics
+
+[33mcommit bf789ac444bd3337a731da63a3c566d5b6067786[m
+Merge: f514e02 1bcc345
+Author: pedrostadnik <pedrohenriquestadnik4@gmail.com>
+Date:   Tue Nov 5 19:11:18 2024 -0300
+
+    Merge pull request #2 from Samuekinha/pedro
+    
+    Pedropedrinho
+
+[33mcommit 1bcc345bb1f50b59da645b5dac5b4af38968bdc2[m
+Author: pedrooo <joao.de.barro.do.hitler@.com git config --global user.email>
+Date:   Tue Nov 5 18:56:13 2024 -0300
+
+    pedro
+
+[33mcommit d26d6fcf02f050c1eb48e8a5b3a1000680101811[m
+Author: Semeel baldosco cugumello <samuelcomunello@gmail.com>
+Date:   Mon Nov 4 21:51:04 2024 -0300
+
+    aparecer próximas irrigações
+
+[33mcommit 70b40bd8bda810af57d6717a4dcab9f068e80043[m
+Author: pedrooo <joao.de.barro.do.hitler@.com git config --global user.email>
+Date:   Mon Nov 4 18:56:52 2024 -0300
+
+    pedro
+
+[33mcommit 85162adbcacfc11365af1f9693afe8a2d68a4e23[m
+Author: Samuel <samuelcomunello393@gmail.com>
+Date:   Sat Nov 2 20:52:08 2024 -0300
+
+    cadastro de irrigações e validações
+
+[33mcommit f514e0252848ed3dd34d4b3a1f7b9c5f6197215f[m[33m ([m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Author: Semeel baldosco cugumello <samuelcomunello@gmail.com>
+Date:   Thu Oct 31 21:48:19 2024 -0300
+
+    continuei o agendar irrigacao
+
+[33mcommit 44a27a6032818fe398ca3f7b31ece40448fe107f[m
+Author: Semeel baldosco cugumello <samuelcomunello@gmail.com>
+Date:   Wed Oct 30 21:49:10 2024 -0300
+
+    ajustei banco de dados e html agendar
+
+[33mcommit 439e86e10518f494a987202efccf82e64ee3abbb[m
+Author: Semeel baldosco cugumello <samuelcomunello@gmail.com>
+Date:   Tue Oct 29 19:32:42 2024 -0300
+
+    ajustar github
+
+[33mcommit c34e2fbb64f303b584ad9cf7403c991428323c3c[m
+Merge: d65ac55 ebba996
+Author: Semeel baldosco cugumello <samuelcomunello@gmail.com>
+Date:   Mon Oct 28 21:43:02 2024 -0300
+
+    Resolve merge conflicts
+
+[33mcommit d65ac55607b9005a3165bf0913bcf62a747b8d15[m
+Author: Semeel baldosco cugumello <samuelcomunello@gmail.com>
+Date:   Mon Oct 28 21:39:15 2024 -0300
+
+    iniciei o agendamento de irrigacao
+
+[33mcommit ebba9967459b64532e646185f976f83d3093f2a3[m
+Author: Samuel <samuelcomunello393@gmail.com>
+Date:   Mon Oct 28 13:46:56 2024 -0300
+
+    adicionei fator segurança
+
+[33mcommit d06cf4cc7111804e2f687843c53ee11147e8b93a[m
+Author: Samuel <samuelcomunello393@gmail.com>
+Date:   Sat Oct 26 23:19:31 2024 -0300
+
+    dei inicio a criação da 'home', terminei a questao do login e criei algumas paginas que serao necessarias
+
+[33mcommit e851dfc3a2722842077fc4b9e7ed738e7673757d[m
+Author: Samuel <samuelcomunello393@gmail.com>
+Date:   Tue Oct 22 22:44:33 2024 -0300
+
+    Commit inicial do projeto
