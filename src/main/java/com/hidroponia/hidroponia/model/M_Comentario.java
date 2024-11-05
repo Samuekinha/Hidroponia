@@ -10,10 +10,12 @@ public class M_Comentario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)//garante que seja not null
-    private String corpo; // O campo de Corpo do comentário
+    @Column(nullable = false, length = 200)
+    private String texto; // Campo para o texto do comentário
 
-    // Outros campos que você desejar
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", foreignKey = @ForeignKey(name = "FK_USUARIO_COMENTARIO"))
+    private M_Usuario usuario; // Relacionamento com a entidade Usuario
 
     // Getters e Setters
 
@@ -25,13 +27,21 @@ public class M_Comentario {
         this.id = id;
     }
 
-    public String getCorpo() {
-        return corpo;
+    public String getTexto() {
+        return texto;
     }
 
-    public void setCorpo(String corpo) {
-        this.corpo = corpo;
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
 
-    // Outros métodos
+    public M_Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(M_Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    // Outros métodos, se necessário
 }

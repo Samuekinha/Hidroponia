@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class S_AgendaIrrigacao {
@@ -61,6 +62,7 @@ public class S_AgendaIrrigacao {
                 m_irrigacao.setHoraIrrigacao(horaIrrigacao);
                 m_irrigacao.setDataRegistro(LocalDateTime.now());
                 m_irrigacao.setIntervalo(intervalo);
+                m_irrigacao.setConcluida(false);
                 r_irrigacao.save(m_irrigacao);
                 return true;
             }
@@ -76,4 +78,15 @@ public class S_AgendaIrrigacao {
 
         return false;
     }
+
+    public List<M_Irrigacao> obterProximasIrrigacoes() {
+        LocalDate dataAtual = LocalDate.now();
+        LocalTime horaAtual = LocalTime.now();
+        List<M_Irrigacao> todasIrrigacoes = r_irrigacao.findNextIrrigacoes(dataAtual, horaAtual);
+
+        // Retorna apenas as 5 primeiras irrigações
+        return todasIrrigacoes.stream().limit(5).collect(Collectors.toList());
+    }
+
+
 }

@@ -24,10 +24,10 @@ public class M_Irrigacao {
     @Column(name = "data_registro", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime dataRegistro;
 
-    @Column(name = "data_irrigacao", nullable = false) //garante que seja notnull
+    @Column(name = "data_irrigacao", nullable = false) // garante que seja not null
     private LocalDate dataIrrigacao;
 
-    @Column(name = "hora_irrigacao", nullable = false) //garante que seja notnull
+    @Column(name = "hora_irrigacao", nullable = false) // garante que seja not null
     private LocalTime horaIrrigacao;
 
     @Column(name = "intervalo")
@@ -38,7 +38,7 @@ public class M_Irrigacao {
 
     @ManyToOne
     @JoinColumn(name = "comentario_id", foreignKey = @ForeignKey(name = "FK_comentario"))
-    private M_Comentario comentario;
+    private M_Comentario comentario; // Alterado para ser um objeto e não um ID
 
     // Getters e Setters
 
