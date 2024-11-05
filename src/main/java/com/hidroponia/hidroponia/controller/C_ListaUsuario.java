@@ -18,10 +18,10 @@ public class C_ListaUsuario {
         this.s_listaUsuario = s_listaUsuario;
     }
 
-    @GetMapping("/usuario/lista-usuarios")
+    @GetMapping("/lista-usuario")
     public String getListaUsuarios(Model model) {
         List<M_Usuario> usuarios = s_listaUsuario.listarUsuarios(); // Método que busca todos os usuários
-
-        return "chiq"; // Retorna o nome da view "lista.html"
+        model.addAttribute("usuarios", usuarios);
+        return "/usuario/lista-usuario"; // Retorna o nome da view "lista.html"
     }
 }

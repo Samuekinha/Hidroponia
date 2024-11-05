@@ -1,15 +1,31 @@
+/* Resetando margens e preenchimentos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 html, body {
     width: 100vw;
     height: 100vh;
-    overflow-x: hidden; /* barra do eixo x (barra de navegação) removida */
+    overflow-x: hidden; /* barra de rolagem horizontal removida */
     background-color: #bcbb9b;
+    font-family: Arial, sans-serif;
 }
 
-.bottonLineArea { /* área de efeito da linha inferior */
+/* Barra superior */
+.topBar {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 8px;
+}
+
+/* Área de efeito da linha inferior */
+.bottonLineArea {
     position: absolute;
-    bottom: -3.5%; /* Posição a 1% do fundo da tela */
-    width: 200px; /* Aumentando a largura da área clicável */
-    height: 40px; /* Aumentando a altura da área clicável */
+    bottom: -3.5%; /* Posição a 3.5% da parte inferior */
+    width: 200px;
+    height: 40px;
     display: flex;
     justify-content: center;
     left: 50%;
@@ -17,78 +33,64 @@ html, body {
     background-color: rgba(255, 255, 255, 0); /* Área clicável invisível */
 }
 
-.bottonLine { /* linha inferior */
+.bottonLine {
     background-color: rgba(0, 0, 0, 0.4);
     width: 60px;
     height: 2px;
     transition: transform 1s ease;
 }
 
-.bottonLineArea:hover .bottonLine { /* animação da linha inferior */
-    transform: scale(4.5, 10); /* A animação acontece quando o mouse está sobre a área */
+
+
+/* Estilizando o título */
+h1 {
+    text-align: center;
+    font-size: 36px;
+    color: #333;
+    margin-top: 20px;
 }
 
-.topBar { /* barra do topo do site */
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    height: 8px;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
-.tabela {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 80%;
-    padding: 40px;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, .5);
-    box-sizing: border-box;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
-    color: white; /* Adicionando cor ao texto da tabela */
-}
-
+/* Estilizando a tabela */
 table {
-    width: 100%;
-    border-collapse: collapse; /* Colapsar bordas da tabela */
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
 }
 
 th, td {
-    padding: 10px;
-    border: 1px solid white; /* Bordas brancas */
-    text-align: left;
+    padding: 12px;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    border: 1px solid #555;
 }
 
-th {
-    background-color: rgba(0, 0, 0, 0.6); /* Fundo para cabeçalho */
-}
+/* Adicionando uma linha de fundo alternada */
 
+
+/* Estilo para links dentro da tabela */
 a {
     text-decoration: none;
     color: white;
     font-size: 16px;
-    text-align: center;
-    margin-bottom: 1px; /* Espaço entre o link e a linha */
-    transition: 0.5s ease;
+    transition: 0.3s ease;
 }
 
-a:hover {
-    color: #bcbb9b;
-}
 
+/* Linhas decorativas (para links ou botões) */
 .bt-line {
-    width: fit-content; /* Definir um tamanho fixo ou ajuste conforme necessário */
+    width: fit-content;
     min-width: 60px;
-    height: 1px; /* Um pouco mais grosso para maior visibilidade */
+    height: 1px;
     background-color: white;
 }
 
 .md-line {
     width: 1px;
-    height: 100%; /* Um pouco mais grosso para maior visibilidade */
+    height: 100%;
     background-color: white;
 }
 
@@ -98,4 +100,10 @@ a:hover {
     width: 90%;
     height: 1px;
     background-color: white;
+}
+
+.cor{
+background-color: rgba(0, 0, 0,  0.2);
+
+
 }
