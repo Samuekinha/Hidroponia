@@ -1,30 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuário</title>
+    <link rel="stylesheet" href="cadastrar.css">
 </head>
 <body>
 
-<div class="container.fluid">
-    <div class="row">
-        <div class="topBar"></div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row tabela">
-        <h2>Agendar irrigação</h2>
-
-    </div>
-</div>
-
-<div class="container">
-    <div class="row d-flex justify-content-center">
-        <div class="bottonLineArea d-flex justify-content-center">
-            <div class="bottonLine" id="bottonLine">
-            </div>
+<div class="login-box">
+    <h1>Formulário de Registro</h1>
+    <form action="cadastrar" method="post" th:action="@{/cadastrar}">
+        <div class="user-box">
+            <input type="text" name="username" required="" id="username" autocomplete="off">
+            <label for="username">Nome de Usuário:</label>
         </div>
+
+        <div class="user-box">
+            <input type="text" name="senha" required="" id="senha" autocomplete="off">
+            <label for="senha">Senha:</label>
+        </div>
+
+        <div class="user-box">
+            <input type="text" name="conf_senha" required="" id="conf_senha" autocomplete="off">
+            <label for="conf_senha">Confirmação de Senha:</label>
+        </div>
+
+        <div class="user-box">
+            <input type="text" name="email" required="" id="email" autocomplete="off">
+            <label for="email">Email:</label>
+        </div>
+
+
+        <input type="submit" value="Cadastrar" id="submitCadastro">
+    </form>
+
+    <div class="footer">
+        <p>© 2024 Seu Site. Todos os direitos reservados.</p>
     </div>
 </div>
 
