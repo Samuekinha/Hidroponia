@@ -20,7 +20,7 @@ public class C_Cadastro {
 
     @GetMapping("/cadastrar")
     public String getCadastro(){
-        return "/cadastrar";
+        return "/usuario/cadastrar";
     }
 
     @PostMapping("/cadastrar")
@@ -34,6 +34,6 @@ public class C_Cadastro {
         if (s_cadastro.validaCadastro(username,senha,conf_senha,email)){
             return "home/home";
         }
-        return "redirect:/cadastrar";
+        return "redirect:/usuario/cadastrar";
     }
 }

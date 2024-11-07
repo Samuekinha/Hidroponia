@@ -42,10 +42,50 @@ html, body {
     position: absolute;
       top: 50%;
       left: 50%;
-      width: 80%;
+      width: 60%;
       padding: 40px;
       transform: translate(-50%, -50%);
       background: rgba(0,0,0,.5);
       box-sizing: border-box;
       box-shadow: 0 15px 25px rgba(0,0,0,.6);
+}
+
+.bt-line{
+    width: fit-content; /* Definir um tamanho fixo ou ajuste conforme necessário */
+    min-width: 60px;
+    height: 1px; /* Um pouco mais grosso para maior visibilidade */
+    background-color: white;
+    margin-top: -1px;
+    margin-bottom: 1px;
+    display: flex;
+    justify-content: center;
+}
+
+h1{
+    display: flex;
+    justify-content: center;
+    color: white;
+}
+
+p{
+    display: flex;
+    justify-content: center;
+    color: white;
+}
+
+/* Força a transparência da tabela */
+.table, .table tbody, .table thead, .table th, .table td {
+    background-color: transparent !important; /* Fundo transparente em todos os elementos */
+    color: white !important; /* Texto em branco */
+    border-color: rgba(255, 255, 255, 0.3) !important; /* Bordas semitransparentes */
+}
+
+/* Especificação adicional para cabeçalho e célula */
+.table thead th {
+    color: white !important; /* Texto em branco no cabeçalho */
+    background-color: rgba(0, 0, 0, 0.4) !important; /* Fundo semitransparente para cabeçalhos */
+}
+
+.table tbody tr {
+    background-color: rgba(0, 0, 0, 0.3) !important; /* Fundo semitransparente para linhas */
 }

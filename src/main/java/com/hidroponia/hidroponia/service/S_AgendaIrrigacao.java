@@ -82,9 +82,9 @@ public class S_AgendaIrrigacao {
     public List<M_Irrigacao> obterProximasIrrigacoes() {
         LocalDate dataAtual = LocalDate.now();
         LocalTime horaAtual = LocalTime.now();
-        List<M_Irrigacao> todasIrrigacoes = r_irrigacao.findNextIrrigacoes(dataAtual, horaAtual);
 
-        // Retorna apenas as 5 primeiras irrigações
+        // Obtém e retorna as próximas 5 irrigações, já ordenadas por data e hora
+        List<M_Irrigacao> todasIrrigacoes = r_irrigacao.findNextIrrigacoes(dataAtual, horaAtual);
         return todasIrrigacoes.stream().limit(5).collect(Collectors.toList());
     }
 

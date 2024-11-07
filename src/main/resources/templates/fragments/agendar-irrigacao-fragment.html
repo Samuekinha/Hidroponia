@@ -13,44 +13,35 @@
 </head>
 <body>
 <div th:fragment="fragment2">
-    <div class="tabela-little container">
-        <div class="row">
-            <h4>Próximas Irrigações</h4>
-        </div>
+    <header>
+        <div class="tabela-little container">
+            <div class="row">
+                <h4>Próximas Irrigações</h4>
+            </div>
 
-        <!-- Título das colunas -->
-        <div class="row">
-            <div class="col-4">
-                <p><strong>Data:</strong></p>
-                <div class="bt-line"></div>
-            </div>
-            <div class="col-4">
-                <p><strong>Hora:</strong></p>
-                <div class="bt-line"></div>
-            </div>
-            <div class="col-4">
-                <p><strong>Intervalo:</strong></p>
-                <div class="bt-line"></div>
-            </div>
+            <!-- Título das colunas -->
+            <table class="table" id="tabela-irrigacoes">
+                <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th>Intervalo</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="irrigacao : ${proximasIrrigacoes}">
+                    <td th:text="${irrigacao.dataIrrigacao}"></td>
+                    <td th:text="${irrigacao.horaIrrigacao}"></td>
+                    <td th:text="${irrigacao.intervalo}"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-
-        <!-- Corpo da tabela -->
-        <div class="row">
-            <ul>
-                <li th:each="irrigacao : ${proximasIrrigacoes}">
-                    <div class="col-4">
-                        <p th:text="${irrigacao.dataIrrigacao}"></p>
-                    </div>
-                    <div class="col-4">
-                        <p th:text="${irrigacao.horaIrrigacao}"></p>
-                    </div>
-                    <div class="col-4">
-                        <p th:text="${irrigacao.intervalo}"></p>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
+    </header>
 </div>
+
+
+<script src="/irrigacao.js" defer></script>
+
 </body>
 </html>
