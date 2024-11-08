@@ -48,6 +48,8 @@ html, body {
       background: rgba(0,0,0,.5);
       box-sizing: border-box;
       box-shadow: 0 15px 25px rgba(0,0,0,.6);
+      padding: 5%;
+      margin-top: 5%;
 }
 
 .bt-line{
@@ -59,6 +61,7 @@ html, body {
     margin-bottom: 1px;
     display: flex;
     justify-content: center;
+    margin-top: 5%;
 }
 
 h1{
@@ -88,4 +91,18 @@ p{
 
 .table tbody tr {
     background-color: rgba(0, 0, 0, 0.3) !important; /* Fundo semitransparente para linhas */
+}
+
+.container {
+    max-height: 400px; /* Limite de altura do container */
+    overflow-y: auto; /* Permite rolagem vertical */
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que os itens quebrem para a linha seguinte */
+    gap: 10px; /* Espaçamento entre os itens */
+}
+.item {
+    flex: 1 1 200px; /* Define o tamanho mínimo de cada item */
 }

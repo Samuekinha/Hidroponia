@@ -32,3 +32,14 @@ $(document).ready(function() {
         carregarProximasIrrigacoes(); // Chama a função para recarregar os dados
     }, 60000); // 60000 ms = 60 segundos
 });
+
+<button id="loadMoreButton">Carregar Mais</button>
+<div id="moreItems" style="display:none;">
+    <!-- Aqui vão os itens adicionais -->
+</div>
+
+<script>
+    document.getElementById('loadMoreButton').addEventListener('click', function() {
+        document.getElementById('moreItems').style.display = 'block';
+        this.style.display = 'none'; // Oculta o botão "Carregar Mais"
+    });

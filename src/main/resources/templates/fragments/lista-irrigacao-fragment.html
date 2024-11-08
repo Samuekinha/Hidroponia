@@ -15,30 +15,28 @@
 
 <div th:fragment="fragmentListaIrrigacao">
     <header>
-        <table class="table" id="tabela-irrigacoes">
+        <table class="table tabela-lista" id="tabela-irrigacoes">
             <thead>
             <tr>
                 <th>Data Registro:</th>
                 <th>Data Irrigação:</th>
                 <th>Hora Irrigação:</th>
                 <th>Intervalo:</th>
-                <th>Delete:</th>
-                <th>Editar:</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="irrigacao : ${proximasIrrigacoes}">
-                <td th:text="${irrigacao.dataIrrigacao}">s</td>
-                <td th:text="${irrigacao.horaIrrigacao}">sas</td>
-                <td th:text="${irrigacao.intervalo}"></td>
-                <td th:text="${irrigacao.intervalo}"></td>
-                <td th:text="${irrigacao.intervalo}"></td>
+            <tr th:each="irrigacao : ${irrigacao}">
+                <td class="data-registro" th:text="${irrigacao.dataRegistro}"></td>
+                <td th:text="${irrigacao.dataIrrigacao}"></td>
+                <td th:text="${irrigacao.horaIrrigacao}"></td>
                 <td th:text="${irrigacao.intervalo}"></td>
             </tr>
             </tbody>
         </table>
     </header>
 </div>
+
+<script src="irrigacao/irrigacao.js" ></script>
 
 </body>
 </html>

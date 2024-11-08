@@ -28,4 +28,5 @@ public interface R_Irrigacao extends JpaRepository<M_Irrigacao, Long> {
 
     @Query("SELECT i FROM M_Irrigacao i WHERE i.dataIrrigacao >= :dataAtual AND i.horaIrrigacao >= :horaAtual ORDER BY i.dataIrrigacao, i.horaIrrigacao")
     List<M_Irrigacao> findNextIrrigacoes(@Param("dataAtual") LocalDate dataAtual, @Param("horaAtual") LocalTime horaAtual);
+
 }

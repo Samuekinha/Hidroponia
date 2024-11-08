@@ -14,3 +14,14 @@ if (bottonLine) {
     console.log("Elemento não encontrado.");//em caso de erro
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+
+    document.querySelectorAll(".data-registro").forEach(cell => {
+        const dataRegistro = cell.textContent;  // Pega o texto do campo
+        if (dataRegistro) {
+            const data = new Date(dataRegistro);  // Converte para um objeto Date
+            cell.textContent = data.toLocaleDateString('pt-BR', options);  // Formata a data
+        }
+    });
+});
