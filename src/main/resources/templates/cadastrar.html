@@ -12,17 +12,17 @@
     <h1>Formulário de Registro</h1>
     <form action="cadastrar" method="post" th:action="@{/cadastrar}">
         <div class="user-box">
-            <input type="text" name="username" required="" id="username" autocomplete="off">
+            <input type="TEXT" name="username" required="" id="username" autocomplete="off">
             <label for="username">Nome de Usuário:</label>
         </div>
 
         <div class="user-box">
-            <input type="text" name="senha" required="" id="senha" autocomplete="off">
+            <input type="PASSWORD" name="senha" required="" id="senha" autocomplete="off">
             <label for="senha">Senha:</label>
         </div>
 
         <div class="user-box">
-            <input type="text" name="conf_senha" required="" id="conf_senha" autocomplete="off">
+            <input type="PASSWORD" name="conf_senha" required="" id="conf_senha" autocomplete="off">
             <label for="conf_senha">Confirmação de Senha:</label>
         </div>
 
