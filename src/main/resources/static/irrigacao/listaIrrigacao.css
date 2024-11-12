@@ -106,3 +106,57 @@ p{
 .item {
     flex: 1 1 200px; /* Define o tamanho mínimo de cada item */
 }
+
+Para alinhar os três elementos na row dentro da overlay-div, podemos usar o layout flex e substituir os três <p>a</p> por ícones conforme solicitado (uma casinha, três barrinhas e uma bolinha). Abaixo está a estrutura HTML e o CSS ajustado para isso.
+HTML com ícones (usando Font Awesome para os ícones como exemplo)
+
+<!-- Inclua o link do Font Awesome no <head> para acessar os ícones -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div class="overlay-div">
+    <div class="row">
+        <div class="col-3">
+            <i class="fas fa-home"></i> <!-- Ícone de casinha -->
+        </div>
+        <div class="col-4">
+            <i class="fas fa-bars"></i> <!-- Ícone de 3 barrinhas -->
+        </div>
+        <div class="col-3">
+            <i class="fas fa-circle"></i> <!-- Ícone de bolinha -->
+        </div>
+    </div>
+</div>
+
+CSS Ajustado
+
+.overlay-div {
+    position: fixed; /* Fixa a posição em relação à janela */
+    bottom: 0; /* Posiciona a div no fundo da página */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Ajusta o centro horizontal */
+    width: 37.5vh; /* Define a largura */
+    height: 4vh; /* Define a altura */
+    background-color: rgba(0, 0, 0, 0.8); /* Cor de fundo mais escura */
+    color: white; /* Cor do texto */
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+    padding: 5px;
+}
+
+.row {
+    display: flex;
+    width: 100%; /* Faz a row ocupar toda a largura da overlay-div */
+    justify-content: space-between; /* Distribui os itens no início, centro e final */
+    align-items: center; /* Centraliza verticalmente */
+}
+
+.col-3, .col-4 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+i {
+    font-size: 1.5rem; /* Ajusta o tamanho dos ícones */
+}
