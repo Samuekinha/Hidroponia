@@ -33,13 +33,21 @@ $(document).ready(function() {
     }, 60000); // 60000 ms = 60 segundos
 });
 
-<button id="loadMoreButton">Carregar Mais</button>
-<div id="moreItems" style="display:none;">
-    <!-- Aqui vão os itens adicionais -->
-</div>
 
-<script>
-    document.getElementById('loadMoreButton').addEventListener('click', function() {
-        document.getElementById('moreItems').style.display = 'block';
-        this.style.display = 'none'; // Oculta o botão "Carregar Mais"
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleDropdown = document.querySelector('.toggle-dropdown');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+
+    // Toggle a classe 'show' para exibir ou ocultar o menu dropdown
+    toggleDropdown.addEventListener('click', function (event) {
+        event.preventDefault(); // Impede o comportamento padrão do link
+        dropdownMenu.classList.toggle('show');
     });
+
+    // Fecha o dropdown ao clicar fora dele
+    document.addEventListener('click', function (event) {
+        if (!toggleDropdown.contains(event.target) && !dropdownMenu.contains(event.target)) {
+            dropdownMenu.classList.remove('show');
+        }
+    });
+});

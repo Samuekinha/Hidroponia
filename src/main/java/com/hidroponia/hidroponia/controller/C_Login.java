@@ -41,6 +41,11 @@ public class C_Login {
         }
     }
 
+    @GetMapping("/home")
+    public String getHome(){
+        return "/home";
+    }
+
 }
 
 

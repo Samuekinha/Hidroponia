@@ -1,34 +1,34 @@
 html, body {
     width: 100vw;
     height: 100vh;
-    overflow-x: hidden; /*barra do eixo x (barra de navegaçãop) removida*/
+    overflow-x: hidden; /* Remove barra de rolagem horizontal */
     background-color: #bcbb9b;
 }
 
-.bottonLineArea {/*area de efeito da linha inferior*/
+.bottonLineArea {
     position: absolute;
-    bottom: -3.5%; /* Posição a 1% do fundo da tela */
-    width: 200px; /* Aumentando a largura da área clicável */
-    height: 40px; /* Aumentando a altura da área clicável */
+    bottom: -3.5%;
+    width: 200px;
+    height: 40px;
     display: flex;
     justify-content: center;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(255, 255, 255, 0); /* Área clicável invisível */
+    background-color: rgba(255, 255, 255, 0);
 }
 
-.bottonLine { /*linha inferior*/
+.bottonLine {
     background-color: rgba(0, 0, 0, 0.4);
     width: 60px;
     height: 2px;
     transition: transform 1s ease;
 }
 
-.bottonLineArea:hover .bottonLine { /*animação da linha inferior*/
-    transform: scale(4.5, 10); /* A animação acontece quando o mouse está sobre a área */
+.bottonLineArea:hover .bottonLine {
+    transform: scale(4.5, 10);
 }
 
-.topBar{/*barra do topo do site*/
+.topBar {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.4);
     height: 8px;
@@ -38,24 +38,32 @@ html, body {
     overflow-y: auto;
 }
 
-.tabela{
-    position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 60%;
-      padding: 40px;
-      transform: translate(-50%, -50%);
-      background: rgba(0,0,0,.5);
-      box-sizing: border-box;
-      box-shadow: 0 15px 25px rgba(0,0,0,.6);
-      padding: 5%;
-      margin-top: 5%;
+.central-container {
+    max-height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.bt-line{
-    width: fit-content; /* Definir um tamanho fixo ou ajuste conforme necessário */
+.tabela {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, .5);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+    padding: 5%;
+    margin-top: 5%;
+}
+
+.bt-line {
+    width: fit-content;
     min-width: 60px;
-    height: 1px; /* Um pouco mais grosso para maior visibilidade */
+    height: 1px;
     background-color: white;
     margin-top: -1px;
     margin-bottom: 1px;
@@ -64,99 +72,100 @@ html, body {
     margin-top: 5%;
 }
 
-h1{
+h1, p {
     display: flex;
     justify-content: center;
     color: white;
 }
 
-p{
-    display: flex;
-    justify-content: center;
-    color: white;
-}
-
-/* Força a transparência da tabela */
 .table, .table tbody, .table thead, .table th, .table td {
-    background-color: transparent !important; /* Fundo transparente em todos os elementos */
-    color: white !important; /* Texto em branco */
-    border-color: rgba(255, 255, 255, 0.3) !important; /* Bordas semitransparentes */
+    background-color: transparent !important;
+    color: white !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
-/* Especificação adicional para cabeçalho e célula */
 .table thead th {
-    color: white !important; /* Texto em branco no cabeçalho */
-    background-color: rgba(0, 0, 0, 0.4) !important; /* Fundo semitransparente para cabeçalhos */
+    color: white !important;
+    background-color: rgba(0, 0, 0, 0.4) !important;
 }
 
 .table tbody tr {
-    background-color: rgba(0, 0, 0, 0.3) !important; /* Fundo semitransparente para linhas */
+    background-color: rgba(0, 0, 0, 0.3) !important;
 }
-
-.container {
-    max-height: 400px; /* Limite de altura do container */
-    overflow-y: auto; /* Permite rolagem vertical */
-}
-
-.container {
-    display: flex;
-    flex-wrap: wrap; /* Permite que os itens quebrem para a linha seguinte */
-    gap: 10px; /* Espaçamento entre os itens */
-}
-.item {
-    flex: 1 1 200px; /* Define o tamanho mínimo de cada item */
-}
-
-Para alinhar os três elementos na row dentro da overlay-div, podemos usar o layout flex e substituir os três <p>a</p> por ícones conforme solicitado (uma casinha, três barrinhas e uma bolinha). Abaixo está a estrutura HTML e o CSS ajustado para isso.
-HTML com ícones (usando Font Awesome para os ícones como exemplo)
-
-<!-- Inclua o link do Font Awesome no <head> para acessar os ícones -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-<div class="overlay-div">
-    <div class="row">
-        <div class="col-3">
-            <i class="fas fa-home"></i> <!-- Ícone de casinha -->
-        </div>
-        <div class="col-4">
-            <i class="fas fa-bars"></i> <!-- Ícone de 3 barrinhas -->
-        </div>
-        <div class="col-3">
-            <i class="fas fa-circle"></i> <!-- Ícone de bolinha -->
-        </div>
-    </div>
-</div>
-
-CSS Ajustado
 
 .overlay-div {
-    position: fixed; /* Fixa a posição em relação à janela */
-    bottom: 0; /* Posiciona a div no fundo da página */
-    left: 50%; /* Centraliza horizontalmente */
-    transform: translateX(-50%); /* Ajusta o centro horizontal */
-    width: 37.5vh; /* Define a largura */
-    height: 4vh; /* Define a altura */
-    background-color: rgba(0, 0, 0, 0.8); /* Cor de fundo mais escura */
-    color: white; /* Cor do texto */
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 45vh;
+    max-width: 600px;
+    height: 4vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
     display: flex;
-    align-items: center; /* Centraliza verticalmente */
-    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;
+    justify-content: center;
     padding: 5px;
+    z-index: 1000;
 }
 
 .row {
     display: flex;
-    width: 100%; /* Faz a row ocupar toda a largura da overlay-div */
-    justify-content: space-between; /* Distribui os itens no início, centro e final */
-    align-items: center; /* Centraliza verticalmente */
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.col-3, .col-4 {
+.col-4 {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-i {
-    font-size: 1.5rem; /* Ajusta o tamanho dos ícones */
+.fas {
+    font-size: 1.2rem;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.fas:hover {
+    color: #ddd;
+}
+
+.dropdown {
+    position: relative;
+}
+
+/* Esconde o menu inicialmente */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    bottom: 100%; /* Posiciona o menu acima da barra */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo escuro */
+    padding: 10px;
+    border-radius: 5px;
+    width: 120px; /* Largura do dropdown */
+    text-align: center;
+    z-index: 1000;
+}
+
+/* Exibe o menu quando a classe 'show' está presente */
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Efeito hover nos itens */
+    border-radius: 3px;
 }
