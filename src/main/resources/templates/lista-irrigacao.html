@@ -25,7 +25,7 @@
             <div class="tabela">
                 <div class="col text-center">
                     <h1 class="mb-4">Lista de Irrigações</h1>
-                    <div th:insert="~{fragments/lista-irrigacao-fragment :: fragmentListaIrrigacao}"></div>
+                    <div th:replace="~{fragments/lista-irrigacao-fragment :: fragmentListaIrrigacao}"></div>
                 </div>
             </div>
         </div>
@@ -40,9 +40,10 @@
         <div class="col-4 d-flex justify-content-center">
             <a class="fas fa-bars toggle-dropdown"></a> <!-- Ícone de 3 barrinhas que abre o dropdown -->
             <div class="dropdown-menu">
-                <a href="#option1" class="dropdown-item">Opção 1</a>
-                <a href="#option2" class="dropdown-item">Opção 2</a>
-                <a href="#option3" class="dropdown-item">Opção 3</a>
+                <a href="/agendar-irrigacao" class="dropdown-item">Agendar Irrigação</a>
+                <a href="/lista-irrigacao" class="dropdown-item">Lista Irrigações</a>
+                <a href="/usuario/cadastrar" class="dropdown-item">Cadastrar Usuario</a>
+                <a href="/usuario/lista-usuario" class="dropdown-item">Listar Usuarios</a>
             </div>
         </div>
         <div class="col-4 d-flex justify-content-end">

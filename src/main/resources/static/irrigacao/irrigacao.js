@@ -51,3 +51,65 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+let selectedIrrigacaoId;
+function openOptionsModal(id) {
+    selectedIrrigacaoId = id;
+
+    // Corrige o uso do template string para o URL
+    fetch(`/irrigacoes/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("dataIrrigacao").value = data.dataIrrigacao;
+            document.getElementById("horaIrrigacao").value = data.horaIrrigacao;
+            document.getElementById("intervalo").value = data.intervalo;
+        })
+        .catch(error => console.error("Erro ao carregar os dados:", error));
+
+    // Abre a modal
+    new bootstrap.Modal(document.getElementById("optionsModal")).show();
+}
+
+// Para salvar alterações
+function saveChanges() {
+    const data = {
+        dataIrrigacao: document.getElementById("dataIrrigacao").value,
+        horaIrrigacao: document.getElementById("horaIrrigacao").value,
+        intervalo: document.getElementById("intervalo").value
+    };
+
+    fetch(`/irrigacoes/update/${selectedIrrigacaoId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (response.ok) {
+            alert("Alterações salvas com sucesso!");
+            location.reload();
+        } else {
+            alert("Erro ao salvar alterações.");
+        }
+    })
+    .catch(error => console.error("Erro:", error));
+}
+
+// Para deletar uma irrigação
+function deleteIrrigacao() {
+    if (confirm("Tem certeza que deseja deletar este registro?")) {
+        fetch(`/irrigacoes/delete/${selectedIrrigacaoId}`, {
+            method: "DELETE"
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Registro deletado com sucesso!");
+                location.reload();
+            } else {
+                alert("Erro ao deletar o registro.");
+            }
+        })
+        .catch(error => console.error("Erro:", error));
+    }
+}

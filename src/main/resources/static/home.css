@@ -28,16 +28,6 @@ html, body {
     transform: scale(4.5, 10); /* A animação acontece quando o mouse está sobre a área */
 }
 
-.topBar{/*barra do topo do site*/
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    height: 8px;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
 .tabela{
     position: absolute;
       top: 50%;
@@ -66,7 +56,7 @@ a:hover {
 .bt-line{
     width: fit-content; /* Definir um tamanho fixo ou ajuste conforme necessário */
     min-width: 60px;
-    height: 1px; /* Um pouco mais grosso para maior visibilidade */
+    height: 0.9px; /* Um pouco mais grosso para maior visibilidade */
     background-color: white;
 }
 
@@ -80,6 +70,30 @@ a:hover {
     display: flex;
     justify-content: center;
     width: 90%;
-    height: 1px;
+    height: 0.9px;
     background-color: white;
+}
+
+/* Barra inferior */
+.bottomBar {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    font-size: 14px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.topBar {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 8px;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
 }

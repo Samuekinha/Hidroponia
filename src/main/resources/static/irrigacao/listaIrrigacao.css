@@ -124,7 +124,7 @@ h1, p {
 }
 
 .fas {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: white;
     cursor: pointer;
     text-decoration: none;
@@ -145,7 +145,7 @@ h1, p {
     bottom: 100%; /* Posiciona o menu acima da barra */
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8); /* Fundo escuro */
+    background-color: rgba(0, 0, 0, 0.4); /* Fundo escuro */
     padding: 10px;
     border-radius: 5px;
     width: 120px; /* Largura do dropdown */
@@ -166,6 +166,6 @@ h1, p {
 }
 
 .dropdown-item:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Efeito hover nos itens */
-    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.4); /* Efeito hover nos itens */
+    color: white;
 }
