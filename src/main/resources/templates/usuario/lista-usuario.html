@@ -19,19 +19,20 @@
 </div>
 
 <h1>Lista de Usuários</h1>
+
 <table class="cor">
     <thead>
-
     </thead>
 </table>
+
 <table>
     <thead class="cor mb-3">
-    <tr >
+    <tr>
         <th>ID</th>
         <th>Nome</th>
         <th>Email</th>
         <th>Deletar</th>
-
+        <th>Editar</th>
         <!-- Adicione outras colunas conforme necessário -->
     </tr>
     </thead>
@@ -41,14 +42,19 @@
         <td th:text="${usuario.username}"></td>
         <td th:text="${usuario.email}"></td>
         <td class="text-center">
-            <form th:action="@{/usuario/excluir/{id}(id=${usuario.id})}" method="post">
+            <form th:action="@{/usuario/excluir/{id}(id=${usuario.id})}" method="post" onsubmit="confirmarExclusao(event)">
                 <button type="submit" class="btn btn-danger">Excluir</button>
             </form>
         </td>
-        <!-- Adicione outras colunas conforme necessário -->
+        <td class="text-center">
+            <form th:action="@{/usuario/editar/{id}(id=${usuario.id})}" method="post" onsubmit="">
+                <button type="submit" class="btn btn-warning">Editar</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
+
 <div class="container">
     <div class="row d-flex justify-content-center">
         <div class="bottonLineArea d-flex justify-content-center">
@@ -56,6 +62,9 @@
         </div>
     </div>
 </div>
+
+
+<script src="/excluir.js"></script>
 
 
 </body>

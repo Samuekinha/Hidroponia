@@ -26,6 +26,7 @@ public class S_ListaUsuario {
     public boolean excluirUsuario(Long id) {
         if (r_usuario.existsById(id)) {
             r_usuario.deleteById(id);
+            System.out.println("Usuário com ID " + id + " foi excluído com sucesso.");
             return true; // Usuário excluído com sucesso
         }
 
