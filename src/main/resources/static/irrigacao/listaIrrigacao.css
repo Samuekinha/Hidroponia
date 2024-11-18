@@ -15,6 +15,7 @@ html, body {
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(255, 255, 255, 0);
+
 }
 
 .bottonLine {
@@ -93,23 +94,6 @@ h1, p {
     background-color: rgba(0, 0, 0, 0.3) !important;
 }
 
-.overlay-div {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 45vh;
-    max-width: 600px;
-    height: 4vh;
-    background-color: rgba(0, 0, 0, 0.4);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    z-index: 1000;
-}
-
 .row {
     display: flex;
     width: 100%;
@@ -167,5 +151,38 @@ h1, p {
 
 .dropdown-item:hover {
     background-color: rgba(0, 0, 0, 0.4); /* Efeito hover nos itens */
+    color: white;
+}
+
+.overlay-div {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 45vh;
+    max-width: 600px;
+    height: 4vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    z-index: 1; /* Coloca abaixo de outros elementos */
+}
+
+.modal {
+    z-index: 1055 !important;
+}
+
+.modal-backdrop {
+  z-index: -1;
+}
+
+.modalBox{
+    background-color: rgb(113, 112, 93);
+}
+
+label{
     color: white;
 }

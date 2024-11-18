@@ -1,9 +1,11 @@
 package com.hidroponia.hidroponia.service;
 
+import com.hidroponia.hidroponia.Program.ArduinoSerialCommunication;
 import com.hidroponia.hidroponia.model.M_Irrigacao;
 import com.hidroponia.hidroponia.repository.R_Irrigacao;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -58,6 +60,7 @@ public class S_AgendaIrrigacao {
             // Salvar no banco se não houver conflitos
             if (podeAgendar) {
                 M_Irrigacao m_irrigacao = new M_Irrigacao();
+
                 m_irrigacao.setDataIrrigacao(dataIrrigacao);
                 m_irrigacao.setHoraIrrigacao(horaIrrigacao);
                 m_irrigacao.setDataRegistro(LocalDateTime.now());

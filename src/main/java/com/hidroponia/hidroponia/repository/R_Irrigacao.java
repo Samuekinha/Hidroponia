@@ -22,11 +22,21 @@ public interface R_Irrigacao extends JpaRepository<M_Irrigacao, Long> {
 
     List<M_Irrigacao> findByHoraIrrigacao(LocalTime horaIrrigacao); // Corrigido aqui
 
-    @Query("SELECT i FROM M_Irrigacao i WHERE i.dataIrrigacao = :dataIrrigacao AND i.horaIrrigacao = :horaIrrigacao") // Corrigido aqui
+    @Query("SELECT i FROM M_Irrigacao i " +
+            "WHERE i.dataIrrigacao = :dataIrrigacao AND i.horaIrrigacao = :horaIrrigacao") // Corrigido aqui
     List<M_Irrigacao> findByDataIrrigacaoAndHoraIrrigacao(@Param("dataIrrigacao") LocalDate dataIrrigacao,
                                                           @Param("horaIrrigacao") LocalTime horaIrrigacao);
 
-    @Query("SELECT i FROM M_Irrigacao i WHERE i.dataIrrigacao >= :dataAtual AND i.horaIrrigacao >= :horaAtual ORDER BY i.dataIrrigacao, i.horaIrrigacao")
+    @Query("SELECT i FROM M_Irrigacao i " +
+            "WHERE i.dataIrrigacao >= :dataAtual AND i.horaIrrigacao >= :horaAtual " +
+            "ORDER BY i.dataIrrigacao, i.horaIrrigacao")
     List<M_Irrigacao> findNextIrrigacoes(@Param("dataAtual") LocalDate dataAtual, @Param("horaAtual") LocalTime horaAtual);
+
+    @Query(value = "SELECT * FROM irrigacao i " +
+            "WHERE i.data_irrigacao = :dataAtual " +
+            "AND i.hora_irrigacao > :horaAtual " +
+            "ORDER BY i.hora_irrigacao ASC LIMIT 1", nativeQuery = true)
+    Optional<M_Irrigacao> findNextIrrigacaoToday(@Param("dataAtual") LocalDate dataAtual,
+                                                 @Param("horaAtual") LocalTime horaAtual);
 
 }

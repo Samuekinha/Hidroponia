@@ -33,43 +33,6 @@ $(document).ready(function() {
     }, 60000); // 60000 ms = 60 segundos
 });
 
-
-document.addEventListener("DOMContentLoaded", function () {
-    const toggleDropdown = document.querySelector('.toggle-dropdown');
-    const dropdownMenu = document.querySelector('.dropdown-menu');
-
-    // Toggle a classe 'show' para exibir ou ocultar o menu dropdown
-    toggleDropdown.addEventListener('click', function (event) {
-        event.preventDefault(); // Impede o comportamento padrão do link
-        dropdownMenu.classList.toggle('show');
-    });
-
-    // Fecha o dropdown ao clicar fora dele
-    document.addEventListener('click', function (event) {
-        if (!toggleDropdown.contains(event.target) && !dropdownMenu.contains(event.target)) {
-            dropdownMenu.classList.remove('show');
-        }
-    });
-});
-
-let selectedIrrigacaoId;
-function openOptionsModal(id) {
-    selectedIrrigacaoId = id;
-
-    // Corrige o uso do template string para o URL
-    fetch(`/irrigacoes/${id}`)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("dataIrrigacao").value = data.dataIrrigacao;
-            document.getElementById("horaIrrigacao").value = data.horaIrrigacao;
-            document.getElementById("intervalo").value = data.intervalo;
-        })
-        .catch(error => console.error("Erro ao carregar os dados:", error));
-
-    // Abre a modal
-    new bootstrap.Modal(document.getElementById("optionsModal")).show();
-}
-
 // Para salvar alterações
 function saveChanges() {
     const data = {
@@ -113,3 +76,45 @@ function deleteIrrigacao() {
         .catch(error => console.error("Erro:", error));
     }
 }
+
+// Controla a exibição do modal ao clicar no botão de opções
+const openModalBtn = document.getElementById('openModalBtn');
+const exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+
+// Abrir o modal apenas quando clicar nas opções
+openModalBtn.addEventListener('click', function() {
+    exampleModal.show();
+});
+
+// Modal de confirmação de ação (Salvar ou Deletar)
+const saveBtn = document.getElementById('saveBtn');
+const deleteBtn = document.getElementById('deleteBtn');
+const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+const confirmMessage = document.getElementById('confirmMessage');
+const confirmBtn = document.getElementById('confirmBtn');
+
+let actionType = ''; // Variável para controlar a ação de confirmação (salvar ou deletar)
+
+// Lógica para "Salvar alterações"
+saveBtn.addEventListener('click', function() {
+    actionType = 'save';
+    confirmMessage.innerHTML = 'Tem certeza de que deseja salvar as alterações?';
+    confirmModal.show();
+});
+
+// Lógica para "Deletar"
+deleteBtn.addEventListener('click', function() {
+    actionType = 'delete';
+    confirmMessage.innerHTML = 'Tem certeza de que deseja deletar essa irrigação?';
+    confirmModal.show();
+});
+
+// Confirmar a ação
+confirmBtn.addEventListener('click', function() {
+    if (actionType === 'save') {
+        saveChanges();
+    } else if (actionType === 'delete') {
+        deleteIrrigacao();
+    }
+    confirmModal.hide(); // Fechar o modal de confirmação
+});

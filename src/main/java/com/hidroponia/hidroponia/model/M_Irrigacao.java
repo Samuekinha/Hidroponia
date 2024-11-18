@@ -15,11 +15,14 @@ public class M_Irrigacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(precision = 4, scale = 2)
-    private BigDecimal ph;
-
     @Column(precision = 5, scale = 2)
     private BigDecimal temperatura;
+
+    @Column(precision = 5, scale = 2)
+    private BigDecimal umidade;  // Adicionado umidade
+
+    @Column(precision = 5, scale = 2)
+    private BigDecimal pontoOrvalho; // Adicionado pontoOrvalho
 
     @Column(name = "data_registro", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime dataRegistro;
@@ -50,20 +53,28 @@ public class M_Irrigacao {
         this.id = id;
     }
 
-    public BigDecimal getPh() {
-        return ph;
-    }
-
-    public void setPh(BigDecimal ph) {
-        this.ph = ph;
-    }
-
     public BigDecimal getTemperatura() {
         return temperatura;
     }
 
     public void setTemperatura(BigDecimal temperatura) {
         this.temperatura = temperatura;
+    }
+
+    public BigDecimal getUmidade() {
+        return umidade;
+    }
+
+    public void setUmidade(BigDecimal umidade) {
+        this.umidade = umidade;
+    }
+
+    public BigDecimal getPontoOrvalho() {
+        return pontoOrvalho;
+    }
+
+    public void setPontoOrvalho(BigDecimal pontoOrvalho) {
+        this.pontoOrvalho = pontoOrvalho;
     }
 
     public LocalDateTime getDataRegistro() {
