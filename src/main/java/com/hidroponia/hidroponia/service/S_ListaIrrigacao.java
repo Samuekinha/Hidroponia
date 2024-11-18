@@ -19,34 +19,9 @@ public class S_ListaIrrigacao {
     }
 
     // Método para buscar irrigação por página
-    public List<M_Irrigacao> listarIrrigacoesPorPagina(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return r_irrigacao.findAll(pageable).getContent();
+    public List<M_Irrigacao> listarIrrigacoesPorPagina() {
+        return r_irrigacao.findAll();
     }
 
-    // Método para buscar irrigação pelo ID
-    public M_Irrigacao findById(Long id) {
-        Optional<M_Irrigacao> irrigacao = r_irrigacao.findById(id);
-        return irrigacao.orElse(null); // Retorna o objeto ou null se não encontrado
-    }
 
-    // Método para atualizar uma irrigação
-    public M_Irrigacao update(Long id, M_Irrigacao updatedData) {
-        return r_irrigacao.findById(id).map(irrigacao -> {
-            irrigacao.setDataIrrigacao(updatedData.getDataIrrigacao());
-            irrigacao.setHoraIrrigacao(updatedData.getHoraIrrigacao());
-            irrigacao.setIntervalo(updatedData.getIntervalo());
-            return r_irrigacao.save(irrigacao);
-        }).orElse(null); // Retorna null se o ID não foi encontrado
-    }
-
-    // Método para deletar uma irrigação pelo ID
-    public boolean deleteById(Long id) {
-        if (r_irrigacao.existsById(id)) {
-            r_irrigacao.deleteById(id);
-            return true; // Retorna true se deletado com sucesso
-        } else {
-            return false; // Retorna false se o ID não foi encontrado
-        }
-    }
 }

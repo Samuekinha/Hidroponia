@@ -22,13 +22,13 @@
                 <td th:text="${irrigacao.intervalo}"></td>
                 <td>
                     <button
-                            class="btn btn-primary"
-                            data-bs-toggle="modal"
-                            data-bs-target="#optionsModal"
-                            data-optionsb="1"
-                            th:data-datairrigacao="${irrigacao.dataIrrigacao}"
-                            th:data-horairrigacao="${irrigacao.horaIrrigacao}"
-                            th:data-intervalo="${irrigacao.intervalo}">
+                        class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#optionsModal"
+                        data-irrigacao-id="${irrigacao.id}"
+                        th:data-datairrigacao="${irrigacao.dataIrrigacao}"
+                        th:data-horairrigacao="${irrigacao.horaIrrigacao}"
+                        th:data-intervalo="${irrigacao.intervalo}">
                         Options
                     </button>
                 </td>
@@ -47,6 +47,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="modalBox">
+                        <input class="d-flex justify-content-center" type="hidden" id="selectedIrrigacaoId">
                         <div class="row mt-3">
                             <div class="col-5">
                                 <label for="datairrigacao">Data irrigação:</label>
@@ -68,8 +69,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger">Delete</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-danger" id="deleteButton" >Delete</button>
+                    <button type="button" class="btn btn-primary" id="saveButton" >Save</button>
                 </div>
             </div>
         </div>

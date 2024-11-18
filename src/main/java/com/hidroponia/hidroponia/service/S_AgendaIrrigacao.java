@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -89,6 +90,27 @@ public class S_AgendaIrrigacao {
         // Obtém e retorna as próximas 5 irrigações, já ordenadas por data e hora
         List<M_Irrigacao> todasIrrigacoes = r_irrigacao.findNextIrrigacoes(dataAtual, horaAtual);
         return todasIrrigacoes.stream().limit(5).collect(Collectors.toList());
+    }
+
+    public Boolean atualizarAtividade(Long id, LocalDate dataIrrigacao, LocalTime horaIrrigacao, Integer intervalo) {
+        // Busca a entidade pelo ID
+        Optional<M_Irrigacao> optionalIrrigacao = r_irrigacao.findById(id);
+
+        if (optionalIrrigacao.isPresent()) {
+            M_Irrigacao irrigacao = optionalIrrigacao.get();
+
+            // Atualiza os valores
+            irrigacao.setDataIrrigacao(dataIrrigacao);
+            irrigacao.setHoraIrrigacao(horaIrrigacao);
+            irrigacao.setIntervalo(intervalo);
+
+            // Salva as mudanças no banco de dados
+            r_irrigacao.save(irrigacao);
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

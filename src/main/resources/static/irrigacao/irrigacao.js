@@ -33,32 +33,62 @@ $(document).ready(function() {
     }, 60000); // 60000 ms = 60 segundos
 });
 
+document.getElementById("saveButton").addEventListener("click", function () {
+    const dataIrrigacao = document.getElementById("datairrigacao").value;
+    const horaIrrigacao = document.getElementById("horairrigacao").value;
+    const intervalo = document.getElementById("intervalo").value;
+    const selectedIrrigacaoId = document.getElementById("selectedIrrigacaoId").value;
 
-// Para salvar alterações
-function saveChanges() {
-    const data = {
-        dataIrrigacao: document.getElementById("dataIrrigacao").value,
-        horaIrrigacao: document.getElementById("horaIrrigacao").value,
-        intervalo: document.getElementById("intervalo").value
-    };
+    console.log('Data Irrigação:', dataIrrigacao); // Verifique o formato da data
+    console.log('Hora Irrigação:', horaIrrigacao); // Verifique o formato da hora
 
-    fetch(`/irrigacoes/update/${selectedIrrigacaoId}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
+    $.ajax({
+        url: "/atualizarirrigacao",
+        method: "POST",
+        data: {
+            id: selectedIrrigacaoId,
+            datairrigacao: dataIrrigacao, // Certifique-se de que o nome é "datairrigacao"
+            horairrigacao: horaIrrigacao, // Certifique-se de que o nome é "horairrigacao"
+            intervalo: intervalo // Certifique-se de que o nome é "intervalo"
         },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (response.ok) {
-            alert("Alterações salvas com sucesso!");
-            location.reload();
-        } else {
-            alert("Erro ao salvar alterações.");
+        success: function (response) {
+            alert(response); // Exibe a mensagem retornada pelo backend
+            $("#optionsModal").modal('hide'); // Fecha o modal
+            carregarProximasIrrigacoes(); // Atualiza os dados
+        },
+        error: function (xhr) {
+            console.error(xhr.responseText); // Log do erro para debugging
+            alert("Erro ao salvar alterações: " + xhr.responseText);
         }
-    })
-    .catch(error => console.error("Erro:", error));
-}
+    });
+});
+
+// Configuração para carregar as informações ao abrir o modal
+document.addEventListener('DOMContentLoaded', function () {
+    optionsModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+
+        // Use data-irrigacao-id
+        const id = button.getAttribute('data-irrigacao-id');
+        const dataIrrigacao = button.getAttribute('data-datairrigacao');
+        const horaIrrigacao = button.getAttribute('data-horairrigacao');
+        const intervalo = button.getAttribute('data-intervalo');
+
+        document.getElementById('datairrigacao').value = dataIrrigacao || '';
+        document.getElementById('horairrigacao').value = horaIrrigacao || '';
+        document.getElementById('intervalo').value = intervalo || '';
+
+        document.getElementById('selectedIrrigacaoId').value = id; // Atualiza o ID escondido
+    });
+});
+
+// Limpeza do modal após ser fechado
+$("#optionsModal").on('hidden.bs.modal', function () {
+    document.getElementById('datairrigacao').value = '';
+    document.getElementById('horairrigacao').value = '';
+    document.getElementById('intervalo').value = '';
+    document.getElementById('selectedIrrigacaoId').value = '';
+});
 
 /*
 $('#optionsModal').on('shown.bs.modal', function () {
@@ -68,25 +98,3 @@ $('#optionsModal').on('shown.bs.modal', function () {
 });
 */
 
-document.addEventListener('DOMContentLoaded', function () {
-    const optionsModal = document.getElementById('optionsModal');
-
-    optionsModal.addEventListener('show.bs.modal', function (event) {
-        // Botão que acionou o modal
-        const button = event.relatedTarget;
-
-        // Pegando os dados do botão (atributos data-*)
-        const id = button.getAttribute('data-optionsb');
-        const dataIrrigacao = button.getAttribute('data-datairrigacao');
-        const horaIrrigacao = button.getAttribute('data-horairrigacao');
-        const intervalo = button.getAttribute('data-intervalo');
-
-        // Atualizando os campos do modal com os dados da irrigação
-        document.getElementById('datairrigacao').value = dataIrrigacao || '';
-        document.getElementById('horairrigacao').value = horaIrrigacao || '';
-        document.getElementById('intervalo').value = intervalo || '';
-
-        // (Opcional) Salvar o ID em algum campo oculto ou variável global
-        console.log('ID da irrigação:', id);
-    });
-});

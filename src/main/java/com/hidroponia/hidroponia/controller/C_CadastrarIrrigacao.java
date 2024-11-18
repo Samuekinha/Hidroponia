@@ -4,11 +4,11 @@ import com.hidroponia.hidroponia.model.M_Irrigacao;
 import com.hidroponia.hidroponia.repository.R_Irrigacao;
 import com.hidroponia.hidroponia.service.S_AgendaIrrigacao;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
@@ -51,6 +51,28 @@ public class C_CadastrarIrrigacao {
 
         // Redireciona para a página de próximas irrigações
         return "redirect:/agendar-irrigacao";
+    }
+
+    @PostMapping("/atualizarirrigacao")
+    public ResponseEntity<String> atualizarAtividade(@RequestParam("id") Long id,
+                                                     @RequestParam("datairrigacao") LocalDate dataIrrigacao,
+                                                     @RequestParam("horairrigacao") LocalTime horaIrrigacao,
+                                                     @RequestParam("intervalo") Integer intervalo) {
+        try {
+            // Chamada ao serviço
+            boolean atualizado = s_agendaIrrigacao.atualizarAtividade(id, dataIrrigacao, horaIrrigacao, intervalo);
+
+            if (atualizado) {
+                // Retorna status 200 com mensagem de sucesso
+                return ResponseEntity.ok("Irrigação atualizada com sucesso!");
+            } else {
+                // Retorna status 404 caso o ID não seja encontrado ou não atualizado
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: Atividade não encontrada.");
+            }
+        } catch (Exception e) {
+            // Retorna status 500 em caso de erro interno
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar a irrigação: " + e.getMessage());
+        }
     }
 
 }
