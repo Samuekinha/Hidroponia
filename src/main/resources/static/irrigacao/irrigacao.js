@@ -33,6 +33,7 @@ $(document).ready(function() {
     }, 60000); // 60000 ms = 60 segundos
 });
 
+
 // Para salvar alterações
 function saveChanges() {
     const data = {
@@ -59,62 +60,33 @@ function saveChanges() {
     .catch(error => console.error("Erro:", error));
 }
 
-// Para deletar uma irrigação
-function deleteIrrigacao() {
-    if (confirm("Tem certeza que deseja deletar este registro?")) {
-        fetch(`/irrigacoes/delete/${selectedIrrigacaoId}`, {
-            method: "DELETE"
-        })
-        .then(response => {
-            if (response.ok) {
-                alert("Registro deletado com sucesso!");
-                location.reload();
-            } else {
-                alert("Erro ao deletar o registro.");
-            }
-        })
-        .catch(error => console.error("Erro:", error));
-    }
-}
-
-// Controla a exibição do modal ao clicar no botão de opções
-const openModalBtn = document.getElementById('openModalBtn');
-const exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
-
-// Abrir o modal apenas quando clicar nas opções
-openModalBtn.addEventListener('click', function() {
-    exampleModal.show();
+/*
+$('#optionsModal').on('shown.bs.modal', function () {
+    $(this).find('.modal-dialog').css({
+        'margin-top': ($(window).height() - $('.modal-dialog').outerHeight()) / 2
+    });
 });
+*/
 
-// Modal de confirmação de ação (Salvar ou Deletar)
-const saveBtn = document.getElementById('saveBtn');
-const deleteBtn = document.getElementById('deleteBtn');
-const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
-const confirmMessage = document.getElementById('confirmMessage');
-const confirmBtn = document.getElementById('confirmBtn');
+document.addEventListener('DOMContentLoaded', function () {
+    const optionsModal = document.getElementById('optionsModal');
 
-let actionType = ''; // Variável para controlar a ação de confirmação (salvar ou deletar)
+    optionsModal.addEventListener('show.bs.modal', function (event) {
+        // Botão que acionou o modal
+        const button = event.relatedTarget;
 
-// Lógica para "Salvar alterações"
-saveBtn.addEventListener('click', function() {
-    actionType = 'save';
-    confirmMessage.innerHTML = 'Tem certeza de que deseja salvar as alterações?';
-    confirmModal.show();
-});
+        // Pegando os dados do botão (atributos data-*)
+        const id = button.getAttribute('data-optionsb');
+        const dataIrrigacao = button.getAttribute('data-datairrigacao');
+        const horaIrrigacao = button.getAttribute('data-horairrigacao');
+        const intervalo = button.getAttribute('data-intervalo');
 
-// Lógica para "Deletar"
-deleteBtn.addEventListener('click', function() {
-    actionType = 'delete';
-    confirmMessage.innerHTML = 'Tem certeza de que deseja deletar essa irrigação?';
-    confirmModal.show();
-});
+        // Atualizando os campos do modal com os dados da irrigação
+        document.getElementById('datairrigacao').value = dataIrrigacao || '';
+        document.getElementById('horairrigacao').value = horaIrrigacao || '';
+        document.getElementById('intervalo').value = intervalo || '';
 
-// Confirmar a ação
-confirmBtn.addEventListener('click', function() {
-    if (actionType === 'save') {
-        saveChanges();
-    } else if (actionType === 'delete') {
-        deleteIrrigacao();
-    }
-    confirmModal.hide(); // Fechar o modal de confirmação
+        // (Opcional) Salvar o ID em algum campo oculto ou variável global
+        console.log('ID da irrigação:', id);
+    });
 });

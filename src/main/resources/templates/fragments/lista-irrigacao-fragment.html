@@ -1,7 +1,10 @@
 <div th:fragment="fragmentListaIrrigacao">
 
-    <table class="table tabela-lista" id="tabela-irrigacoes">
-        <header>
+    <div class="tabela">
+        <div class="col text-center">
+            <h1 class="mb-4">Lista de Irrigações</h1>
+        </div>
+        <table class="table tabela-lista" id="tabela-irrigacoes">
             <thead>
             <tr>
                 <th>Data Registro:</th>
@@ -11,103 +14,64 @@
                 <th>Opções</th>
             </tr>
             </thead>
-        </header>
-        <tbody>
-        <tr th:each="irrigacao : ${irrigacao}">
-            <td class="data-registro" th:text="${irrigacao.dataRegistro}"></td>
-            <td th:text="${irrigacao.dataIrrigacao}"></td>
-            <td th:text="${irrigacao.horaIrrigacao}"></td>
-            <td th:text="${irrigacao.intervalo}"></td>
-            <td>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#optionsModal">
-                    options
-                </button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+            <tbody>
+            <tr th:each="irrigacao : ${irrigacao}">
+                <td class="data-registro" th:text="${irrigacao.dataRegistro}"></td>
+                <td th:text="${irrigacao.dataIrrigacao}"></td>
+                <td th:text="${irrigacao.horaIrrigacao}"></td>
+                <td th:text="${irrigacao.intervalo}"></td>
+                <td>
+                    <button
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#optionsModal"
+                            data-optionsb="1"
+                            th:data-datairrigacao="${irrigacao.dataIrrigacao}"
+                            th:data-horairrigacao="${irrigacao.horaIrrigacao}"
+                            th:data-intervalo="${irrigacao.intervalo}">
+                        Options
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
     <!-- Modal principal -->
-    <div class="modal" id="optionsModal" aria-labelledby="optionsModal" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade" id="optionsModal" data-bs-backdrop="false" tabindex="-1" aria-labelledby="optionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content" style="background-color: rgb(113, 112, 93);">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="optionsModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title fs-5" id="optionsModalLabel">Opções</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- inputs para atualização ou delete do user -->
                     <div class="modalBox">
                         <div class="row mt-3">
-                            <!--fazer input inpreenchivel p/informar o usuario ativo-->
+                            <div class="col-5">
+                                <label for="datairrigacao">Data irrigação:</label>
+                                <input type="date" name="datairrigacao" id="datairrigacao" class="form-control" autocomplete="off">
+                            </div>
+                            <div class="col-5">
+                                <label for="horairrigacao">Hora e min. irrigação:</label>
+                                <input type="time" name="horairrigacao" id="horairrigacao" class="form-control" autocomplete="off">
+                            </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="col-5 user-box">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label>Data irrigação:</label>
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="date" name="datairrigacao" id="datairrigacao" autocomplete="off">
-                                    </div>
-                                </div>
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <label for="intervalo">Intervalo (em min.):</label>
+                                <input type="number" name="intervalo" id="intervalo" class="form-control" min="1" max="30" step="1">
                             </div>
-
-                            <div class="col-2 d-flex justify-content-center">
-                                <p class="md-line"></p>
-                            </div>
-
-                            <div class="col-5 user-box">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <label>Hora e min. irrigação:</label>
-                                    </div>
-                                    <div class="col-4">
-                                        <input type="time" name="horairrigacao" id="horairrigacao" autocomplete="off">
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="col-3"></div>
                         </div>
-
-                        <div class="row mt-3 d-flex justify-content-center">
-                            <div class="user-box">
-                                <div class="row">
-                                    <div class="col-2">
-                                        <!--nada aqui, gambiarra do diacho apenas-->
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="row d-flex justify-content-center">
-                                            <div class="col-6 d-flex justify-content-center">
-                                                <label>Intervalo (em min.):</label>
-                                            </div>
-                                            <div class="col-6 d-flex justify-content-center">
-                                                <input type="number" name="intervalo" id="intervalo" autocomplete="off"
-                                                       min="1" max="30" step="1">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <!--nada aqui, gambiarra do diacho apenas-->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
-
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                            data-bs-target="#deleteConfirm">
-                        Delete
-                    </button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saveConfirm">
-                        Save
-                    </button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
-
