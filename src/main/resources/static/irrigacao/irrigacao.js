@@ -1,74 +1,99 @@
-$(document).ready(function() {
-    var isRequestInProgress = false; // Flag para verificar se a requisição está em andamento
+// Variável para controle da requisição
+var isRequestInProgress = false;
 
-    // Função para carregar as próximas irrigacoes
-    function carregarProximasIrrigacoes() {
-        if (isRequestInProgress) {
-            return; // Se já houver uma requisição em andamento, não faz outra
-        }
-
-        isRequestInProgress = true; // Define a flag como verdadeira (requisição em andamento)
-
-        $.ajax({
-            url: '/agendar-irrigacao', // URL da requisição
-            type: 'GET', // get
-            success: function(response) {
-                $('#conteudo-irrigacoes').html(response); // Atualiza a tabela
-            },
-            error: function() {
-                alert('Erro ao carregar as próximas irrigações.');
-            },
-            complete: function() {
-                isRequestInProgress = false; // Após a requisição ser completada, a flag é resetada
-            }
-        });
+// Função para carregar as próximas irrigacoes
+function carregarProximasIrrigacoes() {
+    // Verifica se já há uma requisição em andamento
+    if (isRequestInProgress) {
+        return; // Se já houver uma requisição, não faz outra
     }
 
-    // Carrega as próximas irrigacoes quando a página é carregada
-    carregarProximasIrrigacoes();
-
-    // Configura o intervalo para recarregar as próximas irrigacoes a cada 60 segundos
-    setInterval(function() {
-        carregarProximasIrrigacoes(); // Chama a função para recarregar os dados
-    }, 60000); // 60000 ms = 60 segundos
-});
-
-document.getElementById("saveButton").addEventListener("click", function () {
-    const dataIrrigacao = document.getElementById("datairrigacao").value;
-    const horaIrrigacao = document.getElementById("horairrigacao").value;
-    const intervalo = document.getElementById("intervalo").value;
-    const selectedIrrigacaoId = document.getElementById("selectedIrrigacaoId").value;
-
-    console.log('Data Irrigação:', dataIrrigacao); // Verifique o formato da data
-    console.log('Hora Irrigação:', horaIrrigacao); // Verifique o formato da hora
+    isRequestInProgress = true; // Marca a requisição como em andamento
 
     $.ajax({
-        url: "/atualizarirrigacao",
-        method: "POST",
-        data: {
-            id: selectedIrrigacaoId,
-            datairrigacao: dataIrrigacao, // Certifique-se de que o nome é "datairrigacao"
-            horairrigacao: horaIrrigacao, // Certifique-se de que o nome é "horairrigacao"
-            intervalo: intervalo // Certifique-se de que o nome é "intervalo"
+        url: '/lista-irrigacao', // URL da requisição
+        type: 'GET', // Método GET
+        success: function(response) {
+            $('#conteudo-irrigacoes').html(response); // Atualiza a tabela com o conteúdo retornado
         },
-        success: function (response) {
-            alert(response); // Exibe a mensagem retornada pelo backend
-            $("#optionsModal").modal('hide'); // Fecha o modal
-            carregarProximasIrrigacoes(); // Atualiza os dados
+        error: function() {
+            alert('Erro ao carregar as próximas irrigações.'); // Se der erro na requisição
         },
-        error: function (xhr) {
-            console.error(xhr.responseText); // Log do erro para debugging
-            alert("Erro ao salvar alterações: " + xhr.responseText);
+        complete: function() {
+            isRequestInProgress = false; // Após a requisição ser completada, a flag é resetada
         }
+    });
+}
+
+// Carrega as próximas irrigacoes quando a página é carregada
+carregarProximasIrrigacoes();
+
+// Configura o intervalo para recarregar as próximas irrigacoes a cada 60 segundos
+setInterval(function() {
+    carregarProximasIrrigacoes(); // Chama a função para recarregar os dados
+}, 60000); // 60000 ms = 60 segundos
+
+
+
+// Função para salvar a irrigação
+document.addEventListener("DOMContentLoaded", function () {
+    const saveButton = document.getElementById("saveButton");
+
+    if (!saveButton) {
+        console.error("Botão saveButton não encontrado!");
+        return;
+    }
+
+    saveButton.addEventListener("click", function () {
+        const dataIrrigacao = document.getElementById("datairrigacao")?.value || '';
+        const horaIrrigacao = document.getElementById("horairrigacao")?.value || '';
+        const intervalo = document.getElementById("intervalo")?.value || '';
+        const selectedIrrigacaoId = document.getElementById("selectedIrrigacaoId")?.value || '';
+
+        // Validando os campos antes de enviar a requisição
+        if (!dataIrrigacao || !horaIrrigacao || !intervalo || !selectedIrrigacaoId) {
+            alert("Todos os campos devem ser preenchidos.");
+            return;
+        }
+
+        console.log('Data Irrigação:', dataIrrigacao);
+        console.log('Hora Irrigação:', horaIrrigacao);
+        console.log('Intervalo:', intervalo);
+        console.log('ID selecionado:', selectedIrrigacaoId);
+
+        // Fazendo a chamada AJAX para atualizar a irrigação
+        $.ajax({
+            url: "/atualizarirrigacao",
+            method: "POST",
+            data: {
+                id: selectedIrrigacaoId,
+                datairrigacao: dataIrrigacao,
+                horairrigacao: horaIrrigacao,
+                intervalo: intervalo
+            },
+            success: function () {
+                $("#optionsModal").modal('hide'); // Fecha o modal
+                carregarProximasIrrigacoes(); // Atualiza a lista de irrigacoes
+            },
+            error: function () {
+                alert("Erro ao atualizar irrigação.");
+            }
+        });
     });
 });
 
 // Configuração para carregar as informações ao abrir o modal
 document.addEventListener('DOMContentLoaded', function () {
-    optionsModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
+    const optionsModal = document.getElementById('optionsModal');
+    if (!optionsModal) {
+        console.error('Modal não encontrado!');
+        return;
+    }
 
-        // Use data-irrigacao-id
+    optionsModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget; // O botão que acionou o modal
+
+        // Pega os dados do botão para preencher os campos do modal
         const id = button.getAttribute('data-irrigacao-id');
         const dataIrrigacao = button.getAttribute('data-datairrigacao');
         const horaIrrigacao = button.getAttribute('data-horairrigacao');
@@ -89,12 +114,3 @@ $("#optionsModal").on('hidden.bs.modal', function () {
     document.getElementById('intervalo').value = '';
     document.getElementById('selectedIrrigacaoId').value = '';
 });
-
-/*
-$('#optionsModal').on('shown.bs.modal', function () {
-    $(this).find('.modal-dialog').css({
-        'margin-top': ($(window).height() - $('.modal-dialog').outerHeight()) / 2
-    });
-});
-*/
-

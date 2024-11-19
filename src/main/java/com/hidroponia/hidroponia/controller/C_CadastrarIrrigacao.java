@@ -54,25 +54,25 @@ public class C_CadastrarIrrigacao {
     }
 
     @PostMapping("/atualizarirrigacao")
-    public ResponseEntity<String> atualizarAtividade(@RequestParam("id") Long id,
-                                                     @RequestParam("datairrigacao") LocalDate dataIrrigacao,
-                                                     @RequestParam("horairrigacao") LocalTime horaIrrigacao,
-                                                     @RequestParam("intervalo") Integer intervalo) {
+    public String atualizarAtividade(@RequestParam("id") Long id,
+                                     @RequestParam("datairrigacao") LocalDate dataIrrigacao,
+                                     @RequestParam("horairrigacao") LocalTime horaIrrigacao,
+                                     @RequestParam("intervalo") Integer intervalo) {
         try {
             // Chamada ao serviço
             boolean atualizado = s_agendaIrrigacao.atualizarAtividade(id, dataIrrigacao, horaIrrigacao, intervalo);
 
             if (atualizado) {
-                // Retorna status 200 com mensagem de sucesso
-                return ResponseEntity.ok("Irrigação atualizada com sucesso!");
+                return "/fragments/lista-irrigacao-fragment :: fragmentListaIrrigacao";
             } else {
                 // Retorna status 404 caso o ID não seja encontrado ou não atualizado
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: Atividade não encontrada.");
+                return ("Erro: Atividade não encontrada.");
             }
         } catch (Exception e) {
             // Retorna status 500 em caso de erro interno
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar a irrigação: " + e.getMessage());
+            return ("Erro ao atualizar a irrigação: " + e.getMessage());
         }
     }
 
 }
+

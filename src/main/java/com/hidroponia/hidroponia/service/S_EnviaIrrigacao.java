@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -49,7 +50,10 @@ public class S_EnviaIrrigacao {
 
             if (!irrigacaoFutura.isEmpty()) {
                 M_Irrigacao m_irrigacao = irrigacaoFutura.get();  // Pega a irrigação encontrada
-                Integer intervalo = m_irrigacao.getIntervalo();  // Acessa o campo intervalo da irrigação encontrada
+                LocalTime horaIrrigacao = m_irrigacao.getHoraIrrigacao();  // Acessa o campo intervalo da irrigação encontrada
+                horaAtual = LocalTime.now();
+
+                Integer segundosDiferenca = Math.toIntExact(Duration.between(horaAtual, horaIrrigacao).getSeconds());
 
                 // Verifica se a irrigação atual tem o mesmo ID da última
                 if (ultimaIrrigacao == null || !ultimaIrrigacao.getId().equals(m_irrigacao.getId())) {
@@ -59,7 +63,7 @@ public class S_EnviaIrrigacao {
                     if (scheduler != null && !scheduler.isShutdown()) {
                         scheduler.shutdownNow();  // Cancela o countdown anterior
                     }
-                    countDown(intervalo * 60);  // Inicia o novo countdown
+                    countDown(segundosDiferenca);  // Inicia o novo countdown
                 }
             } else {
                 logger.info("Não há irrigação futura para o horário atual.");
@@ -70,8 +74,8 @@ public class S_EnviaIrrigacao {
         return CompletableFuture.completedFuture(null);
     }
 
-    public static void countDown(Integer intervalo) {
-        Integer startTime = intervalo - 60;  // Começa a contagem em intervalo-1 segundos
+    public static void countDown(Integer intervaloTempo) {
+        Integer startTime = intervaloTempo;  // Começa a contagem em intervalo-1 segundos
 
         // Cria um novo scheduler para o countdown
         scheduler = Executors.newSingleThreadScheduledExecutor();

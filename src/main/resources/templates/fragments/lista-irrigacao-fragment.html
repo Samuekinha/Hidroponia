@@ -15,20 +15,20 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="irrigacao : ${irrigacao}">
-                <td class="data-registro" th:text="${irrigacao.dataRegistro}"></td>
-                <td th:text="${irrigacao.dataIrrigacao}"></td>
-                <td th:text="${irrigacao.horaIrrigacao}"></td>
-                <td th:text="${irrigacao.intervalo}"></td>
+            <tr th:each="irriga : ${irrigacao}">
+                <td class="data-registro" th:text="${irriga.dataRegistro}"></td>
+                <td th:text="${irriga.dataIrrigacao}"></td>
+                <td th:text="${irriga.horaIrrigacao}"></td>
+                <td th:text="${irriga.intervalo}"></td>
                 <td>
                     <button
                         class="btn btn-primary"
                         data-bs-toggle="modal"
                         data-bs-target="#optionsModal"
-                        data-irrigacao-id="${irrigacao.id}"
-                        th:data-datairrigacao="${irrigacao.dataIrrigacao}"
-                        th:data-horairrigacao="${irrigacao.horaIrrigacao}"
-                        th:data-intervalo="${irrigacao.intervalo}">
+                        th:data-irrigacao-id="${irriga.id}"
+                        th:data-datairrigacao="${irriga.dataIrrigacao}"
+                        th:data-horairrigacao="${irriga.horaIrrigacao}"
+                        th:data-intervalo="${irriga.intervalo}">
                         Options
                     </button>
                 </td>
