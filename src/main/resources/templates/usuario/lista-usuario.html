@@ -25,6 +25,7 @@
     </thead>
 </table>
 
+<div class="conteudo">
 <table>
     <thead class="cor mb-3">
     <tr>
@@ -48,11 +49,14 @@
         </td>
         <td class="text-center">
             <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"
-                    onclick="carregarDadosUsuario(${usuario.id}, '${usuario.username}', '${usuario.email}')">Editar</button>
+                    data-usuario-id="${usuario.id}" data-username="${usuario.username}" data-email="${usuario.email}">
+                Editar
+            </button>
         </td>
     </tr>
     </tbody>
 </table>
+</div>
 
 <!-- Modal de Edição -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -63,9 +67,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editUserForm" method="post" action="/atualizarusuario">
+                <form id="editUserForm" method="post" th:action="@{/atualizarusuario}" action="/atualizarusuario">
                     <input type="hidden" name="id" id="usuarioId" />
-
                     <div class="mb-3">
                         <label for="editUsername" class="form-label">Nome de Usuário</label>
                         <input type="text" class="form-control" id="editUsername" name="username" required>
@@ -86,7 +89,7 @@
                         <input type="password" class="form-control" id="editConfSenha" name="conf_senha" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Atualizar</button>
+                    <button id="saveButton" type="submit" class="btn btn-primary">Atualizar</button>
                 </form>
             </div>
         </div>
@@ -95,7 +98,8 @@
 </div>
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
 <script src="/editar.js"></script>
 <script src="/excluir.js"></script>
 

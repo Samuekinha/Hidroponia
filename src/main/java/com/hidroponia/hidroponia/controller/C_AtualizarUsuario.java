@@ -35,16 +35,19 @@ public class C_AtualizarUsuario {
                                    Model model) {
 
         if (!senha.equals(conf_senha)) {
-            model.addAttribute("error", "As senhas não coincidem!");  // Exibir erro se as senhas não coincidirem
-            return "usuario/tualizarausuario";
+            model.addAttribute("error", "As senhas não coincidem!");
+            return "usuario/atualizarusuario";
         }
 
-        M_Usuario usuario = s_usuario.buscarUsuarioPorId(id);  // Buscar o usuário pelo ID
-        usuario.setUsername(username);  // Atualiza o nome de usuário
+        M_Usuario usuario = s_usuario.buscarUsuarioPorId(id);
+        usuario.setUsername(username);
         usuario.setEmail(email);
-        usuario.setSenha(senha);  // Definir a senha (será criptografada)
 
-        boolean sucesso = s_usuario.atualizarUsuario(id, username, senha, email);  // Atualizar o usuário
+        // Criptografar a senha antes de salvar
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        usuario.setSenha(encoder.encode(senha));
+
+        boolean sucesso = s_usuario.atualizarUsuario(id, username, senha, email);
         if (sucesso) {
             return "redirect:/home";  // Redirecionar para a lista de usuários após atualização
         } else {
