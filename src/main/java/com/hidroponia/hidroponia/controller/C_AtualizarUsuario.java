@@ -19,15 +19,13 @@ public class C_AtualizarUsuario {
         this.s_usuario = s_usuario;
     }
 
-    // Exibir o formulário de atualização com dados do usuário
     @GetMapping("/usuario/atualizarusuario/{id}")
     public String mostrarFormularioAtualizacao(@PathVariable Long id, Model model) {
         M_Usuario usuario = s_usuario.buscarUsuarioPorId(id);  // Buscar o usuário pelo ID
         model.addAttribute("usuario", usuario);  // Passar o usuário para o modelo
-        return "/usuario/atualizarusuario";  // Nome da view Thymeleaf (arquivo HTML)
+        return "/usuario/lista-usuario";  // Nome da view Thymeleaf (arquivo HTML)
     }
 
-    // Processar a atualização do usuário
     @PostMapping("/atualizarusuario")
     public String atualizarUsuario(@RequestParam("id") Long id,
                                    @RequestParam("username") String username,
@@ -38,14 +36,13 @@ public class C_AtualizarUsuario {
 
         if (!senha.equals(conf_senha)) {
             model.addAttribute("error", "As senhas não coincidem!");  // Exibir erro se as senhas não coincidirem
-            return "atualizarusuario";
+            return "usuario/tualizarausuario";
         }
 
         M_Usuario usuario = s_usuario.buscarUsuarioPorId(id);  // Buscar o usuário pelo ID
         usuario.setUsername(username);  // Atualiza o nome de usuário
         usuario.setEmail(email);
-
-        usuario.setSenha(senha);
+        usuario.setSenha(senha);  // Definir a senha (será criptografada)
 
         boolean sucesso = s_usuario.atualizarUsuario(id, username, senha, email);  // Atualizar o usuário
         if (sucesso) {

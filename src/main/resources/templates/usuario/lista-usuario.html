@@ -47,25 +47,59 @@
             </form>
         </td>
         <td class="text-center">
-            <form th:action="@{/usuario/editar/{id}(id=${usuario.id})}" method="post" onsubmit="">
-                <button type="submit" class="btn btn-warning">Editar</button>
-            </form>
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"
+                    onclick="carregarDadosUsuario(${usuario.id}, '${usuario.username}', '${usuario.email}')">Editar</button>
         </td>
     </tr>
     </tbody>
 </table>
 
-<div class="container">
-    <div class="row d-flex justify-content-center">
-        <div class="bottonLineArea d-flex justify-content-center">
-            <div class="bottonLine" id="bottonLine"></div>
+<!-- Modal de Edição -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Editar Usuário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm" method="post" action="/atualizarusuario">
+                    <input type="hidden" name="id" id="usuarioId" />
+
+                    <div class="mb-3">
+                        <label for="editUsername" class="form-label">Nome de Usuário</label>
+                        <input type="text" class="form-control" id="editUsername" name="username" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="editEmail" name="email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editSenha" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="editSenha" name="senha" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editConfSenha" class="form-label">Confirmação de Senha</label>
+                        <input type="password" class="form-control" id="editConfSenha" name="conf_senha" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Atualizar</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+</div>
 
-
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/editar.js"></script>
 <script src="/excluir.js"></script>
-
 
 </body>
 </html>
+
+
