@@ -33,14 +33,29 @@ setInterval(function() {
     carregarProximasIrrigacoes(); // Chama a função para recarregar os dados
 }, 60000); // 60000 ms = 60 segundos
 
+// Função para atualizar os dados de uma irrigação na tabela
+function atualizarDadosTabela() {
+    const dataIrrigacao = document.getElementById("datairrigacao")?.value || '';
+    const horaIrrigacao = document.getElementById("horairrigacao")?.value || '';
+    const intervalo = document.getElementById("intervalo")?.value || '';
+    const selectedIrrigacaoId = document.getElementById("selectedIrrigacaoId")?.value || '';
 
+    $("#data" + id).text(data);  // Atualiza o texto do elemento que exibe a data
+    $("#hora" + id).text(hora);  // Atualiza o texto do elemento que exibe a hora
+    $("#dura" + id).text(intervalo);  // Atualiza o texto do elemento que exibe o intervalo
+}
 
 // Função para salvar a irrigação
 document.addEventListener("DOMContentLoaded", function () {
     const saveButton = document.getElementById("saveButton");
+    const deleteButton = document.getElementById("deleteButton");
 
     if (!saveButton) {
         console.error("Botão saveButton não encontrado!");
+        return;
+    }
+    if (!deleteButton){
+        console.error("Botão deleteButton nao achado")
         return;
     }
 
@@ -73,13 +88,36 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             success: function () {
                 $("#optionsModal").modal('hide'); // Fecha o modal
-                carregarProximasIrrigacoes(); // Atualiza a lista de irrigacoes
+                $("#data"+selectedIrrigacaoId).text(dataIrrigacao);
+                $("#hora"+selectedIrrigacaoId).text(horaIrrigacao);
+                $("#dura"+selectedIrrigacaoId).text(intervalo);
             },
             error: function () {
                 alert("Erro ao atualizar irrigação.");
             }
         });
     });
+
+    deleteButton.addEventListener("click", function () {
+        const selectedIrrigacaoId = document.getElementById("selectedIrrigacaoId")?.value || '';
+
+        // Fazendo a chamada AJAX para atualizar a irrigação
+        $.ajax({
+            url: "/deletairrigacao",
+            method: "POST",
+            data: {
+                id: selectedIrrigacaoId,
+            },
+            success: function () {
+                $("#optionsModal").modal('hide'); // Fecha o modal
+                atualizarDadosTabela(); // Atualiza a lista de irrigacoes
+            },
+            error: function () {
+                alert("Erro ao deletar irrigação.");
+            }
+        });
+    });
+
 });
 
 // Configuração para carregar as informações ao abrir o modal

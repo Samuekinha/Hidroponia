@@ -10,16 +10,16 @@
                 <th>Data Registro:</th>
                 <th>Data Irrigação:</th>
                 <th>Hora Irrigação:</th>
-                <th>Intervalo:</th>
+                <th>Duração:</th>
                 <th>Opções</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="irriga : ${irrigacao}">
                 <td class="data-registro" th:text="${irriga.dataRegistro}"></td>
-                <td th:text="${irriga.dataIrrigacao}"></td>
-                <td th:text="${irriga.horaIrrigacao}"></td>
-                <td th:text="${irriga.intervalo}"></td>
+                <td th:text="${irriga.dataIrrigacao}" th:id="${'data'+irriga.id}"></td>
+                <td th:text="${irriga.horaIrrigacao}" th:id="${'hora'+irriga.id}"></td>
+                <td th:text="${irriga.intervalo}" th:id="${'dura'+irriga.id}"></td>
                 <td>
                     <button
                         class="btn btn-primary"

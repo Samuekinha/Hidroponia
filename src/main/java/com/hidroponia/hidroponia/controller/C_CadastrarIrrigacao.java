@@ -4,8 +4,6 @@ import com.hidroponia.hidroponia.model.M_Irrigacao;
 import com.hidroponia.hidroponia.repository.R_Irrigacao;
 import com.hidroponia.hidroponia.service.S_AgendaIrrigacao;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,11 +35,11 @@ public class C_CadastrarIrrigacao {
     @PostMapping("/agendar-irrigacao")
     public String postAgendarIrrig(@RequestParam("datairrigacao") LocalDate dataIrrigacao,
                                    @RequestParam("horairrigacao") LocalTime horaIrrigacao,
-                                   @RequestParam ("intervalo") Integer intervalo,
+                                   @RequestParam("intervalo") Integer intervalo,
                                    RedirectAttributes redirectAttributes) {
 
         // Valida a irrigação
-        if (s_agendaIrrigacao.validaAgendaIrrigacao(dataIrrigacao, horaIrrigacao, intervalo)){
+        if (s_agendaIrrigacao.validaAgendaIrrigacao(dataIrrigacao, horaIrrigacao, intervalo)) {
             System.out.println("Irrigação agendada com sucesso!");
             redirectAttributes.addFlashAttribute("message", "Irrigação agendada com sucesso!");
         } else {
@@ -66,13 +64,21 @@ public class C_CadastrarIrrigacao {
                 return "/fragments/lista-irrigacao-fragment :: fragmentListaIrrigacao";
             } else {
                 // Retorna status 404 caso o ID não seja encontrado ou não atualizado
-                return ("Erro: Atividade não encontrada.");
+                return ("Erro: irrigação não encontrada.");
             }
         } catch (Exception e) {
             // Retorna status 500 em caso de erro interno
             return ("Erro ao atualizar a irrigação: " + e.getMessage());
         }
     }
+
+    @PostMapping("/deletairrigacao")
+    @ResponseBody
+    public String atualizarAtividade(@RequestParam("id") Long id) {
+        S_AgendaIrrigacao.deletarAtividade(id);
+        return "empty";
+    }
+
 
 }
 

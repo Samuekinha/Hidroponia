@@ -1,11 +1,9 @@
 package com.hidroponia.hidroponia.service;
 
-import com.hidroponia.hidroponia.Program.ArduinoSerialCommunication;
 import com.hidroponia.hidroponia.model.M_Irrigacao;
 import com.hidroponia.hidroponia.repository.R_Irrigacao;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -16,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class S_AgendaIrrigacao {
-    private final R_Irrigacao r_irrigacao;
+    private static R_Irrigacao r_irrigacao;
 
     public S_AgendaIrrigacao(R_Irrigacao r_irrigacao) {
         this.r_irrigacao = r_irrigacao;
@@ -112,6 +110,25 @@ public class S_AgendaIrrigacao {
             return false;
         }
     }
+
+
+
+    public static Boolean deletarAtividade(Long id) {
+        // Busca a entidade pelo ID
+        Optional<M_Irrigacao> optionalIrrigacao = r_irrigacao.findById(id);
+
+        if (optionalIrrigacao.isPresent()) {
+            M_Irrigacao irrigacao = optionalIrrigacao.get();
+
+            // Salva as mudanças no banco de dados
+            r_irrigacao.delete(irrigacao);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 
 }
