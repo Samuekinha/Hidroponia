@@ -3,7 +3,7 @@
 var isRequestInProgress = false;
 
 // Função para carregar as próximas irrigacoes
-function carregarProximasIrrigacoes() {
+function carregarUsuarios() {
     // Verifica se já há uma requisição em andamento
     if (isRequestInProgress) {
         return; // Se já houver uma requisição, não faz outra
@@ -27,12 +27,12 @@ function carregarProximasIrrigacoes() {
 }
 
 // Carrega as próximas irrigacoes quando a página é carregada
-carregarProximasIrrigacoes();
+carregarUsuarios();
 
-// Configura o intervalo para recarregar as próximas irrigacoes a cada 60 segundos
+
 setInterval(function() {
-    carregarProximasIrrigacoes(); // Chama a função para recarregar os dados
-}, 60000); // 60000 ms = 60 segundos
+    carregarUsuarios();
+}, 60000);
 
 
 
@@ -61,88 +61,49 @@ document.addEventListener("DOMContentLoaded", function () {
 
         console.log('Id Usuario:', idUsuario);
         console.log('Nome usuario:', nomeUsuario);
-        console.log('email Usuario:', emailUsuario);
-        console.log('ID selecionado:', selectedIrrigacaoId);
+        console.log('Email usuario:', emailUsuario);
 
         // Fazendo a chamada AJAX para atualizar a irrigação
         $.ajax({
             url: "/lista-usuario",
             method: "POST",
             data: {
-                id: selectedIrrigacaoId,
+                id: idUsuario,
                 usename: nomeUsuario,
                 email: emailUsuario,
                 intervalo: intervalo
             },
-            success: function () {
-                $("#optionsModal").modal('hide'); // Fecha o modal
-                carregarProximasIrrigacoes(); // Atualiza a lista de irrigacoes
-                $("#data"+selectedIrrigacaoId).text(dataIrrigacao);
-                $("#hora"+selectedIrrigacaoId).text(horaIrrigacao);
-                $("#dura"+selectedIrrigacaoId).text(intervalo);
-            },
-            error: function () {
-                alert("Erro ao atualizar irrigação.");
-            }
+
         });
     });
-    
-    deleteButton.addEventListener("click", function () {
-            const selectedIrrigacaoId = document.getElementById("selectedIrrigacaoId")?.value || '';
 
-            // Fazendo a chamada AJAX para atualizar a irrigação
-            $.ajax({
-                url: "/deletairrigacao",
-                method: "POST",
-                data: {
-                    id: selectedIrrigacaoId,
-                    datairrigacao: dataIrrigacao,
-                    horairrigacao: horaIrrigacao,
-                    intervalo: intervalo
-                },
-                success: function () {
-                    $("#optionsModal").modal('hide'); // Fecha o modal
-                    carregarProximasIrrigacoes(); // Atualiza a lista de irrigacoes
-                    $("#data"+selectedIrrigacaoId).text(dataIrrigacao);
-                    $("#hora"+selectedIrrigacaoId).text(horaIrrigacao);
-                    $("#dura"+selectedIrrigacaoId).text(intervalo);
-                },
-                error: function () {
-                    alert("Erro ao atualizar irrigação.");
-                }
-            });
+    document.addEventListener('DOMContentLoaded', function () {
+        const optionsModal = document.getElementById('optionsModal');
+        if (!optionsModal) {
+            console.error('Modal não encontrado!');
+            return;
+        }
+
+        optionsModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // O botão que acionou o modal
+
+            // Pega os dados do botão para preencher os campos do modal
+            const id = button.getAttribute('data-usuario-id');
+            const username = button.getAttribute('data-username');
+            const email = button.getAttribute('data-email');
+
+            // Preenche os campos do modal com os dados do usuário
+            document.getElementById('username').value = username || '';
+            document.getElementById('email').value = email || '';
+
+            // Atualiza o ID do usuário no campo escondido
+            document.getElementById('selectedUsuarioId').value = id;
         });
-    
-});
-
-// Configuração para carregar as informações ao abrir o modal
-document.addEventListener('DOMContentLoaded', function () {
-    const optionsModal = document.getElementById('optionsModal');
-    if (!optionsModal) {
-        console.error('Modal não encontrado!');
-        return;
-    }
-
-    optionsModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget; // O botão que acionou o modal
-
-        // Pega os dados do botão para preencher os campos do modal
-        const id = button.getAttribute('data-irrigacao-id');
-        const dataIrrigacao = button.getAttribute('data-datairrigacao');
-        const horaIrrigacao = button.getAttribute('data-horairrigacao');
-        const intervalo = button.getAttribute('data-intervalo');
-
-        document.getElementById('username').value = username || '';
-        document.getElementById('email').value = email || '';
-
-
-        document.getElementById('selectedUsuarioId').value = id; // Atualiza o ID escondido
     });
-});
 
-// Limpeza do modal após ser fechado
-$("#optionsModal").on('hidden.bs.modal', function () {
-    document.getElementById('username').value = '';
-    document.getElementById('email').value = '';
-    document.getElementById('selectedUsuarioId').value = '';
-});
+    // Limpeza do modal após ser fechado
+    $("#optionsModal").on('hidden.bs.modal', function () {
+        document.getElementById('username').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('selectedUsuarioId').value = '';
+    });
