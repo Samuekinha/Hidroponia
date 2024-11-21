@@ -1,6 +1,7 @@
 package com.hidroponia.hidroponia.service;
 
 import com.hidroponia.hidroponia.model.M_Irrigacao;
+import com.hidroponia.hidroponia.model.M_irrigacaoStatus;
 import com.hidroponia.hidroponia.repository.R_Irrigacao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,12 @@ public class S_EnviaIrrigacao {
     private static ScheduledExecutorService scheduler; // Para armazenar o scheduler
     private static Runnable currentCountdown; // Para armazenar o runnable do countdown
 
+    private final M_irrigacaoStatus status = new M_irrigacaoStatus();
+
+    public M_irrigacaoStatus getStatusAtual() {
+        return status;
+    }
+
     public S_EnviaIrrigacao(R_Irrigacao r_irrigacao) {
         this.r_irrigacao = r_irrigacao;
     }
@@ -59,9 +66,12 @@ public class S_EnviaIrrigacao {
                 if (ultimaIrrigacao == null || !ultimaIrrigacao.getId().equals(m_irrigacao.getId())) {
                     logger.info("Nova irrigação encontrada, iniciando countdown.");
                     ultimaIrrigacao = m_irrigacao;  // Atualiza a última irrigação encontrada
+                    status.setIrrigacaoAtual(m_irrigacao);
+                    status.setCountdownSegundos(segundosDiferenca);
                     // Reinicia o countdown
                     if (scheduler != null && !scheduler.isShutdown()) {
                         scheduler.shutdownNow();  // Cancela o countdown anterior
+                        M_Irrigacao m_irrigacao = irrigacaoFutura.get();
                     }
                     countDown(segundosDiferenca);  // Inicia o novo countdown
                 }
@@ -74,7 +84,7 @@ public class S_EnviaIrrigacao {
         return CompletableFuture.completedFuture(null);
     }
 
-    public static void countDown(Integer intervaloTempo) {
+    public void countDown(Integer intervaloTempo) {
         Integer startTime = intervaloTempo;  // Começa a contagem em intervalo-1 segundos
 
         // Cria um novo scheduler para o countdown
@@ -97,10 +107,12 @@ public class S_EnviaIrrigacao {
                     logger.info("Contagem: {} segundos", currentTime);
                     currentTime--; // Decrementa o tempo a cada segundo
                 }
+                status.setCountdownSegundos(currentTime);
             }
         };
 
         // Inicia o countdown
         scheduler.scheduleAtFixedRate(currentCountdown, 0, 1, TimeUnit.SECONDS);  // Começa imediatamente e repete a cada 1 segundo
     }
+
 }

@@ -5,28 +5,72 @@ html, body {
     background-color: #bcbb9b;
 }
 
-.bottonLineArea {/*area de efeito da linha inferior*/
+/*inicio css necessário todas as paginas*/
+.topBar {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 8px;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10; /* Certifique-se de que a barra fique acima de outros elementos */
+}
+
+.dropdown {
+    position: relative;
+}
+
+/* Esconde o menu inicialmente */
+.dropdown-menu {
+    display: none;
     position: absolute;
-    bottom: -3.5%; /* Posição a 1% do fundo da tela */
-    width: 200px; /* Aumentando a largura da área clicável */
-    height: 40px; /* Aumentando a altura da área clicável */
-    display: flex;
-    justify-content: center;
+    bottom: 100%; /* Posiciona o menu acima da barra */
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(255, 255, 255, 0); /* Área clicável invisível */
+    background-color: rgba(0, 0, 0, 0.4); /* Fundo escuro */
+    padding: 10px;
+    border-radius: 5px;
+    width: 120px; /* Largura do dropdown */
+    text-align: center;
+    z-index: 1000;
 }
 
-.bottonLine { /*linha inferior*/
+/* Exibe o menu quando a classe 'show' está presente */
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(0, 0, 0, 0.4); /* Efeito hover nos itens */
+    color: white;
+}
+
+.overlay-div { /*barra inferior*/
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 45vh;
+    max-width: 600px;
+    height: 4vh;
     background-color: rgba(0, 0, 0, 0.4);
-    width: 60px;
-    height: 2px;
-    transition: transform 1s ease;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    z-index: 1; /* Coloca abaixo de outros elementos */
 }
-
-.bottonLineArea:hover .bottonLine { /*animação da linha inferior*/
-    transform: scale(4.5, 10); /* A animação acontece quando o mouse está sobre a área */
-}
+/*fim barra inferior - need*/
 
 .tabela{
     position: absolute;
@@ -40,7 +84,7 @@ html, body {
       box-shadow: 0 15px 25px rgba(0,0,0,.6);
 }
 
-a {
+.botoes-redirecionamento {
     text-decoration: none;
     color: white;
     font-size: 16px;
@@ -88,12 +132,3 @@ a:hover {
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.topBar {
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    height: 8px;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    overflow-y: auto;
-}

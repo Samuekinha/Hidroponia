@@ -28,8 +28,7 @@ public class C_CadastrarIrrigacao {
     public String mostrarProximasIrrigacoes(Model model) {
         List<M_Irrigacao> proximasIrrigacoes = s_agendaIrrigacao.obterProximasIrrigacoes();
         model.addAttribute("proximasIrrigacoes", proximasIrrigacoes);
-        return "/agendar-irrigacao" +
-                ""; // Retorna um fragmento específico
+        return "/agendar-irrigacao"; // Retorna um fragmento específico
     }
 
     @PostMapping("/agendar-irrigacao")
@@ -76,7 +75,7 @@ public class C_CadastrarIrrigacao {
     @ResponseBody
     public String atualizarAtividade(@RequestParam("id") Long id) {
         S_AgendaIrrigacao.deletarAtividade(id);
-        return "empty";
+        return "/fragment/empty";
     }
 
 

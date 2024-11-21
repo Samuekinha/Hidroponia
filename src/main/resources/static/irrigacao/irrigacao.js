@@ -109,8 +109,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 id: selectedIrrigacaoId,
             },
             success: function () {
-                $("#optionsModal").modal('hide'); // Fecha o modal
-                atualizarDadosTabela(); // Atualiza a lista de irrigacoes
+                $("#optionsModal").modal('hide');
+
+                const rowToRemove = document.getElementById("row" + selectedIrrigacaoId);
+                if (rowToRemove) {
+                    rowToRemove.remove(); // Remove a linha do DOM
+                } else {
+                    console.error("Erro: Linha da tabela não encontrada para o ID " + selectedIrrigacaoId);
+                }
             },
             error: function () {
                 alert("Erro ao deletar irrigação.");

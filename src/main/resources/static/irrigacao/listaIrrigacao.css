@@ -5,30 +5,7 @@ html, body {
     background-color: #bcbb9b;
 }
 
-.bottonLineArea {
-    position: absolute;
-    bottom: -3.5%;
-    width: 200px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(255, 255, 255, 0);
-
-}
-
-.bottonLine {
-    background-color: rgba(0, 0, 0, 0.4);
-    width: 60px;
-    height: 2px;
-    transition: transform 1s ease;
-}
-
-.bottonLineArea:hover .bottonLine {
-    transform: scale(4.5, 10);
-}
-
+/*inicio css necessário todas as paginas*/
 .topBar {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.4);
@@ -41,6 +18,60 @@ html, body {
     z-index: 10; /* Certifique-se de que a barra fique acima de outros elementos */
 }
 
+.dropdown {
+    position: relative;
+}
+
+/* Esconde o menu inicialmente */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    bottom: 100%; /* Posiciona o menu acima da barra */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.4); /* Fundo escuro */
+    padding: 10px;
+    border-radius: 5px;
+    width: 120px; /* Largura do dropdown */
+    text-align: center;
+    z-index: 1000;
+}
+
+/* Exibe o menu quando a classe 'show' está presente */
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(0, 0, 0, 0.4); /* Efeito hover nos itens */
+    color: white;
+}
+
+.overlay-div { /*barra inferior*/
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 45vh;
+    max-width: 600px;
+    height: 4vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    z-index: 1; /* Coloca abaixo de outros elementos */
+}
+/*fim barra inferior - need*/
+
 .central-container {
     max-height: 70vh; /* Limita a altura */
     overflow-y: auto;
@@ -52,7 +83,7 @@ html, body {
     position: absolute;
     top: 10%; /* Ajuste a posição da tabela */
     left: 50%;
-    width: 60%;
+    width: 65%;
     transform: translate(-50%, 0);
     background: rgba(0, 0, 0, .5);
     box-sizing: border-box;
@@ -116,59 +147,6 @@ h1, p {
 
 .fas:hover {
     color: #ddd;
-}
-
-.dropdown {
-    position: relative;
-}
-
-/* Esconde o menu inicialmente */
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    bottom: 100%; /* Posiciona o menu acima da barra */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.4); /* Fundo escuro */
-    padding: 10px;
-    border-radius: 5px;
-    width: 120px; /* Largura do dropdown */
-    text-align: center;
-    z-index: 1000;
-}
-
-/* Exibe o menu quando a classe 'show' está presente */
-.dropdown-menu.show {
-    display: block;
-}
-
-.dropdown-item {
-    color: white;
-    text-decoration: none;
-    display: block;
-    padding: 5px 0;
-}
-
-.dropdown-item:hover {
-    background-color: rgba(0, 0, 0, 0.4); /* Efeito hover nos itens */
-    color: white;
-}
-
-.overlay-div {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 45vh;
-    max-width: 600px;
-    height: 4vh;
-    background-color: rgba(0, 0, 0, 0.4);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    z-index: 1; /* Coloca abaixo de outros elementos */
 }
 
 label{
