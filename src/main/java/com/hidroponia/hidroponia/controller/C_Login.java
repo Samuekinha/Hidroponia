@@ -34,7 +34,7 @@ public class C_Login {
         System.out.println("Requisição recebida: " + username);
         // Se o login for bem-sucedido
         if (s_login.validaLogin(username, senha)) {
-            return "home";  // Página "usuario-fragment.html" será renderizada
+            return "/home";  // Página "usuario-fragment.html" será renderizada
         } else {
             // Página "index.html" será renderizada
             return "redirect:/index";

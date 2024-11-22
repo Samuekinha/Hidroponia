@@ -18,8 +18,7 @@ public class C_Home {
     }
 
     @GetMapping("/home")
-    public String home(HttpSession session,
-                       Model model) {
+    public String home(Model model) {
         M_irrigacaoStatus statusAtual = s_enviaIrrigacao.getStatusAtual();
         if (statusAtual == null) {
             statusAtual = new M_irrigacaoStatus();

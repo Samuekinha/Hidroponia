@@ -43,12 +43,12 @@ public class S_EnviaIrrigacao {
         this.status = new M_irrigacaoStatus();
         // Inicialize valores padrão se necessário
         status.setCountdownSegundos(null);
-        status.setIrrigacaoAtual(null);
+        status.setIrrigacaoAtualData(null);
+        status.setIrrigacaoAtualHora(null);
     }
 
 
     @Scheduled(fixedRate = 10000)
-    @Async
     public CompletableFuture<Void> checkNextIrrigationScheduled() {
         logger.info("Método checkNextIrrigationScheduled() foi chamado com sucesso.");
         try {
@@ -71,8 +71,11 @@ public class S_EnviaIrrigacao {
                 if (ultimaIrrigacao == null || !ultimaIrrigacao.getId().equals(m_irrigacao.getId())) {
                     logger.info("Nova irrigação encontrada, iniciando countdown.");
                     ultimaIrrigacao = m_irrigacao;  // Atualiza a última irrigação encontrada
-                    status.setIrrigacaoAtual(m_irrigacao);
+
+                    status.setIrrigacaoAtualHora(m_irrigacao.getHoraIrrigacao());
+                    status.setIrrigacaoAtualData(m_irrigacao.getDataIrrigacao());
                     status.setCountdownSegundos(segundosDiferenca);
+
                     // Reinicia o countdown
                     if (scheduler != null && !scheduler.isShutdown()) {
                         scheduler.shutdownNow();  // Cancela o countdown anterior
@@ -80,7 +83,6 @@ public class S_EnviaIrrigacao {
                     countDown(segundosDiferenca);  // Inicia o novo countdown
                 }
             } else {
-                status.setIrrigacaoAtual(null);
                 logger.info("Não há irrigação futura para o horário atual.");
             }
         } catch (Exception e) {
@@ -105,14 +107,16 @@ public class S_EnviaIrrigacao {
                     logger.info("Iniciando irrigação via Arduino.");
                     // Aqui você pode chamar o método para enviar dados para o Arduino
                     // O código de comunicação com o Arduino vai aqui
+                    status.setCountdownSegundos(currentTime);
 
                     // Após iniciar a irrigação, o contador deve ser pausado ou resetado
                     scheduler.shutdownNow();  // Cancela o countdown
                 } else {
                     logger.info("Contagem: {} segundos", currentTime);
                     currentTime--; // Decrementa o tempo a cada segundo
+                    status.setCountdownSegundos(currentTime);
+
                 }
-                status.setCountdownSegundos(currentTime);
             }
         };
 

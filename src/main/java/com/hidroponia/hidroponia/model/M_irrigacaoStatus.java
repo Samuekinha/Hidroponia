@@ -1,18 +1,27 @@
 package com.hidroponia.hidroponia.model;
 
-import com.hidroponia.hidroponia.model.M_Irrigacao;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class M_irrigacaoStatus {
-    private M_Irrigacao irrigacaoAtual = null; // ou inicialize com um novo objeto vazio
+    private LocalDate irrigacaoAtualData = null; // ou inicialize com um novo objeto vazio
+    private LocalTime irrigacaoAtualHora = null; // ou inicialize com um novo objeto vazio
     private Integer countdownSegundos = null;
 
-    // Getters e Setters
-    public M_Irrigacao getIrrigacaoAtual() {
-        return irrigacaoAtual;
+    public LocalDate getIrrigacaoAtualData() {
+        return irrigacaoAtualData;
     }
 
-    public void setIrrigacaoAtual(M_Irrigacao irrigacaoAtual) {
-        this.irrigacaoAtual = irrigacaoAtual;
+    public void setIrrigacaoAtualData(LocalDate irrigacaoAtualData) {
+        this.irrigacaoAtualData = irrigacaoAtualData;
+    }
+
+    public LocalTime getIrrigacaoAtualHora() {
+        return irrigacaoAtualHora;
+    }
+
+    public void setIrrigacaoAtualHora(LocalTime irrigacaoAtualHora) {
+        this.irrigacaoAtualHora = irrigacaoAtualHora;
     }
 
     public Integer getCountdownSegundos() {

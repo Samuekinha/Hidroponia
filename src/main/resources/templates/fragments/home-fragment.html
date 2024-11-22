@@ -1,10 +1,22 @@
 <div th:fragment="fragmentHome">
     <div class="row">
-        <p>Próxima Irrigação:
-            <span id="proxima-irrigacao" th:text="${statusAtual.irrigacaoAtual'}"></span>
-        </p>
-        <p>Contagem regressiva (segundos):
-            <span id="countdown" th:text="${statusAtual.countdownSegundos"></span>
-        </p>
+
+        <div class="row">
+            <p>Próxima Irrigação:
+            <div class="col-6">
+                <span id="proxima-irrigacao-data"
+                      th:text="${statusAtual?.irrigacaoAtualData ?: 'Não definido'}"></span>        </p>
+            </div>
+            <div class="col-6">
+                <span id="proxima-irrigacao-hora"
+                      th:text="${statusAtual?.irrigacaoAtualHora ?: 'Não definido'}"></span>        </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <p>Contagem regressiva (segundos):
+                <span id="countdown" th:text="${statusAtual?.countdownSegundos ?: '0'}"></span></p>
+        </div>
+
     </div>
 </div>
