@@ -1,9 +1,10 @@
 package com.hidroponia.hidroponia.model;
 
-public class M_irrigacaoStatus {
+import com.hidroponia.hidroponia.model.M_Irrigacao;
 
-    private M_Irrigacao irrigacaoAtual;
-    private Integer countdownSegundos;
+public class M_irrigacaoStatus {
+    private M_Irrigacao irrigacaoAtual = null; // ou inicialize com um novo objeto vazio
+    private Integer countdownSegundos = null;
 
     // Getters e Setters
     public M_Irrigacao getIrrigacaoAtual() {
@@ -21,6 +22,4 @@ public class M_irrigacaoStatus {
     public void setCountdownSegundos(Integer countdownSegundos) {
         this.countdownSegundos = countdownSegundos;
     }
-
-
 }

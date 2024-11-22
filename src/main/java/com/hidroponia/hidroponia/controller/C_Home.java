@@ -1,6 +1,8 @@
 package com.hidroponia.hidroponia.controller;
 
+import com.hidroponia.hidroponia.model.M_irrigacaoStatus;
 import com.hidroponia.hidroponia.service.S_EnviaIrrigacao;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,14 +18,14 @@ public class C_Home {
     }
 
     @GetMapping("/home")
-    public String home(Model model) {
-        model.addAttribute("statusAtual", s_enviaIrrigacao.getStatusAtual());
+    public String home(HttpSession session,
+                       Model model) {
+        M_irrigacaoStatus statusAtual = s_enviaIrrigacao.getStatusAtual();
+        if (statusAtual == null) {
+            statusAtual = new M_irrigacaoStatus();
+        }
+        model.addAttribute("statusAtual", statusAtual);
         return "/home"; // Nome do arquivo HTML
     }
 
-    @GetMapping("/homeIrriga")
-    @ResponseBody
-    public Object statusAtual() {
-        return s_enviaIrrigacao.getStatusAtual();
-    }
 }

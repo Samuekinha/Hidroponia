@@ -1,0 +1,10 @@
+<div th:fragment="fragmentHome">
+    <div class="row">
+        <p>Próxima Irrigação:
+            <span id="proxima-irrigacao" th:text="${statusAtual.irrigacaoAtual'}"></span>
+        </p>
+        <p>Contagem regressiva (segundos):
+            <span id="countdown" th:text="${statusAtual.countdownSegundos"></span>
+        </p>
+    </div>
+</div>

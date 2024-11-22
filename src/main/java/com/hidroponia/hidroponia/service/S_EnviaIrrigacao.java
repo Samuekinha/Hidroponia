@@ -32,15 +32,20 @@ public class S_EnviaIrrigacao {
     private static ScheduledExecutorService scheduler; // Para armazenar o scheduler
     private static Runnable currentCountdown; // Para armazenar o runnable do countdown
 
-    private final M_irrigacaoStatus status = new M_irrigacaoStatus();
+    private M_irrigacaoStatus status = new M_irrigacaoStatus();
 
     public M_irrigacaoStatus getStatusAtual() {
-        return status;
+        return this.status; // Nunca retorna nulo
     }
 
     public S_EnviaIrrigacao(R_Irrigacao r_irrigacao) {
         this.r_irrigacao = r_irrigacao;
+        this.status = new M_irrigacaoStatus();
+        // Inicialize valores padrão se necessário
+        status.setCountdownSegundos(null);
+        status.setIrrigacaoAtual(null);
     }
+
 
     @Scheduled(fixedRate = 10000)
     @Async
@@ -71,11 +76,11 @@ public class S_EnviaIrrigacao {
                     // Reinicia o countdown
                     if (scheduler != null && !scheduler.isShutdown()) {
                         scheduler.shutdownNow();  // Cancela o countdown anterior
-                        M_Irrigacao m_irrigacao = irrigacaoFutura.get();
                     }
                     countDown(segundosDiferenca);  // Inicia o novo countdown
                 }
             } else {
+                status.setIrrigacaoAtual(null);
                 logger.info("Não há irrigação futura para o horário atual.");
             }
         } catch (Exception e) {
