@@ -1,45 +1,18 @@
+document.addEventListener('DOMContentLoaded', function () {
+    // Função para abrir o modal e preencher os dados do usuário
+    function editModal(element) {
+        // Exibe o modal
+        $('#editModal').modal('show');
+    };
 
-
-var isRequestInProgress = false;
-
-// Função para carregar as próximas irrigacoes
-function carregarUsuarios() {
-    // Verifica se já há uma requisição em andamento
-    if (isRequestInProgress) {
-        return; // Se já houver uma requisição, não faz outra
-    }
-
-    isRequestInProgress = true; // Marca a requisição como em andamento
-
-    $.ajax({
-        url: '/lista-usuario', // URL da requisição
-        type: 'GET', // Método GET
-        success: function(response) {
-            $('#conteudo').html(response); // Atualiza a tabela com o conteúdo retornado
-        },
-        error: function() {
-            alert('Erro ao carregar as próximas users.'); // Se der erro na requisição
-        },
-        complete: function() {
-            isRequestInProgress = false; // Após a requisição ser completada, a flag é resetada
-        }
+    // Limpeza do modal após ser fechado
+    $('#editModal').on('hidden.bs.modal', function () {
+        document.getElementById('editUsername').value = '';
+        document.getElementById('editEmail').value = '';
+        document.getElementById('usuarioId').value = '';
     });
-}
 
-// Carrega as próximas irrigacoes quando a página é carregada
-carregarUsuarios();
-
-
-setInterval(function() {
-    carregarUsuarios();
-}, 60000);
-
-
-
-
-
-// Função para salvar a irrigação
-document.addEventListener("DOMContentLoaded", function () {
+    // Função para validar e salvar a edição do usuário
     const saveButton = document.getElementById("saveButton");
 
     if (!saveButton) {
@@ -47,63 +20,47 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    saveButton.addEventListener("click", function () {
-        const idUsuario = document.getElementById("id")?.value || '';
-        const nomeUsuario = document.getElementById("username")?.value || '';
-        const emailUsuario = document.getElementById("email")?.value || '';
+    saveButton.addEventListener("click", function (event) {
+        const idUsuario = document.getElementById("usuarioId").value || '';
+        const nomeUsuario = document.getElementById("editUsername").value || '';
+        const emailUsuario = document.getElementById("editEmail").value || '';
+        const senha = document.getElementById("editSenha").value || '';
+        const confSenha = document.getElementById("editConfSenha").value || '';
 
-
-        // Validando os campos antes de enviar a requisição
-        if (!idUsuario || !nomeUsuario || !emailUsuario) {
+        // Validação de campos obrigatórios
+        if (!nomeUsuario || !emailUsuario || !senha || !confSenha) {
             alert("Todos os campos devem ser preenchidos.");
+            event.preventDefault(); // Previne o envio do formulário caso haja erro
             return;
         }
 
-        console.log('Id Usuario:', idUsuario);
-        console.log('Nome usuario:', nomeUsuario);
-        console.log('Email usuario:', emailUsuario);
+        // Valida se as senhas coincidem
+        if (senha !== confSenha) {
+            alert("As senhas não coincidem!");
+            event.preventDefault(); // Previne o envio do formulário caso haja erro
+            return;
+        }
 
-        // Fazendo a chamada AJAX para atualizar a irrigação
+        // Fazendo a chamada AJAX para atualizar o usuário
         $.ajax({
-            url: "/lista-usuario",
-            method: "POST",
+            url: "/atualizarusuario", // URL de destino para a atualização
+            method: "POST", // Método POST
             data: {
                 id: idUsuario,
-                usename: nomeUsuario,
+                username: nomeUsuario,
                 email: emailUsuario,
-                intervalo: intervalo
+                senha: senha,
+                conf_senha: confSenha
             },
-
+            success: function (response) {
+                // Sucesso na atualização, pode exibir uma mensagem ou atualizar a página
+                alert("Usuário atualizado com sucesso!");
+                location.reload(); // Atualiza a página para refletir as mudanças
+            },
+            error: function () {
+                // Erro na requisição
+                alert("Erro ao atualizar o usuário.");
+            }
         });
     });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const optionsModal = document.getElementById('optionsModal');
-        if (!optionsModal) {
-            console.error('Modal não encontrado!');
-            return;
-        }
-
-        optionsModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget; // O botão que acionou o modal
-
-            // Pega os dados do botão para preencher os campos do modal
-            const id = button.getAttribute('data-usuario-id');
-            const username = button.getAttribute('data-username');
-            const email = button.getAttribute('data-email');
-
-            // Preenche os campos do modal com os dados do usuário
-            document.getElementById('username').value = username || '';
-            document.getElementById('email').value = email || '';
-
-            // Atualiza o ID do usuário no campo escondido
-            document.getElementById('selectedUsuarioId').value = id;
-        });
-    });
-
-    // Limpeza do modal após ser fechado
-    $("#optionsModal").on('hidden.bs.modal', function () {
-        document.getElementById('username').value = '';
-        document.getElementById('email').value = '';
-        document.getElementById('selectedUsuarioId').value = '';
-    });
+});

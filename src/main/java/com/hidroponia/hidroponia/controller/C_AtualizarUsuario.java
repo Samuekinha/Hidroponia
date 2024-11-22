@@ -23,7 +23,7 @@ public class C_AtualizarUsuario {
     public String mostrarFormularioAtualizacao(@PathVariable Long id, Model model) {
         M_Usuario usuario = s_usuario.buscarUsuarioPorId(id);  // Buscar o usuário pelo ID
         model.addAttribute("usuario", usuario);  // Passar o usuário para o modelo
-        return "/usuario/lista-usuario";  // Nome da view Thymeleaf (arquivo HTML)
+        return "/usuario/atualizarusuario";  // Nome da view Thymeleaf do formulário de edição
     }
 
     @PostMapping("/atualizarusuario")

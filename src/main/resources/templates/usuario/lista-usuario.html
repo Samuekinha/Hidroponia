@@ -56,50 +56,46 @@
     </tr>
     </tbody>
 </table>
-</div>
+    <!-- Modal de Edição -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Editar Usuário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editUserForm" method="post" th:action="@{/atualizarusuario}" action="/atualizarusuario">
+                        <input type="hidden" name="id" id="usuarioId" >
+                        <div class="mb-3">
+                            <label for="editUsername" class="form-label">Nome de Usuário</label>
+                            <input type="text" class="form-control" id="editUsername" name="username" required>
+                        </div>
 
-<!-- Modal de Edição -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Editar Usuário</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editUserForm" method="post" th:action="@{/atualizarusuario}" action="/atualizarusuario">
-                    <input type="hidden" name="id" id="usuarioId" />
-                    <div class="mb-3">
-                        <label for="editUsername" class="form-label">Nome de Usuário</label>
-                        <input type="text" class="form-control" id="editUsername" name="username" required>
-                    </div>
+                        <div class="mb-3">
+                            <label for="editEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="editEmail" name="email" required>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="editEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="editEmail" name="email" required>
-                    </div>
+                        <div class="mb-3">
+                            <label for="editSenha" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="editSenha" name="senha" required>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="editSenha" class="form-label">Senha</label>
-                        <input type="password" class="form-control" id="editSenha" name="senha" required>
-                    </div>
+                        <div class="mb-3">
+                            <label for="editConfSenha" class="form-label">Confirmação de Senha</label>
+                            <input type="password" class="form-control" id="editConfSenha" name="conf_senha" required>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="editConfSenha" class="form-label">Confirmação de Senha</label>
-                        <input type="password" class="form-control" id="editConfSenha" name="conf_senha" required>
-                    </div>
-
-                    <button id="saveButton" type="submit" class="btn btn-primary">Atualizar</button>
-                </form>
+                        <button id="saveButton" type="submit" class="btn btn-primary">Atualizar</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
-</div>
 
 <!-- Scripts -->
-
-
 <script src="/editar.js"></script>
 <script src="/excluir.js"></script>
 
