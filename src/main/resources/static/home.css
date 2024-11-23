@@ -132,3 +132,39 @@ a:hover {
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
 
+.blocoInfo {
+    display: flex;
+    justify-content: space-between; /* Use space-between para distribuir os itens */
+    background: rgba(0, 0, 0, .5);
+    box-sizing: border-box;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .6);
+    padding: 10px;
+    margin-top: 5px;
+}
+
+.textoInfo {
+    color: white;
+    font-size: 0.8em; /* Aumenta o tamanho do texto */
+    margin-bottom: 10px;
+}
+
+.textoInfoTh {
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 0.9em; /* Aumenta o tamanho do texto */
+}
+
+.col-6 {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza os itens na coluna */
+}
+
+.textoInfoFull {
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 0.8em; /* Aumenta o tamanho do texto */
+    margin-top: 15px; /* Dê um espaçamento extra entre as informações */
+}

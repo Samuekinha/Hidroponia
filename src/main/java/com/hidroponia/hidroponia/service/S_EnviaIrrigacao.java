@@ -55,8 +55,8 @@ public class S_EnviaIrrigacao {
             LocalDate dataAtual = LocalDate.now();
             LocalTime horaAtual = LocalTime.now().withNano(0);  // Remover nanosegundos
 
-            logger.info("Data atual: {}", dataAtual);
-            logger.info("Hora atual: {}", horaAtual);
+            logger.info("Data at: {}", dataAtual);
+            logger.info("Hora at: {}", horaAtual);
 
             Optional<M_Irrigacao> irrigacaoFutura = r_irrigacao.findNextIrrigacaoToday(dataAtual, horaAtual);
 
@@ -103,17 +103,19 @@ public class S_EnviaIrrigacao {
 
             @Override
             public void run() {
-                if (currentTime == 0) {
+                if (currentTime == 0 || currentTime == 1) {
                     logger.info("Iniciando irrigação via Arduino.");
-                    // Aqui você pode chamar o método para enviar dados para o Arduino
-                    // O código de comunicação com o Arduino vai aqui
+
+                    // enviar informação pra começar a irrigação
+                    //lembra de ajustar esse if pra ter tempo a mais pro arduino
+
                     status.setCountdownSegundos(currentTime);
 
                     // Após iniciar a irrigação, o contador deve ser pausado ou resetado
                     scheduler.shutdownNow();  // Cancela o countdown
                 } else {
-                    logger.info("Contagem: {} segundos", currentTime);
-                    currentTime--; // Decrementa o tempo a cada segundo
+                    logger.info("Cont: {} s", currentTime);
+                    currentTime = currentTime-2; // Decrementa o tempo a cada 2 segundos
                     status.setCountdownSegundos(currentTime);
 
                 }
@@ -121,7 +123,7 @@ public class S_EnviaIrrigacao {
         };
 
         // Inicia o countdown
-        scheduler.scheduleAtFixedRate(currentCountdown, 0, 1, TimeUnit.SECONDS);  // Começa imediatamente e repete a cada 1 segundo
+        scheduler.scheduleAtFixedRate(currentCountdown, 0, 2, TimeUnit.SECONDS);  // Começa imediatamente e repete a cada 1 segundo
     }
 
 }
