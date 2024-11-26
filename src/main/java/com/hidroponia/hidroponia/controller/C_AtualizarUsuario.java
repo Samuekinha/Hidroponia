@@ -30,14 +30,10 @@ public class C_AtualizarUsuario {
     public String atualizarUsuario(@RequestParam("id") Long id,
                                    @RequestParam("username") String username,
                                    @RequestParam("senha") String senha,
-                                   @RequestParam("conf_senha") String conf_senha,
                                    @RequestParam("email") String email,
                                    Model model) {
 
-        if (!senha.equals(conf_senha)) {
-            model.addAttribute("error", "As senhas não coincidem!");
-            return "usuario/atualizarusuario";
-        }
+
 
         M_Usuario usuario = s_usuario.buscarUsuarioPorId(id);
         usuario.setUsername(username);
@@ -49,10 +45,10 @@ public class C_AtualizarUsuario {
 
         boolean sucesso = s_usuario.atualizarUsuario(id, username, senha, email);
         if (sucesso) {
-            return "redirect:/home";  // Redirecionar para a lista de usuários após atualização
+            return "redirect:/home";  // Redireciona para a lista de usuários após atualização
         } else {
             model.addAttribute("error", "Erro ao atualizar o usuário.");
-            return "usuario/atualizarusuario";
+            return "usuario/atualizarusuario";  // Retorna com erro
         }
     }
 }
