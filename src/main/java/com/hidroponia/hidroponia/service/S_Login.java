@@ -4,14 +4,18 @@ import com.hidroponia.hidroponia.model.M_Usuario;
 import com.hidroponia.hidroponia.repository.R_Usuario;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class S_Login {
-    private final R_Usuario r_usuario;
 
-    public S_Login(R_Usuario r_usuario) {
-        this.r_usuario = r_usuario;
+    private final R_Usuario r_usuario;
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public S_Login(R_Usuario rUsuario, BCryptPasswordEncoder passwordEncoder) {
+        r_usuario = rUsuario;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Boolean validaLogin(String username, String senha) {
@@ -19,10 +23,11 @@ public class S_Login {
         System.out.println("Usuario encontrado: " + (usuario != null ? usuario.getUsername() : "null"));
         System.out.println("Senha fornecida: " + senha);
         System.out.println("Senha armazenada no banco: " + (usuario != null ? usuario.getSenha() : "null"));
+        boolean senhaValida = passwordEncoder.matches(senha, usuario.getSenha());
 
-        if (usuario != null && usuario.getSenha().trim().equals(senha.trim())) {
+        if (usuario != null && !senhaValida) {
             return true;
-        } else {
+        } else{
             return false;
         }
     }

@@ -134,37 +134,45 @@ a:hover {
 
 .blocoInfo {
     display: flex;
-    justify-content: space-between; /* Use space-between para distribuir os itens */
-    background: rgba(0, 0, 0, .5);
-    box-sizing: border-box;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, .6);
+    flex-direction: column;
+    align-items: center; /* Centraliza os itens */
     padding: 10px;
     margin-top: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
 }
 
-.textoInfo {
-    color: white;
-    font-size: 0.8em; /* Aumenta o tamanho do texto */
-    margin-bottom: 10px;
+.carousel {
+    margin: auto; /* Centraliza o carousel */
 }
 
-.textoInfoTh {
+.carousel-inner, .carousel-item {
+    text-align: center; /* Centraliza o conteúdo do carousel */
+    color: white; /* Mantém o texto branco */
+}
+
+.textoInfo, .textoInfoTh {
+    text-align: center; /* Centraliza o conteúdo do carousel */
     display: flex;
     justify-content: center;
     color: white;
-    font-size: 0.9em; /* Aumenta o tamanho do texto */
+    text-align: center;
 }
 
 .col-6 {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centraliza os itens na coluna */
+    text-align: center;
+    color: white;
 }
 
-.textoInfoFull {
-    display: flex;
-    justify-content: center;
-    color: white;
-    font-size: 0.8em; /* Aumenta o tamanho do texto */
-    margin-top: 15px; /* Dê um espaçamento extra entre as informações */
+h3 {
+    font-size: 1rem; /* Restaurando o tamanho original */
 }
+
+p {
+    font-size: 0.9rem; /* Restaurando o tamanho original */
+}
+
+.carousel-indicators {
+    bottom: -20px; /* Mantendo espaçamento ajustado */
+}
+

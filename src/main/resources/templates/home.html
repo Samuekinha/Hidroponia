@@ -26,60 +26,71 @@
     <div class="row tabela">
         <div class="col-5">
 
-            <div class="row">
-                <div class="blocoInfo">
-                    <div id="carouselExampleAutoplaying" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleAutoplaying" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselExampleAutoplaying" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleAutoplaying" data-slide-to="2"></li>
-                        </ol>
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <h3>informações atuais</h3>
-                                <p>Temperatura da água</p>
-                                <p>Temperatura do ambiente</p>
-                                <p>Umidade do ambiente</p>
+            <div class="row blocoInfo">
+                <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0"
+                                class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="1"
+                                aria-label="Slide 2"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <h3>Info. da irrigação atual</h3>
+                            <p>Temperatura da água:</p>
+                            <p>12° graus</p>
+                            <p>Temperatura do ambiente:</p>
+                            <p>20° graus</p>
+                            <p>Umidade do ambiente:</p>
+                            <p>34% umidez</p>
+                        </div>
+                        <div class="carousel-item">
+                            <h3>Info. da última irrigação</h3>
+                            <p>Temperatura da água:</p>
+                            <p>15° graus</p>
+                            <p>Temperatura do ambiente:</p>
+                            <p>22° graus</p>
+                            <p>Umidade do ambiente:</p>
+                            <p>24% umidez</p>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+
+                <div class="row mt-2 d-flex justify-content-center">
+                    <div class="container">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-6">
+                                <h3 class="textoInfo">Próxima Irrigação:</h3>
+                                <span class="textoInfoTh" id="proxima-irrigacao-data"
+                                      th:text="${#temporals.format(statusAtual?.irrigacaoAtualData, 'dd/MM/yyyy') ?: 'Não definida'}"></span>
                             </div>
-                            <div class="carousel-item">
-                                <p>Informações da anterior</p>
-                            </div>
-                            <div class="carousel-item">
-                                <p>Teste</p>
+                            <div class="col-6">
+                                <h3 class="textoInfo">Hora:</h3>
+                                <span class="textoInfoTh" id="proxima-irrigacao-hora"
+                                      th:text="${statusAtual?.irrigacaoAtualHora ?: 'Não definida'}"></span>
                             </div>
                         </div>
-                        <a class="carousel-control-prev" href="#carouselExampleAutoplaying" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleAutoplaying" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
+                        <div class="row mt-1">
+                            <div class="col-12">
+                                <h3 class="textoInfo d-flex justify-content-center">Contagem regressiva (segundos):</h3>
+                                <span class="textoInfoTh justify-content-center" id="countdown"
+                                      th:text="${statusAtual?.countdownSegundos ?: 'S/C'}"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-
-            <div class="row blocoInfo">
-
-                <div class="col-6">
-                    <h3 class="textoInfo">Próxima Irrigação:</h3>
-                    <span class="textoInfoTh" id="proxima-irrigacao-data"
-                          th:text="${#temporals.format(statusAtual?.irrigacaoAtualData, 'dd/MM/yyyy') ?: 'Não definida'}"></span>
-                </div>
-                <div class="col-6">
-                    <h3 class="textoInfo">Hora:</h3>
-                    <span class="textoInfoTh" id="proxima-irrigacao-hora"
-                          th:text="${statusAtual?.irrigacaoAtualHora ?: 'Não definida'}"></span>
-                </div>
-
-                <div class="col-12">
-                    <h3 class="textoInfoFull d-flex justify-content-center">Contagem regressiva (segundos):</h3>
-                    <span class="textoInfoTh" id="countdown"
-                          th:text="${statusAtual?.countdownSegundos ?: 'S/C'}"></span>
-                </div>
-            </div>
 
         </div>
 
@@ -88,37 +99,60 @@
         </div>
 
         <div class="col-5">
-            <div class="row">
-
-                <div class="row">
+            <div class="row blocoInfo d-flex justify-content-center">
+                <div class="row d-flex justify-content-center">
+                    <!-- Primeira coluna com 2 botões -->
                     <div class="col-6">
                         <div class="row d-flex justify-content-center mt-4">
-                            <a class="mb-1 botoes-redirecionamento" href="/cadastrar">Cadastrar usuário</a>
+                            <a class="mb-1 botoes-redirecionamento w-75 text-center" href="/cadastrar">Cadastrar usuário</a>
                             <div class="bt-line"></div>
                         </div>
 
                         <div class="row d-flex justify-content-center mt-4">
-                            <a class="mb-1 botoes-redirecionamento" href="usuario/listausuarios">Lista usuários</a>
+                            <a class="mb-1 botoes-redirecionamento w-75 text-center" href="usuario/listausuarios">Lista usuários</a>
                             <div class="bt-line"></div>
                         </div>
                     </div>
 
+                    <!-- Segunda coluna com 2 botões -->
                     <div class="col-6">
                         <div class="row d-flex justify-content-center mt-4">
-                            <a class="mb-1 botoes-redirecionamento" href="/agendar-irrigacao">Agendar irrigação</a>
+                            <a class="mb-1 botoes-redirecionamento w-75 text-center" href="/irrigacao/agendar">Agendar irrigação</a>
                             <div class="bt-line"></div>
                         </div>
 
                         <div class="row d-flex justify-content-center mt-4">
-                            <a class="mb-1 botoes-redirecionamento" href="/lista-irrigacao">Lista irrigações</a>
+                            <a class="mb-1 botoes-redirecionamento w-75 text-center" href="/irrigacao/listar">Lista irrigações</a>
                             <div class="bt-line"></div>
                         </div>
                     </div>
                 </div>
-
-                <p class="bt-line-large mt-3"></p>
-
             </div>
+
+            <p class="bt-line-large mt-3"></p>
+
+            <div class="row blocoInfo">
+                <div class="row">
+                    <div class="col-6">
+                        <h3 class="textoInfo">Usuario atual:</h3>
+                        <span class="textoInfoTh" id="nomeUser"></span>
+                    </div>
+
+                    <div class="col-6">
+                        <h3 class="textoInfo d-flex justify-content-center">cargo:</h3>
+                        <span class="textoInfoTh" id="cargoUser"></span>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <h3 class="textoInfo d-flex justify-content-center">e-mail:</h3>
+                        <span class="textoInfoTh" id="emailUser"></span>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </div>
@@ -145,7 +179,9 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 <script src="/usuario/home.js" defer></script>
 
 </body>

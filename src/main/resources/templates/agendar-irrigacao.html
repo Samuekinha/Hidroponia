@@ -9,7 +9,7 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/irrigacao/irrigacao.css" defer>
+    <link rel="stylesheet" href="/irrigacaoStatic/irrigacao.css" defer>
     <title>Agendar irrigação</title>
 </head>
 <body>
@@ -28,10 +28,7 @@
                     <h4>Agendar irrigação</h4>
                 </div>
                 <div class="row">
-                    <form action="/agendar-irrigacao" method="post" th:action="@{/agendar-irrigacao}" id="cadIrrigFrom">
-                        <div class="row mt-3">
-                            <!--fazer input inpreenchivel p/informar o usuario ativo-->
-                        </div>
+                    <form action="/irrigacao/agendar" method="post" th:action="@{/irrigacao/agendar}" id="cadIrrigFrom">
                         <div class="row mt-3">
                             <div class="col-5 user-box">
                                 <div class="row">
@@ -109,7 +106,7 @@
     </div>
 </div>
 
-<script src="/irrigacao/irrigacao.js" defer></script>
+<script src="/irrigacaoStatic/irrigacao.js" defer></script>
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 // Variável para controle da requisição
 var isRequestInProgress = false;
 
-// Função para carregar as próximas irrigacoes
+// Função para carregar as próximas irrigacoes no /irrigacoes/listar
 function carregarProximasIrrigacoes() {
     // Verifica se já há uma requisição em andamento
     if (isRequestInProgress) {
@@ -11,7 +11,7 @@ function carregarProximasIrrigacoes() {
     isRequestInProgress = true; // Marca a requisição como em andamento
 
     $.ajax({
-        url: '/lista-irrigacao', // URL da requisição
+        url: '/irrigacao/listar', // URL da requisição
         type: 'GET', // Método GET
         success: function(response) {
             $('#conteudo-irrigacoes').html(response); // Atualiza a tabela com o conteúdo retornado
@@ -32,6 +32,7 @@ carregarProximasIrrigacoes();
 setInterval(function() {
     carregarProximasIrrigacoes(); // Chama a função para recarregar os dados
 }, 60000); // 60000 ms = 60 segundos
+
 
 // Função para atualizar os dados de uma irrigação na tabela
 function atualizarDadosTabela() {
@@ -78,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Fazendo a chamada AJAX para atualizar a irrigação
         $.ajax({
-            url: "/atualizarirrigacao",
+            url: "/irrigacao/atualizar",
             method: "POST",
             data: {
                 id: selectedIrrigacaoId,
@@ -103,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Fazendo a chamada AJAX para atualizar a irrigação
         $.ajax({
-            url: "/deletairrigacao",
+            url: "/irrigacao/deletar",
             method: "POST",
             data: {
                 id: selectedIrrigacaoId,
@@ -137,17 +138,25 @@ document.addEventListener('DOMContentLoaded', function () {
     optionsModal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget; // O botão que acionou o modal
 
-        // Pega os dados do botão para preencher os campos do modal
+        // Pega o ID da irrigação do botão
         const id = button.getAttribute('data-irrigacao-id');
-        const dataIrrigacao = button.getAttribute('data-datairrigacao');
-        const horaIrrigacao = button.getAttribute('data-horairrigacao');
-        const intervalo = button.getAttribute('data-intervalo');
 
-        document.getElementById('datairrigacao').value = dataIrrigacao || '';
-        document.getElementById('horairrigacao').value = horaIrrigacao || '';
-        document.getElementById('intervalo').value = intervalo || '';
-
-        document.getElementById('selectedIrrigacaoId').value = id; // Atualiza o ID escondido
+        // Faz uma requisição AJAX para buscar os dados mais recentes do servidor
+        $.ajax({
+            url: `/irrigacao/${id}`,
+            method: 'GET',
+            success: function (data) {
+                // Preenche os campos do modal com os dados retornados
+                document.getElementById('datairrigacao').value = data.dataIrrigacao || '';
+                document.getElementById('horairrigacao').value = data.horaIrrigacao || '';
+                document.getElementById('intervalo').value = data.intervalo || '';
+                document.getElementById('selectedIrrigacaoId').value = id; // Atualiza o ID escondido
+            },
+            error: function () {
+                alert('Erro ao carregar os dados da irrigação.');
+                $("#optionsModal").modal('hide'); // Fecha o modal em caso de erro
+            }
+        });
     });
 });
 

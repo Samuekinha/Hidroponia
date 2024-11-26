@@ -61,9 +61,12 @@ $(document).ready(function() {
     iniciarAtualizacaoAutomatica();
 });
 
-$(document).ready(function(){
+document.addEventListener('DOMContentLoaded', function () {
     // Inicializa o carousel com autoplay
-    $('#carouselExampleAutoplaying').carousel({
-        interval: 4500  // Tempo para a troca automática de slides (4500 ms = 4,5 segundos)
+    var carouselElement = document.getElementById('carouselExampleAutoplaying');
+    var carousel = new bootstrap.Carousel(carouselElement, {
+        interval: 4500, // Tempo para a troca automática de slides (4,5 segundos)
+        ride: 'carousel' // Ativar o autoplay
     });
 });
+
