@@ -19,7 +19,7 @@ public class C_AtualizarUsuario {
         this.s_usuario = s_usuario;
     }
 
-    @GetMapping("/usuario/atualizarusuario/{id}")
+    @GetMapping("//{id}")
     public String mostrarFormularioAtualizacao(@PathVariable Long id, Model model) {
         M_Usuario usuario = s_usuario.buscarUsuarioPorId(id);  // Buscar o usuário pelo ID
         model.addAttribute("usuario", usuario);  // Passar o usuário para o modelo

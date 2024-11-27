@@ -1,107 +1,164 @@
-/* Resetando margens e preenchimentos */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 html, body {
     width: 100vw;
     height: 100vh;
-    overflow-x: hidden; /* barra de rolagem horizontal removida */
+    overflow-x: hidden; /* Remove barra de rolagem horizontal */
     background-color: #bcbb9b;
-    font-family: Arial, sans-serif;
 }
 
-/* Barra superior */
+/*inicio css necessário todas as paginas*/
 .topBar {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.4);
     height: 8px;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10; /* Certifique-se de que a barra fique acima de outros elementos */
 }
 
-/* Área de efeito da linha inferior */
-.bottonLineArea {
+.dropdown {
+    position: relative;
+}
+
+/* Esconde o menu inicialmente */
+.dropdown-menu {
+    display: none;
     position: absolute;
-    bottom: -3.5%; /* Posição a 3.5% da parte inferior */
-    width: 200px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
+    bottom: 100%; /* Posiciona o menu acima da barra */
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(255, 255, 255, 0); /* Área clicável invisível */
-}
-
-.bottonLine {
-    background-color: rgba(0, 0, 0, 0.4);
-    width: 60px;
-    height: 2px;
-    transition: transform 1s ease;
-}
-
-
-
-/* Estilizando o título */
-h1 {
+    background-color: rgba(0, 0, 0, 0.4); /* Fundo escuro */
+    padding: 10px;
+    border-radius: 5px;
+    width: 120px; /* Largura do dropdown */
     text-align: center;
-    font-size: 36px;
-    color: #333;
-    margin-top: 20px;
+    z-index: 1000;
 }
 
-/* Estilizando a tabela */
-table {
-    width: 80%;
-    margin: 20px auto;
-    border-collapse: collapse;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 8px;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+/* Exibe o menu quando a classe 'show' está presente */
+.dropdown-menu.show {
+    display: block;
 }
 
-th, td {
-    padding: 12px;
-    text-align: center;
+.dropdown-item {
     color: white;
-    font-size: 16px;
-    border: 1px solid #555;
-}
-
-/* Adicionando uma linha de fundo alternada */
-
-
-/* Estilo para links dentro da tabela */
-a {
     text-decoration: none;
-    color: white;
-    font-size: 16px;
-    transition: 0.3s ease;
+    display: block;
+    padding: 5px 0;
 }
 
+.dropdown-item:hover {
+    background-color: rgba(0, 0, 0, 0.4); /* Efeito hover nos itens */
+    color: white;
+}
 
-/* Linhas decorativas (para links ou botões) */
+.overlay-div { /*barra inferior*/
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 45vh;
+    max-width: 600px;
+    height: 4vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    z-index: 1; /* Coloca abaixo de outros elementos */
+}
+/*fim barra inferior - need*/
+
+.central-container {
+    max-height: 70vh; /* Limita a altura */
+    overflow-y: auto;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.tabela {
+    position: absolute;
+    top: 10%; /* Ajuste a posição da tabela */
+    left: 50%;
+    width: 65%;
+    transform: translate(-50%, 0);
+    background: rgba(0, 0, 0, .5);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+    padding: 5%;
+    margin-top: 20px; /* Espaço extra acima */
+}
+
 .bt-line {
     width: fit-content;
     min-width: 60px;
     height: 1px;
     background-color: white;
-}
-
-.md-line {
-    width: 1px;
-    height: 100%;
-    background-color: white;
-}
-
-.bt-line-large {
+    margin-top: -1px;
+    margin-bottom: 1px;
     display: flex;
     justify-content: center;
-    width: 90%;
-    height: 1px;
-    background-color: white;
+    margin-top: 5%;
 }
 
-.cor{
-    background-color: rgba(0, 0, 0,  0.2);
+h1, p {
+    display: flex;
+    justify-content: center;
+    color: white;
+}
+
+.table, .table tbody, .table thead, .table th, .table td {
+    background-color: transparent !important;
+    color: white !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.table thead th {
+    color: white !important;
+    background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.table tbody tr {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+.row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.col-4 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fas {
+    font-size: 1.1rem;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.fas:hover {
+    color: #ddd;
+}
+
+label{
+    color: white;
+}
+
+.modal-dialog {
+    margin: auto; /* Centraliza dinamicamente */
+}
+
+.modal-content {
+    max-height: 80vh; /* Limita a altura total */
+    overflow-y: auto; /* Adiciona scroll dentro do modal se necessário */
+    background-color: rgb(113, 112, 93); /* Fundo do modal */
 }

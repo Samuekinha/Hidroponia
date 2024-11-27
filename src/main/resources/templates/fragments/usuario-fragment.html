@@ -1,22 +1,62 @@
-
-<div th:fragment="fragment">
-    <div class="row d-flex justify-content-center">
-        <div class="row d-flex justify-content-center">
-            <div class="col-2">
-                <img src="img/teste.png" alt="foto" class="foto">
-            </div>
-            <div class="col-10">
-                <p class="text-light">Username:</p>
-            </div>
+<div th:fragment="fragmentListaUsuario" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="tabela">
+        <div class="col text-center">
+            <h1 class="mb-4">Lista de Usuários</h1>
         </div>
+        <table class="table tabela-lista" id="tabela-usuarios">
+            <thead>
+            <tr>
+                <th>Nome:</th>
+                <th>Email:</th>
+                <th>Opções</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="usuario : ${usuarios}">
+                <td th:text="${usuario.username}"></td>
+                <td th:text="${usuario.email}"></td>
+                <td>
+                    <button
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#optionsModal"
+                            data-usuario-id="${usuario.id}">
+                        Opções
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-        <div class="row d-flex justify-content-center">
-            <div class="col-6">
-                <p class="text-light d-flex justify-content-center">Nivel:</p>
+    <!-- Modal de Edição do Usuário -->
+    <div class="modal fade" id="optionsModal" data-bs-backdrop="false" tabindex="-1" aria-labelledby="optionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content" style="background-color: rgb(113, 112, 93);">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Editar Usuário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modalBox">
+                        <div class="row mt-3">
+                            <div class="col-5">
+                                <label for="editUsername" class="form-label">Nome de Usuário</label>
+                                <input type="text" class="form-control" id="editUsername" name="username" required>
+                            </div>
+                            <div class="col-5">
+                                <label for="editEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="editEmail" name="email" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-6">
-                <p class="text-light d-flex justify-content-center">Email:</p>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="deleteButton" >Excluir</button>
+                <button type="button" class="btn btn-primary" id="saveButton" >Salvar</button>
             </div>
         </div>
     </div>
+</div>
 </div>
