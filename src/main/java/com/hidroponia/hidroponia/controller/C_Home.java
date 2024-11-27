@@ -23,13 +23,25 @@ public class C_Home {
     }
 
     @GetMapping("/home")
-    public String home(Model model) {
+    public String home(HttpSession session,
+                        Model model) {
+
+        String username = (String) session.getAttribute("username");
+
         M_irrigacaoStatus statusAtual = s_enviaIrrigacao.getStatusAtual();
         if (statusAtual == null) {
             statusAtual = new M_irrigacaoStatus();
         }
+
         model.addAttribute("statusAtual", statusAtual);
-        return "/home"; // Nome do arquivo HTML
+
+        if (username != null) {
+            model.addAttribute("message", "Bem-vindo, " + username + "!");
+            return "/home"; // Nome do arquivo HTML
+        } else {
+            model.addAttribute("message", "Bem-vindo! Faça login.");
+            return "/";
+        }
     }
 
     @GetMapping("/hometwo")

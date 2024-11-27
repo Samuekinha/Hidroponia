@@ -5,12 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication(scanBasePackages = "com.hidroponia")
 @EnableScheduling
 public class HidroponiaApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(HidroponiaApplication.class, args);
 	}
-
 }
