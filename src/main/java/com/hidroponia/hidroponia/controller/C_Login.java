@@ -26,7 +26,7 @@ public class C_Login {
 
     @GetMapping("/")
     public String home(HttpSession session,
-                           Model model){
+                       Model model) {
 
         String username = (String) session.getAttribute("username");
         if (username != null) {
@@ -51,13 +51,11 @@ public class C_Login {
         // Verifica se o usuário está logado (tem o atributo "username" na sessão)
         String username = (String) session.getAttribute("username");
 
-        if (username != null) {
-            // Se o usuário já estiver logado, redireciona para a home (ou página inicial)
-            model.addAttribute("message", "Você já está logado, faça logout para logar denovo.");
-            return "redirect:/";  // Redireciona para a página de início ou qualquer outra página que você preferir
-        }
-
-        return "index";  // Nome da página de login no seu template Thymeleaf
+        // Se o usuário já estiver logado, redireciona para a home (ou página inicial)
+//        model.addAttribute("message", "Você já está logado, faça logout para logar denovo.");
+//        return "redirect:/home";  // Redireciona para a página de início ou qualquer outra página que você preferir
+//
+        return "/index";  // Nome da página de login no seu template Thymeleaf
 
     }
 
@@ -72,11 +70,11 @@ public class C_Login {
             session.setAttribute("username", username);
 
             // Redireciona para a home após login
-            return "redirect:/";
+            return "redirect:/home";
         } else {
             // Falha no login, retorna para a página de login com mensagem de erro
             model.addAttribute("error", "Credenciais inválidas.");
-            return "login";  // Exibe novamente a página de login
+            return "redirect/login";  // Exibe novamente a página de login
         }
     }
 
