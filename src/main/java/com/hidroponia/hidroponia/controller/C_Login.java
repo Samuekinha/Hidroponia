@@ -31,7 +31,7 @@ public class C_Login {
         String username = (String) session.getAttribute("username");
         if (username != null) {
             model.addAttribute("message", "Bem-vindo, " + username + "!");
-            return "/home";
+            return "redirect:/home";
         } else {
             model.addAttribute("message", "Bem-vindo! Faça login.");
             return "redirect:/login"; // Nome da página Thymeleaf
@@ -46,24 +46,37 @@ public class C_Login {
     }
 
     @GetMapping("/login")
-    public String login() {
-        return "index";
+    public String login(HttpSession session, Model model) {
+
+        // Verifica se o usuário está logado (tem o atributo "username" na sessão)
+        String username = (String) session.getAttribute("username");
+
+        if (username != null) {
+            // Se o usuário já estiver logado, redireciona para a home (ou página inicial)
+            model.addAttribute("message", "Você já está logado, faça logout para logar denovo.");
+            return "redirect:/";  // Redireciona para a página de início ou qualquer outra página que você preferir
+        }
+
+        return "index";  // Nome da página de login no seu template Thymeleaf
+
     }
 
     @PostMapping("/login")
     public String postlogin(@RequestParam("username") String username,
                             @RequestParam("senha") String senha,
-                            HttpSession session,
+                            HttpSession session,  // Adicionamos a sessão para armazenar as informações
                             Model model) {
 
-        session.setAttribute("username", username);
-        System.out.println("Requisição recebida: " + username);
-        // Se o login for bem-sucedido
         if (s_login.validaLogin(username, senha)) {
+            // Sucesso no login, armazena o nome de usuário na sessão
+            session.setAttribute("username", username);
+
+            // Redireciona para a home após login
             return "redirect:/";
         } else {
-            // Página "index.html" será renderizada
-            return "index";
+            // Falha no login, retorna para a página de login com mensagem de erro
+            model.addAttribute("error", "Credenciais inválidas.");
+            return "login";  // Exibe novamente a página de login
         }
     }
 

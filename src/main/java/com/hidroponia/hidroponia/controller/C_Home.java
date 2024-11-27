@@ -45,7 +45,19 @@ public class C_Home {
     }
 
     @GetMapping("/hometwo")
-    public ResponseEntity<Map<String, Object>> getHomeData() {
+    public ResponseEntity<Map<String, Object>> getHomeData(HttpSession session) {
+        String username = (String) session.getAttribute("username");
+
+        // Verifica se o usuário está autenticado
+        Map<String, Object> response = new HashMap<>();
+        if (username != null) {
+            response.put("message", "Bem-vindo, " + username + "!");
+        } else {
+            response.put("message", "Bem-vindo! Faça login.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);  // Retorna 401 Unauthorized
+        }
+
+        // Tenta recuperar o status de irrigação
         try {
             M_irrigacaoStatus statusAtual = s_enviaIrrigacao.getStatusAtual();
             if (statusAtual == null) {
@@ -53,14 +65,17 @@ public class C_Home {
             }
 
             Map<String, Object> data = new HashMap<>();
-            data.put("irrigacaoAtualData", statusAtual.getIrrigacaoAtualData());  // Ex: "2024-11-23"
-            data.put("irrigacaoAtualHora", statusAtual.getIrrigacaoAtualHora());  // Ex: "12:30"
-            data.put("countdownSegundos", statusAtual.getCountdownSegundos());  // Ex: "60"
+            data.put("irrigacaoAtualData", statusAtual.getIrrigacaoAtualData());
+            data.put("irrigacaoAtualHora", statusAtual.getIrrigacaoAtualHora());
+            data.put("countdownSegundos", statusAtual.getCountdownSegundos());
 
-            return ResponseEntity.ok(data);
+            response.put("irrigacaoStatus", data);  // Adiciona os dados de irrigação na resposta
+
+            return ResponseEntity.ok(response);  // Retorna os dados com status 200 OK
+
         } catch (Exception e) {
             e.printStackTrace();  // Exibe o erro no log
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);  // Retorna 500 em caso de erro
         }
     }
 
