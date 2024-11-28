@@ -32,7 +32,7 @@ public class C_Cadastro {
         System.out.println("Requisição recebida: " + username);
         // Se o login for bem-sucedido
         if (s_cadastro.validaCadastro(username,senha,conf_senha,email)){
-            return "home/home";
+            return "redirect:/home";
         }
         return "redirect:/usuario/cadastrar";
     }

@@ -39,34 +39,53 @@ public class C_CadastrarIrrigacao {
                                             Model model) {
 
         String username = (String) session.getAttribute("username");
+        String nivel = (String) session.getAttribute("nivel");
 
-        if (username != null){
-            List<M_Irrigacao> proximasIrrigacoes = s_agendaIrrigacao.obterProximasIrrigacoes();
-            model.addAttribute("proximasIrrigacoes", proximasIrrigacoes);
-            model.addAttribute("message", "Bem-vindo, " + username + "!");
-            return "/agendar-irrigacao"; // Nome do arquivo HTML
+
+        if (username != null ){
+
+            if (!nivel.equals("USER")){
+                List<M_Irrigacao> proximasIrrigacoes = s_agendaIrrigacao.obterProximasIrrigacoes();
+                model.addAttribute("proximasIrrigacoes", proximasIrrigacoes);
+                model.addAttribute("message", "Bem-vindo, " + username + "!");
+                return "/agendar-irrigacao"; // Nome do arquivo HTML
+            }else{
+                model.addAttribute("message", "Bem-vindo! Faça login.");
+            }
+
         } else {
-            model.addAttribute("message", "Bem-vindo! Faça login.");
+            model.addAttribute("message", "Usuario não autorizado.");
             return "redirect:/";
         }
+        return null;
     }
 
+    //lista de 5 proximas irriga
     @GetMapping("/agendarLista")
     @ResponseBody
     public List<M_Irrigacao> listarProximasIrrigacoes(HttpSession session,
                                                       Model model) {
 
         String username = (String) session.getAttribute("username");
+        String nivel = (String) session.getAttribute("nivel");
 
         if (username != null) {
-            model.addAttribute("message", "Bem-vindo, " + username + "!");
-            return s_agendaIrrigacao.obterProximasIrrigacoes(); // Nome do arquivo HTML
+            if (!nivel.equals("USER")){
+
+                model.addAttribute("message", "Bem-vindo, " + username + "!");
+                return s_agendaIrrigacao.obterProximasIrrigacoes(); // Nome do arquivo HTML
+
+            }else{
+                model.addAttribute("message", "Usuario não autorizado.");
+            }
         } else {
             model.addAttribute("message", "Bem-vindo! Faça login.");
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário não autenticado");
         }
+        return null;
     }
 
+    //agendar irrigações
     @PostMapping("/agendar")
     public String postAgendarIrrig(@RequestParam("datairrigacao") LocalDate dataIrrigacao,
                                    @RequestParam("horairrigacao") LocalTime horaIrrigacao,
@@ -76,44 +95,52 @@ public class C_CadastrarIrrigacao {
                                    RedirectAttributes redirectAttributes) {
 
         String username = (String) session.getAttribute("username");
+        String nivel = (String) session.getAttribute("nivel");
 
         if (username != null) {
-            model.addAttribute("message", "Bem-vindo, " + username + "!");
+            if (!nivel.equals("USER")){
 
-            // Valida a irrigação
-            if (s_agendaIrrigacao.validaAgendaIrrigacao(dataIrrigacao, horaIrrigacao, intervalo)) {
-                System.out.println("Irrigação agendada com sucesso!");
-                redirectAttributes.addFlashAttribute("message", "Irrigação agendada com sucesso!");
-            } else {
-                System.out.println("Falha ao agendar irrigação.");
-                redirectAttributes.addFlashAttribute("error", "Erro ao agendar a irrigação.");
+                // Valida a irrigação
+                if (s_agendaIrrigacao.validaAgendaIrrigacao(dataIrrigacao, horaIrrigacao, intervalo)) {
+                    System.out.println("Irrigação agendada com sucesso!");
+                    redirectAttributes.addFlashAttribute("message", "Irrigação agendada com sucesso!");
+                } else {
+                    System.out.println("Falha ao agendar irrigação.");
+                    redirectAttributes.addFlashAttribute("error", "Erro ao agendar a irrigação.");
+                }
+                // Redireciona para a página de próximas irrigações
+                return "redirect:/irrigacao/agendar";
+            }else {
+                model.addAttribute("message", "Usuario não autorizado.");
             }
 
-            // Redireciona para a página de próximas irrigações
-            return "/agendar-irrigacao";
-
         } else {
-            model.addAttribute("message", "Bem-vindo! Faça login.");
             return "redirect:/";
         }
 
+        return null;
     }
 
+    //listar irrigações
     @GetMapping("/listar")
     public String getListaIrrigacoes(Model model,
                                      HttpSession session) {
 
         String username = (String) session.getAttribute("username");
+        String nivel = (String) session.getAttribute("nivel");
 
         if (username != null) {
-            model.addAttribute("message", "Bem-vindo, " + username + "!");
 
-            List<M_Irrigacao> irrigacao = s_listaIrrigacao.listarIrrigacoes();
-            model.addAttribute("irrigacao", irrigacao);
-            return "/lista-irrigacao"; // Retorna o nome da view "lista-irrigacao.html"
+            if (!nivel.equals("USER")){
+
+                List<M_Irrigacao> irrigacao = s_listaIrrigacao.listarIrrigacoes();
+                model.addAttribute("irrigacao", irrigacao);
+                return "/lista-irrigacao"; // Retorna o nome da view "lista-irrigacao.html"
+            } else{
+                model.addAttribute("message", "Usuario não autorizado.");
+            }
 
         } else {
-            model.addAttribute("message", "Bem-vindo! Faça login.");
             return "redirect:/";
         }
 
@@ -129,30 +156,36 @@ public class C_CadastrarIrrigacao {
                                      Model model) {
 
         String username = (String) session.getAttribute("username");
+        String nivel = (String) session.getAttribute("nivel");
 
         if (username != null) {
-            model.addAttribute("message", "Bem-vindo, " + username + "!");
 
-            try {
-                // Chamada ao serviço
-                boolean atualizado = s_agendaIrrigacao.atualizarAtividade(id, dataIrrigacao, horaIrrigacao, intervalo);
+            if (!nivel.equals("USER")){
 
-                if (atualizado) {
-                    return "/fragments/lista-irrigacao-fragment :: fragmentListaIrrigacao";
-                } else {
-                    // Retorna status 404 caso o ID não seja encontrado ou não atualizado
-                    return ("Erro: irrigação não encontrada.");
+                try {
+                    // Chamada ao serviço
+                    boolean atualizado = s_agendaIrrigacao.atualizarAtividade(id, dataIrrigacao, horaIrrigacao, intervalo);
+
+                    if (atualizado) {
+                        return "/fragments/lista-irrigacao-fragment :: fragmentListaIrrigacao";
+                    } else {
+                        // Retorna status 404 caso o ID não seja encontrado ou não atualizado
+                        return ("Erro: irrigação não encontrada.");
+                    }
+                } catch (Exception e) {
+                    // Retorna status 500 em caso de erro interno
+                    return ("Erro ao atualizar a irrigação: " + e.getMessage());
                 }
-            } catch (Exception e) {
-                // Retorna status 500 em caso de erro interno
-                return ("Erro ao atualizar a irrigação: " + e.getMessage());
+
+            } else{
+                model.addAttribute("message", "Usuario não autorizado.");
             }
 
         } else {
-            model.addAttribute("message", "Bem-vindo! Faça login.");
             return "redirect:/";
         }
 
+        return null;
     }
 
     @PostMapping("/deletar")
@@ -161,18 +194,22 @@ public class C_CadastrarIrrigacao {
                                    Model model) {
 
         String username = (String) session.getAttribute("username");
+        String nivel = (String) session.getAttribute("nivel");
 
         if (username != null) {
-            model.addAttribute("message", "Bem-vindo, " + username + "!");
 
-            S_AgendaIrrigacao.deletarAtividade(id);
-            return "/fragments/empty";
+            if (!nivel.equals("USER")){
+                S_AgendaIrrigacao.deletarAtividade(id);
+                return "/fragments/empty";
+            } else{
+                model.addAttribute("message", "Usuario não autorizado.");
+            }
+
         } else {
-            model.addAttribute("message", "Bem-vindo! Faça login.");
             return "redirect:/";
         }
 
-
+        return username;
     }
 
     @GetMapping("/{id}")

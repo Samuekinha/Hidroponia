@@ -2,7 +2,6 @@ package com.hidroponia.hidroponia.service;
 
 import com.hidroponia.hidroponia.model.M_Usuario;
 import com.hidroponia.hidroponia.repository.R_Usuario;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
