@@ -12,7 +12,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="usuario : ${usuarios}">
+            <tr th:each="usuario : ${usuarios}" th:id="${'row'+usuario.id}">
                 <td th:text="${usuario.username}"></td>
                 <td th:text="${usuario.email}"></td>
                 <td>
@@ -20,7 +20,9 @@
                             class="btn btn-primary"
                             data-bs-toggle="modal"
                             data-bs-target="#optionsModal"
-                            data-usuario-id="${usuario.id}">
+                            th:data-usuario-id="${usuario.id}"
+                            onclick="openModalUsuario(this)"
+                    >
                         Opções
                     </button>
                 </td>
@@ -29,34 +31,33 @@
         </table>
     </div>
 
-    <!-- Modal de Edição do Usuário -->
-    <div class="modal fade" id="optionsModal" data-bs-backdrop="false" tabindex="-1" aria-labelledby="optionsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content" style="background-color: rgb(113, 112, 93);">
+    <!-- Modal (fora da tabela para evitar erros de estrutura) -->
+    <input type="hidden" id="selectedUsuarioId" value="">
+    <div class="modal fade" id="optionsModal" tabindex="-1" aria-labelledby="optionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Editar Usuário</h5>
+                    <h5 class="modal-title" id="optionsModalLabel">Editar Usuário</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="modalBox">
-                        <div class="row mt-3">
-                            <div class="col-5">
-                                <label for="editUsername" class="form-label">Nome de Usuário</label>
-                                <input type="text" class="form-control" id="editUsername" name="username" required>
-                            </div>
-                            <div class="col-5">
-                                <label for="editEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="editEmail" name="email" required>
-                            </div>
-                        </div>
+                    <div class="d-none">
+                        <input type="text" id="idUsuario"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="editUsername" class="form-label">Nome:</label>
+                        <input type="text" id="editUsername" class="form-control" name="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail" class="form-label">Email:</label>
+                        <input type="email" id="editEmail" class="form-control" name="email">
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="deleteButton" >Excluir</button>
-                <button type="button" class="btn btn-primary" id="saveButton" >Salvar</button>
+                <div class="modal-footer">
+                    <button type="button" id="deleteButton" class="btn btn-danger">Excluir</button>
+                    <button type="button" id="saveButton" class="btn btn-primary">Salvar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>

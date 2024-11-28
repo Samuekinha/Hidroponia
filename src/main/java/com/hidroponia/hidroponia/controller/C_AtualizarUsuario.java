@@ -39,9 +39,9 @@ public class C_AtualizarUsuario {
         usuario.setUsername(username);
         usuario.setEmail(email);
 
-        // Criptografar a senha antes de salvar
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        usuario.setSenha(encoder.encode(senha));
+//        // Criptografar a senha antes de salvar
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        usuario.setSenha(encoder.encode(senha));
 
         boolean sucesso = s_usuario.atualizarUsuario(id, username, senha, email);
         if (sucesso) {

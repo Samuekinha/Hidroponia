@@ -22,16 +22,16 @@ public class S_ListaUsuario {
         return r_usuario.findAll(); // Busca todos os usuários no banco
     }
 
-
     public boolean excluirUsuario(Long id) {
         if (r_usuario.existsById(id)) {
             r_usuario.deleteById(id);
             System.out.println("Usuário com ID " + id + " foi excluído com sucesso.");
-            return true; // Usuário excluído com sucesso
+            return true;
         }
-
+        System.out.println("Erro: Usuário com ID " + id + " não encontrado.");
         return false;
     }
+
     public M_Usuario buscarUsuarioPorId(Long id) {
         return r_usuario.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));

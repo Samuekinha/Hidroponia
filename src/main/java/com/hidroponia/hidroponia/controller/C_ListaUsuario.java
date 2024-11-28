@@ -5,9 +5,7 @@ import com.hidroponia.hidroponia.service.S_Cadastro;
 import com.hidroponia.hidroponia.service.S_ListaUsuario;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -28,14 +26,13 @@ public class C_ListaUsuario {
         return "/usuario/lista-usuario"; // Retorna o nome da view "lista.html"
     }
 
-    @PostMapping("/usuario/excluir/{id}")
-    public String excluirUsuario(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        boolean sucesso = s_listaUsuario.excluirUsuario(id);
-        if (sucesso) {
-            redirectAttributes.addFlashAttribute("mensagem", "Usuário excluído com sucesso!");
-        } else {
-            redirectAttributes.addFlashAttribute("mensagem", "Erro ao excluir o usuário!");
+    @DeleteMapping("/usuario/excluir/{id}")
+    public String excluirUsuario(@PathVariable Long id) {
+        if (s_listaUsuario.excluirUsuario(id)) {
+            return "Usuário excluído com sucesso!";
         }
-        return "redirect:/lista-usuario";
+        return "Erro ao excluir o usuário!";
     }
+
 }
+
