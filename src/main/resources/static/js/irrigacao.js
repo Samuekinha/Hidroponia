@@ -1,4 +1,3 @@
-
 function atualizarListaIrrigacoes() {
     $.ajax({
         url: '/irrigacao/agendarLista', // URL do endpoint para obter as próximas irrigações
@@ -19,7 +18,18 @@ function atualizarListaIrrigacoes() {
             });
         },
         error: function () {
-            console.error("Erro ao buscar as próximas irrigações.");
+            Swal.fire({
+                            icon: 'error',
+                            title: 'Erro pegando próxima irrigação!',
+                            text: 'Algo deu errado ao pegar as informações da próxima irrigação. Recarregue a página.',
+                            showConfirmButton: false,
+                            timer: 6000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.onmouseenter = Swal.stopTimer;
+                                toast.onmouseleave = Swal.resumeTimer;
+                            }
+                        });
         }
     });
 }
@@ -30,6 +40,4 @@ atualizarListaIrrigacoes();
 // Configura o intervalo para recarregar as próximas irrigacoes a cada 60 segundos
 setInterval(function() {
     atualizarListaIrrigacoes(); // Chama a função para recarregar os dados
-}, 20000); // 20000 ms = 20 segundos
-
-
+}, 10000); // 20000 ms = 20 segundos

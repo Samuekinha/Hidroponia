@@ -1,10 +1,13 @@
 package com.hidroponia.hidroponia.controller;
 
 import com.hidroponia.hidroponia.model.M_Irrigacao;
+import com.hidroponia.hidroponia.model.M_irrigacaoStatus;
 import com.hidroponia.hidroponia.repository.R_Irrigacao;
 import com.hidroponia.hidroponia.service.S_AgendaIrrigacao;
 
 import com.hidroponia.hidroponia.service.S_ListaIrrigacao;
+import jakarta.servlet.http.HttpSession;
+import org.hibernate.Session;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,77 +35,165 @@ public class C_CadastrarIrrigacao {
     }
 
     @GetMapping("/agendar")
-    public String mostrarProximasIrrigacoes(Model model) {
-        List<M_Irrigacao> proximasIrrigacoes = s_agendaIrrigacao.obterProximasIrrigacoes();
-        model.addAttribute("proximasIrrigacoes", proximasIrrigacoes);
-        return "/agendar-irrigacao"; // Retorna um fragmento específico
+    public String mostrarProximasIrrigacoes(HttpSession session,
+                                            Model model) {
+
+        String username = (String) session.getAttribute("username");
+
+        if (username != null){
+            List<M_Irrigacao> proximasIrrigacoes = s_agendaIrrigacao.obterProximasIrrigacoes();
+            model.addAttribute("proximasIrrigacoes", proximasIrrigacoes);
+            model.addAttribute("message", "Bem-vindo, " + username + "!");
+            return "/agendar-irrigacao"; // Nome do arquivo HTML
+        } else {
+            model.addAttribute("message", "Bem-vindo! Faça login.");
+            return "redirect:/";
+        }
     }
 
     @GetMapping("/agendarLista")
     @ResponseBody
-    public List<M_Irrigacao> listarProximasIrrigacoes() {
-        return s_agendaIrrigacao.obterProximasIrrigacoes();
+    public List<M_Irrigacao> listarProximasIrrigacoes(HttpSession session,
+                                                      Model model) {
+
+        String username = (String) session.getAttribute("username");
+
+        if (username != null) {
+            model.addAttribute("message", "Bem-vindo, " + username + "!");
+            return s_agendaIrrigacao.obterProximasIrrigacoes(); // Nome do arquivo HTML
+        } else {
+            model.addAttribute("message", "Bem-vindo! Faça login.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário não autenticado");
+        }
     }
 
     @PostMapping("/agendar")
     public String postAgendarIrrig(@RequestParam("datairrigacao") LocalDate dataIrrigacao,
                                    @RequestParam("horairrigacao") LocalTime horaIrrigacao,
                                    @RequestParam("intervalo") Integer intervalo,
+                                   Model model,
+                                   HttpSession session,
                                    RedirectAttributes redirectAttributes) {
 
-        // Valida a irrigação
-        if (s_agendaIrrigacao.validaAgendaIrrigacao(dataIrrigacao, horaIrrigacao, intervalo)) {
-            System.out.println("Irrigação agendada com sucesso!");
-            redirectAttributes.addFlashAttribute("message", "Irrigação agendada com sucesso!");
+        String username = (String) session.getAttribute("username");
+
+        if (username != null) {
+            model.addAttribute("message", "Bem-vindo, " + username + "!");
+
+            // Valida a irrigação
+            if (s_agendaIrrigacao.validaAgendaIrrigacao(dataIrrigacao, horaIrrigacao, intervalo)) {
+                System.out.println("Irrigação agendada com sucesso!");
+                redirectAttributes.addFlashAttribute("message", "Irrigação agendada com sucesso!");
+            } else {
+                System.out.println("Falha ao agendar irrigação.");
+                redirectAttributes.addFlashAttribute("error", "Erro ao agendar a irrigação.");
+            }
+
+            // Redireciona para a página de próximas irrigações
+            return "/agendar-irrigacao";
+
         } else {
-            System.out.println("Falha ao agendar irrigação.");
-            redirectAttributes.addFlashAttribute("error", "Erro ao agendar a irrigação.");
+            model.addAttribute("message", "Bem-vindo! Faça login.");
+            return "redirect:/";
         }
 
-        // Redireciona para a página de próximas irrigações
-        return "/agendar-irrigacao";
     }
 
     @GetMapping("/listar")
-    public String getListaIrrigacoes(Model model) {
-        List<M_Irrigacao> irrigacao = s_listaIrrigacao.listarIrrigacoes();
-        model.addAttribute("irrigacao", irrigacao);
-        return "/lista-irrigacao"; // Retorna o nome da view "lista-irrigacao.html"
+    public String getListaIrrigacoes(Model model,
+                                     HttpSession session) {
+
+        String username = (String) session.getAttribute("username");
+
+        if (username != null) {
+            model.addAttribute("message", "Bem-vindo, " + username + "!");
+
+            List<M_Irrigacao> irrigacao = s_listaIrrigacao.listarIrrigacoes();
+            model.addAttribute("irrigacao", irrigacao);
+            return "/lista-irrigacao"; // Retorna o nome da view "lista-irrigacao.html"
+
+        } else {
+            model.addAttribute("message", "Bem-vindo! Faça login.");
+            return "redirect:/";
+        }
+
+
     }
 
     @PostMapping("/atualizar")
     public String atualizarAtividade(@RequestParam("id") Long id,
                                      @RequestParam("datairrigacao") LocalDate dataIrrigacao,
                                      @RequestParam("horairrigacao") LocalTime horaIrrigacao,
-                                     @RequestParam("intervalo") Integer intervalo) {
-        try {
-            // Chamada ao serviço
-            boolean atualizado = s_agendaIrrigacao.atualizarAtividade(id, dataIrrigacao, horaIrrigacao, intervalo);
+                                     @RequestParam("intervalo") Integer intervalo,
+                                     HttpSession session,
+                                     Model model) {
 
-            if (atualizado) {
-                return "/fragments/lista-irrigacao-fragment :: fragmentListaIrrigacao";
-            } else {
-                // Retorna status 404 caso o ID não seja encontrado ou não atualizado
-                return ("Erro: irrigação não encontrada.");
+        String username = (String) session.getAttribute("username");
+
+        if (username != null) {
+            model.addAttribute("message", "Bem-vindo, " + username + "!");
+
+            try {
+                // Chamada ao serviço
+                boolean atualizado = s_agendaIrrigacao.atualizarAtividade(id, dataIrrigacao, horaIrrigacao, intervalo);
+
+                if (atualizado) {
+                    return "/fragments/lista-irrigacao-fragment :: fragmentListaIrrigacao";
+                } else {
+                    // Retorna status 404 caso o ID não seja encontrado ou não atualizado
+                    return ("Erro: irrigação não encontrada.");
+                }
+            } catch (Exception e) {
+                // Retorna status 500 em caso de erro interno
+                return ("Erro ao atualizar a irrigação: " + e.getMessage());
             }
-        } catch (Exception e) {
-            // Retorna status 500 em caso de erro interno
-            return ("Erro ao atualizar a irrigação: " + e.getMessage());
+
+        } else {
+            model.addAttribute("message", "Bem-vindo! Faça login.");
+            return "redirect:/";
         }
+
     }
 
     @PostMapping("/deletar")
-    @ResponseBody
-    public String deletarAtividade(@RequestParam("id") Long id) {
-        S_AgendaIrrigacao.deletarAtividade(id);
-        return "/fragment/empty";
+    public String deletarAtividade(@RequestParam("id") Long id,
+                                   HttpSession session,
+                                   Model model) {
+
+        String username = (String) session.getAttribute("username");
+
+        if (username != null) {
+            model.addAttribute("message", "Bem-vindo, " + username + "!");
+
+            S_AgendaIrrigacao.deletarAtividade(id);
+            return "/fragments/empty";
+        } else {
+            model.addAttribute("message", "Bem-vindo! Faça login.");
+            return "redirect:/";
+        }
+
+
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<M_Irrigacao> getIrrigacaoById(@PathVariable Long id) {
-        M_Irrigacao irrigacao = r_irrigacao.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Irrigação não encontrada."));
-        return ResponseEntity.ok(irrigacao);
+    public ResponseEntity<M_Irrigacao> getIrrigacaoById(@PathVariable Long id,
+                                                        HttpSession session,
+                                                        Model model) {
+
+        String username = (String) session.getAttribute("username");
+
+        if (username != null) {
+            model.addAttribute("message", "Bem-vindo, " + username + "!");
+
+            M_Irrigacao irrigacao = r_irrigacao.findById(id)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Irrigação não encontrada."));
+            return ResponseEntity.ok(irrigacao);
+
+        } else {
+            model.addAttribute("message", "Bem-vindo! Faça login.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário não autenticado");
+        }
+
     }
 
 }

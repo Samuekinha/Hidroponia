@@ -7,6 +7,7 @@
         <table class="table tabela-lista" id="tabela-irrigacoes">
             <thead>
             <tr>
+                <th>Id:</th>
                 <th>Data Registro:</th>
                 <th>Data Irrigação:</th>
                 <th>Hora Irrigação:</th>
@@ -16,19 +17,20 @@
             </thead>
             <tbody>
             <tr th:each="irriga : ${irrigacao}" th:id="${'row' + irriga.id}">
+                <td th:text="${irriga.id}"></td>
                 <td class="data-registro" th:text="${#temporals.format(irriga.dataRegistro, 'dd/MM/yyyy HH:mm:ss')}"></td>
                 <td th:text="${irriga.dataIrrigacao}" th:id="${'data'+irriga.id}"></td>
                 <td th:text="${irriga.horaIrrigacao}" th:id="${'hora'+irriga.id}"></td>
                 <td th:text="${irriga.intervalo}" th:id="${'dura'+irriga.id}"></td>
                 <td>
                     <button
-                        class="btn btn-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#optionsModal"
-                        th:data-irrigacao-id="${irriga.id}"
-                        th:data-datairrigacao="${irriga.dataIrrigacao}"
-                        th:data-horairrigacao="${irriga.horaIrrigacao}"
-                        th:data-intervalo="${irriga.intervalo}">
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#optionsModal"
+                            th:data-irrigacao-id="${irriga.id}"
+                            th:data-datairrigacao="${irriga.dataIrrigacao}"
+                            th:data-horairrigacao="${irriga.horaIrrigacao}"
+                            th:data-intervalo="${irriga.intervalo}">
                         Options
                     </button>
                 </td>
@@ -47,6 +49,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="modalBox">
+                        <div class="row">
+                            <input class="d-flex justify-content-center" id="selectedIrrigacaoId" type="hidden" readonly="readonly">
+                        </div>
                         <div class="row mt-3">
                             <div class="col-5">
                                 <label for="datairrigacao">Data irrigação:</label>

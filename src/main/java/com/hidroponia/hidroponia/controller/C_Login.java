@@ -31,7 +31,7 @@ public class C_Login {
         String username = (String) session.getAttribute("username");
         if (username != null) {
             model.addAttribute("message", "Bem-vindo, " + username + "!");
-            return "/home";
+            return "redirect:/home";
         } else {
             model.addAttribute("message", "Bem-vindo! Faça login.");
             return "redirect:/login"; // Nome da página Thymeleaf
@@ -46,8 +46,17 @@ public class C_Login {
     }
 
     @GetMapping("/login")
-    public String login() {
-        return "index";
+    public String login(HttpSession session,
+                        Model model) {
+
+        String username = (String) session.getAttribute("username");
+        if (username != null) {
+            model.addAttribute("message", "Bem-vindo, " + username + "!");
+            return "redirect:/home";
+        } else {
+            model.addAttribute("message", "Bem-vindo! Faça login.");
+            return "index"; // Nome da página Thymeleaf
+        }
     }
 
     @PostMapping("/login")

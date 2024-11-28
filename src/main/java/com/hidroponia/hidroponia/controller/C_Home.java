@@ -28,19 +28,19 @@ public class C_Home {
 
         String username = (String) session.getAttribute("username");
 
-        M_irrigacaoStatus statusAtual = s_enviaIrrigacao.getStatusAtual();
-        if (statusAtual == null) {
-            statusAtual = new M_irrigacaoStatus();
-        }
-
-        model.addAttribute("statusAtual", statusAtual);
-
         if (username != null) {
+            M_irrigacaoStatus statusAtual = s_enviaIrrigacao.getStatusAtual();
+            if (statusAtual == null) {
+                statusAtual = new M_irrigacaoStatus();
+            }
+
+            model.addAttribute("statusAtual", statusAtual);
+
             model.addAttribute("message", "Bem-vindo, " + username + "!");
             return "/home"; // Nome do arquivo HTML
         } else {
             model.addAttribute("message", "Bem-vindo! Faça login.");
-            return "/";
+            return "redirect:/";
         }
     }
 

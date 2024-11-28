@@ -61,10 +61,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     saveButton.addEventListener("click", function () {
+        const selectedIrrigacaoId = document.getElementById("selectedIrrigacaoId")?.value || '';
         const dataIrrigacao = document.getElementById("datairrigacao")?.value || '';
         const horaIrrigacao = document.getElementById("horairrigacao")?.value || '';
         const intervalo = document.getElementById("intervalo")?.value || '';
-        const selectedIrrigacaoId = document.getElementById("selectedIrrigacaoId")?.value || '';
 
         // Validando os campos antes de enviar a requisição
         if (!dataIrrigacao || !horaIrrigacao || !intervalo || !selectedIrrigacaoId) {
@@ -94,13 +94,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 $("#dura"+selectedIrrigacaoId).text(intervalo);
             },
             error: function () {
-                alert("Erro ao atualizar irrigação.");
+                Swal.fire({
+                                icon: 'error',
+                                title: 'Erro pegando próxima irrigação!',
+                                text: 'Algo deu errado ao pegar as informações da próxima irrigação. Recarregue a página.',
+                                showConfirmButton: false,
+                                timer: 6000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.onmouseenter = Swal.stopTimer;
+                                    toast.onmouseleave = Swal.resumeTimer;
+                                }
+                            });;
             }
         });
     });
 
     deleteButton.addEventListener("click", function () {
-        const selectedIrrigacaoId = document.getElementById("selectedIrrigacaoId")?.value || '';
+    const selectedIrrigacaoId = document.getElementById("selectedIrrigacaoId")?.value || '';
 
         // Fazendo a chamada AJAX para atualizar a irrigação
         $.ajax({
@@ -120,7 +131,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             },
             error: function () {
-                alert("Erro ao deletar irrigação.");
+                Swal.fire({
+                                icon: 'error',
+                                title: 'Erro pegando próxima irrigação!',
+                                text: 'Algo deu errado ao pegar as informações da próxima irrigação. Recarregue a página.',
+                                showConfirmButton: false,
+                                timer: 6000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.onmouseenter = Swal.stopTimer;
+                                    toast.onmouseleave = Swal.resumeTimer;
+                                }
+                            });
             }
         });
     });
@@ -153,7 +175,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('selectedIrrigacaoId').value = id; // Atualiza o ID escondido
             },
             error: function () {
-                alert('Erro ao carregar os dados da irrigação.');
+                Swal.fire({
+                                icon: 'error',
+                                title: 'Erro pegando próxima irrigação!',
+                                text: 'Algo deu errado ao pegar as informações da próxima irrigação. Recarregue a página.',
+                                showConfirmButton: false,
+                                timer: 6000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.onmouseenter = Swal.stopTimer;
+                                    toast.onmouseleave = Swal.resumeTimer;
+                                }
+                            });
                 $("#optionsModal").modal('hide'); // Fecha o modal em caso de erro
             }
         });
