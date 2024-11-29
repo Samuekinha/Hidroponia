@@ -21,8 +21,9 @@
                             data-bs-toggle="modal"
                             data-bs-target="#optionsModal"
                             th:data-usuario-id="${usuario.id}"
-                            onclick="openModalUsuario(this)"
-                    >
+                            th:data-username="${usuario.username}"
+                            th:data-email="${usuario.email}"
+                            onclick="openModalUsuario(this)">
                         Opções
                     </button>
                 </td>

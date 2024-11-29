@@ -27,12 +27,12 @@ public class C_ListaUsuario {
     }
 
     @DeleteMapping("/usuario/excluir/{id}")
+    @ResponseBody
     public String excluirUsuario(@PathVariable Long id) {
         if (s_listaUsuario.excluirUsuario(id)) {
             return "Usuário excluído com sucesso!";
         }
         return "Erro ao excluir o usuário!";
     }
-
 }
 
