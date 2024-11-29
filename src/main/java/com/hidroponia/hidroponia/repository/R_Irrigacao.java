@@ -40,4 +40,10 @@ public interface R_Irrigacao extends JpaRepository<M_Irrigacao, Long> {
     Optional<M_Irrigacao> findNextIrrigacaoToday(@Param("dataAtual") LocalDate dataAtual,
                                                  @Param("horaAtual") LocalTime horaAtual);
 
+    @Query("SELECT i FROM M_Irrigacao i ORDER BY i.dataIrrigacao DESC, i.horaIrrigacao DESC")
+    List<M_Irrigacao> findAllIrrigacoesDesc();
+
+    @Query("SELECT i FROM M_Irrigacao i ORDER BY i.dataIrrigacao ASC, i.horaIrrigacao ASC")
+    List<M_Irrigacao> findAllIrrigacoesAsc();
+
 }

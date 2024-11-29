@@ -4,6 +4,8 @@ import com.hidroponia.hidroponia.model.M_Irrigacao;
 import com.hidroponia.hidroponia.repository.R_Irrigacao;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -16,9 +18,12 @@ public class S_ListaIrrigacao {
     }
 
     // Método para buscar irrigação por página
-    public List<M_Irrigacao> listarIrrigacoes() {
-        return r_irrigacao.findAll();
+    public List<M_Irrigacao> listarIrrigacoesDesc() {
+        return r_irrigacao.findAllIrrigacoesDesc();
     }
 
+    public List<M_Irrigacao> listarIrrigacoesAsc() {
+        return r_irrigacao.findAllIrrigacoesAsc();
+    }
 
 }

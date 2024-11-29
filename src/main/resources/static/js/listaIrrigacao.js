@@ -170,28 +170,38 @@ document.addEventListener('DOMContentLoaded', function () {
             success: function (data) {
                 // Preenche os campos do modal com os dados retornados
                 document.getElementById('datairrigacao').value = data.dataIrrigacao || '';
-                document.getElementById('horairrigacao').value = data.horaIrrigacao || '';
+
+                // Formata a hora para o padrão HH:mm
+                if (data.horaIrrigacao) {
+                    const horaRecebida = data.horaIrrigacao.split(":");
+                    const horaFormatada = horaRecebida.slice(0, 2).join(":"); // Obtém apenas horas e minutos
+                    document.getElementById('horairrigacao').value = horaFormatada;
+                } else {
+                    document.getElementById('horairrigacao').value = '';
+                }
+
                 document.getElementById('intervalo').value = data.intervalo || '';
                 document.getElementById('selectedIrrigacaoId').value = id; // Atualiza o ID escondido
             },
             error: function () {
                 Swal.fire({
-                                icon: 'error',
-                                title: 'Erro pegando próxima irrigação!',
-                                text: 'Algo deu errado ao pegar as informações da próxima irrigação. Recarregue a página.',
-                                showConfirmButton: false,
-                                timer: 6000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.onmouseenter = Swal.stopTimer;
-                                    toast.onmouseleave = Swal.resumeTimer;
-                                }
-                            });
+                    icon: 'error',
+                    title: 'Erro pegando próxima irrigação!',
+                    text: 'Algo deu errado ao pegar as informações da próxima irrigação. Recarregue a página.',
+                    showConfirmButton: false,
+                    timer: 6000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
                 $("#optionsModal").modal('hide'); // Fecha o modal em caso de erro
             }
         });
     });
 });
+
 
 // Limpeza do modal após ser fechado
 $("#optionsModal").on('hidden.bs.modal', function () {

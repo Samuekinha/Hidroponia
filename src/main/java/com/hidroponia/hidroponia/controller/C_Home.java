@@ -29,6 +29,7 @@ public class C_Home {
         String username = (String) session.getAttribute("username");
 
         if (username != null) {
+
             M_irrigacaoStatus statusAtual = s_enviaIrrigacao.getStatusAtual();
             if (statusAtual == null) {
                 statusAtual = new M_irrigacaoStatus();

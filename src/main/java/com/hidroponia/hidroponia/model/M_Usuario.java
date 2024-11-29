@@ -11,7 +11,7 @@ public class M_Usuario {
     private String username;
     private String senha;
     private String conf_senha;
-    private int nivel;
+    private String nivel;
     private String email;
 
     public Long getId() {
@@ -46,11 +46,11 @@ public class M_Usuario {
         this.conf_senha = conf_senha;
     }
 
-    public int getNivel() {
+    public String getNivel() {
         return nivel;
     }
 
-    public void setNivel(int nivel) {
+    public void setNivel(String nivel) {
         this.nivel = nivel;
     }
 
