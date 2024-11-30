@@ -1,6 +1,7 @@
 package com.hidroponia.hidroponia.service;
 
 import com.hidroponia.hidroponia.model.M_Irrigacao;
+import com.hidroponia.hidroponia.model.M_Resultado;
 import com.hidroponia.hidroponia.repository.R_Irrigacao;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,15 @@ import java.util.stream.Collectors;
 
 @Service
 public class S_AgendaIrrigacao {
-    private static R_Irrigacao r_irrigacao;
 
-    public S_AgendaIrrigacao(R_Irrigacao r_irrigacao) {
+    private static R_Irrigacao r_irrigacao;
+    private static M_Resultado m_resultado;
+
+    public S_AgendaIrrigacao(R_Irrigacao r_irrigacao, M_Resultado m_resultado) {
         this.r_irrigacao = r_irrigacao;
+        this.m_resultado = m_resultado;
     }
+
 
     public Boolean validaAgendaIrrigacao(LocalDate dataIrrigacao, LocalTime horaIrrigacao, Integer intervalo) {
         Boolean podeAgendar = true;
@@ -28,7 +33,7 @@ public class S_AgendaIrrigacao {
             // Validações iniciais de campos nulos ou intervalo inválido
             if (dataIrrigacao == null || horaIrrigacao == null || intervalo == null || intervalo < 1 || intervalo > 30) {
                 podeAgendar = false;
-                mensagens.add("Algum dos campos está vazio ou o intervalo é menor ou maior que 30.");
+                mensagens.add("Algum dos campos está vazio ou o intervalo é menor que 1 ou maior que 30.");
             }
 
             // Validações de data e hora
@@ -112,7 +117,6 @@ public class S_AgendaIrrigacao {
     }
 
 
-
     public static Boolean deletarAtividade(Long id) {
         // Busca a entidade pelo ID
         Optional<M_Irrigacao> optionalIrrigacao = r_irrigacao.findById(id);
@@ -129,6 +133,100 @@ public class S_AgendaIrrigacao {
         }
     }
 
+    //inicio pesadelo
+    public M_Resultado validaAgendaAvanc(LocalDate dataIrrigacao, LocalTime horaIrrigacao,
+                                         Integer intervalo, LocalTime HoraIrrigacaoAvanc,
+                                         int diaAvanc, int mesAvanc) {
+        boolean podeAgendar = true;
 
+        try {
+
+            int HoraFormat = HoraIrrigacaoAvanc.getHour();
+            int MinFormat = HoraIrrigacaoAvanc.getMinute();
+            HoraFormat = (HoraFormat * 60) + MinFormat;
+            LocalTime agora = LocalTime.now();
+
+            // Validações iniciais de campos nulos ou intervalo inválido
+            if (dataIrrigacao == null || intervalo == null || intervalo < 1 || intervalo > 30) {
+                podeAgendar = false;
+                m_resultado.setAlerta("Algum dos campos está vazio ou o intervalo é menor que 1 ou maior que 30.");
+            }
+
+            // Validações de data e hora
+            if (dataIrrigacao.isBefore(LocalDate.now())) {
+                podeAgendar = false;
+                m_resultado.setAlerta("A data de irrigação não pode ser no passado.");
+            } else if (dataIrrigacao.isEqual(LocalDate.now()) && horaIrrigacao.isBefore(LocalTime.now())) {
+                podeAgendar = false;
+                m_resultado.setAlerta("A hora de irrigação não pode ser no passado para o dia atual.");
+            }
+
+            //criação da lista de irrigações desejada
+            for (int i = 0; i < mesAvanc; i++) { //percorre qtde meses
+
+                for (int j = 0; j < diaAvanc; j++) { //percorre qtde dias
+
+                    if (!agora.isAfter(horaIrrigacao)){ //garante que a irrigação não é no passado
+
+                        for (LocalTime k = LocalTime.now(); k.equals(horaIrrigacao) || k.isAfter(horaIrrigacao); k.plusMinutes(HoraFormat)) {
+                            //cria as irrigas a partir da data de agora
+
+                            boolean irrigaProximoDia;
+                            LocalTime irrigaHoraFim = horaIrrigacao.plusMinutes(intervalo);
+
+                            if (!irrigaHoraFim.isAfter(horaIrrigacao)) {
+                                irrigaProximoDia = true;
+
+                                //fazer criação das irrigas mas sabendo que tem irrigações da data de ontem sobrepondo dias
+
+                            } else {
+                                irrigaProximoDia = false;
+
+                                Optional<M_Irrigacao> m_irrigacao = r_irrigacao.findLastIrrigacaoBefore(dataIrrigacao, horaIrrigacao);
+                                //descobre o intervalo da ultima irrigação de hoje
+                                Integer intervaloAnterior = m_irrigacao.get().getIntervalo();
+
+                                for (int l = ((-intervaloAnterior) - 1); l <= intervalo; l++) { // descob com o interval se tem uma outra irriga nesse horario
+                                    LocalTime horaVerificada = horaIrrigacao.plusMinutes(l);
+
+                                    List<M_Irrigacao> irrigacoesNoMesmoHorario = r_irrigacao.findByDataIrrigacaoAndHoraIrrigacao(dataIrrigacao, horaVerificada);
+                                    //descobre se no tal horario tem irrigação ou não
+
+                                    if (!irrigacoesNoMesmoHorario.isEmpty()) {
+                                        if (l < 0) {
+                                            m_resultado.addMensagem("Já existe uma irrigação cujo intervalo passará pelo horário: " + horaIrrigacao);
+                                        } else {
+                                            m_resultado.addMensagem("Já existe uma irrigação que começará entre o horário: " + horaIrrigacao + " e " + horaIrrigacao.plusMinutes(intervalo));
+                                        }
+                                        podeAgendar = false;
+                                        break;
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    } else{
+                        m_resultado.setAlerta("A primeira irrigação não pode ser no passado.");
+                        break;
+                    }
+
+                }
+
+            }
+
+
+
+        } catch (Exception e) {
+            m_resultado.setAlerta("Operação encerrada por erro desconhecido.");
+        }
+
+        String alerta = m_resultado.getAlerta();
+        List<String> mensagem = m_resultado.getMensagem();
+
+        return new M_Resultado(podeAgendar, alerta, mensagem.toString());
+    }
 
 }

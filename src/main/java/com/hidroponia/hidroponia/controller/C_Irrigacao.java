@@ -37,25 +37,19 @@ public class C_Irrigacao {
                                             Model model) {
 
         String username = (String) session.getAttribute("username");
-        String nivel = (String) session.getAttribute("nivel");
 
 
         if (username != null) {
 
-            if (!nivel.equals("USER")) {
-                List<M_Irrigacao> proximasIrrigacoes = s_agendaIrrigacao.obterProximasIrrigacoes();
-                model.addAttribute("proximasIrrigacoes", proximasIrrigacoes);
-                model.addAttribute("message", "Bem-vindo, " + username + "!");
-                return "/agendar-irrigacao"; // Nome do arquivo HTML
-            } else {
-                model.addAttribute("message", "Bem-vindo! Faça login.");
-            }
+            List<M_Irrigacao> proximasIrrigacoes = s_agendaIrrigacao.obterProximasIrrigacoes();
+            model.addAttribute("proximasIrrigacoes", proximasIrrigacoes);
+            model.addAttribute("message", "Bem-vindo, " + username + "!");
+            return "/agendar-irrigacao"; // Nome do arquivo HTML
 
         } else {
             model.addAttribute("message", "Usuario não autorizado.");
             return "redirect:/";
         }
-        return null;
     }
 
     //lista de 5 proximas irriga
@@ -65,22 +59,14 @@ public class C_Irrigacao {
                                                       Model model) {
 
         String username = (String) session.getAttribute("username");
-        String nivel = (String) session.getAttribute("nivel");
 
         if (username != null) {
-            if (!nivel.equals("USER")) {
-
-                model.addAttribute("message", "Bem-vindo, " + username + "!");
-                return s_agendaIrrigacao.obterProximasIrrigacoes(); // Nome do arquivo HTML
-
-            } else {
-                model.addAttribute("message", "Usuario não autorizado.");
-            }
+            model.addAttribute("message", "Bem-vindo, " + username + "!");
+            return s_agendaIrrigacao.obterProximasIrrigacoes(); // Nome do arquivo HTML
         } else {
             model.addAttribute("message", "Bem-vindo! Faça login.");
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário não autenticado");
         }
-        return null;
     }
 
     //agendar irrigações
@@ -170,7 +156,6 @@ public class C_Irrigacao {
                                    Model model) {
 
         String username = (String) session.getAttribute("username");
-        String nivel = (String) session.getAttribute("nivel");
 
         if (username != null) {
 
@@ -201,6 +186,31 @@ public class C_Irrigacao {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário não autenticado");
         }
 
+    }
+
+    //agendar irrigações
+    @PostMapping("/agendarAvanc")
+    public String postAgendarIrrigAvanc(@RequestParam("datairrigacao") LocalDate dataIrrigacao,
+                                   @RequestParam("horairrigacao") LocalTime horaIrrigacao,
+                                   @RequestParam("intervalo") Integer intervalo,
+                                   @RequestParam("horasAvanc") LocalTime HoraIrrigacaoAvanc,
+                                   @RequestParam("diaAvanc") int diaAvanc,
+                                   @RequestParam("mesAvanc") int mesAvanc,
+                                   Model model,
+                                   HttpSession session,
+                                   RedirectAttributes redirectAttributes) {
+
+        String username = (String) session.getAttribute("username");
+
+        if (username != null) {
+
+            //logica aq
+
+            return "redirect:/irrigacao/agendar";
+
+        } else {
+            return "redirect:/";
+        }
     }
 
 }

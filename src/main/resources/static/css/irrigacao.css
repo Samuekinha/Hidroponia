@@ -5,29 +5,6 @@ html, body {
     background-color: #bcbb9b;
 }
 
-.bottonLineArea {/*area de efeito da linha inferior*/
-    position: absolute;
-    bottom: -3.5%; /* Posição a 1% do fundo da tela */
-    width: 200px; /* Aumentando a largura da área clicável */
-    height: 40px; /* Aumentando a altura da área clicável */
-    display: flex;
-    justify-content: center;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(255, 255, 255, 0); /* Área clicável invisível */
-}
-
-.bottonLine { /*linha inferior*/
-    background-color: rgba(0, 0, 0, 0.4);
-    width: 60px;
-    height: 2px;
-    transition: transform 1s ease;
-}
-
-.bottonLineArea:hover .bottonLine { /*animação da linha inferior*/
-    transform: scale(4.5, 10); /* A animação acontece quando o mouse está sobre a área */
-}
-
 .topBar{/*barra do topo do site*/
     width: 100%;
     background-color: rgba(0, 0, 0, 0.4);
@@ -125,7 +102,49 @@ label{
 .submit-line {/*linha abaixo do botão de login*/
     width: fit-content; /* A linha se ajusta ao tamanho do conteúdo */
     min-width: 60px;
-    height: 0.5px;
+    height: 0.7px;
     background-color: white; /* Cor da linha */
 }
 
+.form-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px; /* Ajuste de espaço superior */
+    padding-bottom: 25px; /* Cria espaço para as abas na parte inferior */
+}
+
+.tab-group {
+    display: flex;
+    justify-content: center;
+    max-width: 20%;
+    bottom: 0; /* Gruda os botões na parte inferior */
+    left: 0;
+    right: 0;
+    margin: 5px; /* Remove margens externas */
+}
+
+.tab {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    background: rgba(0,0,0,.7);
+}
+
+.tab.active {
+    font-weight: bold;
+}
+
+.tab-content {
+    padding: 20px;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
