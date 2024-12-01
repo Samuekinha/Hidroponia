@@ -17,13 +17,10 @@ import java.util.stream.Collectors;
 public class S_AgendaIrrigacao {
 
     private static R_Irrigacao r_irrigacao;
-    private static M_Resultado m_resultado;
 
-    public S_AgendaIrrigacao(R_Irrigacao r_irrigacao, M_Resultado m_resultado) {
+    public S_AgendaIrrigacao(R_Irrigacao r_irrigacao) {
         this.r_irrigacao = r_irrigacao;
-        this.m_resultado = m_resultado;
     }
-
 
     public Boolean validaAgendaIrrigacao(LocalDate dataIrrigacao, LocalTime horaIrrigacao, Integer intervalo) {
         Boolean podeAgendar = true;
@@ -137,6 +134,8 @@ public class S_AgendaIrrigacao {
     public M_Resultado validaAgendaAvanc(LocalDate dataIrrigacao, LocalTime horaIrrigacao,
                                          Integer intervalo, LocalTime HoraIrrigacaoAvanc,
                                          int diaAvanc, int mesAvanc) {
+        M_Resultado m_resultado = new M_Resultado();
+        m_resultado.addMensagem("Iniciou.");
         boolean podeAgendar = true;
 
         try {
@@ -168,38 +167,151 @@ public class S_AgendaIrrigacao {
 
                     if (!agora.isAfter(horaIrrigacao)){ //garante que a irrigação não é no passado
 
-                        for (LocalTime k = LocalTime.now(); k.equals(horaIrrigacao) || k.isAfter(horaIrrigacao); k.plusMinutes(HoraFormat)) {
+                        //conta para saber se é de um dia ou vai sobrepor
+                        boolean irrigaProximoDia;
+                        LocalTime irrigaHoraFim = horaIrrigacao.plusMinutes(intervalo);
+
+                        int tempoLimite = (23*60) + 59;
+                        int horaAvancValue = horaIrrigacao.getHour();
+                        int minutoAvancValue = horaIrrigacao.getMinute();
+                        int totalAvancValue = (horaAvancValue * 60) + minutoAvancValue;
+
+                        for (int k = totalAvancValue; k <= tempoLimite ; k = k+(intervalo+1)) {
                             //cria as irrigas a partir da data de agora
 
-                            boolean irrigaProximoDia;
-                            LocalTime irrigaHoraFim = horaIrrigacao.plusMinutes(intervalo);
-
-                            if (!irrigaHoraFim.isAfter(horaIrrigacao)) {
+                            if (!irrigaHoraFim.isAfter(horaIrrigacao)) {//descobre se esta sobrepondo
+                                //variaveis aq poe no fim Sobrepost
                                 irrigaProximoDia = true;
 
-                                //fazer criação das irrigas mas sabendo que tem irrigações da data de ontem sobrepondo dias
+                                LocalDate dataAtualSobrepost = dataIrrigacao.minusDays(1); // Dia anterior
+                                LocalTime horaAtualSobrepost = horaIrrigacao;
+
+                                // Buscar a última irrigação do dia anterior (já q tem o bglh do minus days ali)
+                                Optional<M_Irrigacao> ultimaIrrigacaoAnterior = r_irrigacao.findLastIrrigacaoBefore(dataAtualSobrepost, horaAtualSobrepost);
+
+                                if (ultimaIrrigacaoAnterior.isPresent()) {
+                                    M_Irrigacao ultimaIrrigacao = ultimaIrrigacaoAnterior.get();
+
+                                    // Calculando o horário final da última irrigação do dia anterior
+                                    LocalTime horaInicioAnterior = ultimaIrrigacao.getHoraIrrigacao();
+                                    int intervaloAnterior = ultimaIrrigacao.getIntervalo(); // Em minutos
+                                    LocalTime horaFimAnterior = horaInicioAnterior.plusMinutes(intervaloAnterior);
+
+                                    // Transformando o horário final em minutos totais do dia
+                                    int minutosTotaisFimAnterior = horaFimAnterior.getHour() * 60 + horaFimAnterior.getMinute();
+
+                                    // Transformando o horário atual em minutos totais
+                                    int minutosTotaisInicioAtual = horaAtualSobrepost.getHour() * 60 + horaAtualSobrepost.getMinute();
+
+                                    // Comparando os horários
+                                    if (minutosTotaisInicioAtual > minutosTotaisFimAnterior) {
+                                        // Horário válido, pode prosseguir -> fecho dboas pode mandar bala
+
+                                        Optional<M_Irrigacao> m_irrigacao = r_irrigacao.findLastIrrigacaoBefore(dataIrrigacao, horaIrrigacao);
+                                        //descobre o intervalo da ultima irrigação de hoje
+                                        Integer intervaloAnteriorSobrepost = m_irrigacao.get().getIntervalo();
+
+                                        for (int l = ((-intervaloAnteriorSobrepost) - 1); l <= intervalo; l++) {
+                                            // descob com o interval se tem uma outra irriga nesse horario
+                                            LocalTime horaVerificada = horaIrrigacao.plusMinutes(l);
+
+                                            List<M_Irrigacao> irrigacoesNoMesmoHorario = r_irrigacao.findByDataIrrigacaoAndHoraIrrigacao(dataIrrigacao, horaVerificada);
+                                            //puxa a ultima irrigação que tem no dia
+
+                                            if (!irrigacoesNoMesmoHorario.isEmpty()) {
+                                                if (l < 0) {
+                                                    m_resultado.addMensagem("Já existe uma irrigação cujo intervalo passará pelo horário: " + horaIrrigacao);
+                                                } else {
+                                                    m_resultado.addMensagem("Já existe uma irrigação que começará entre o horário: " + horaIrrigacao + " e " + horaIrrigacao.plusMinutes(intervalo));
+                                                }
+                                                podeAgendar = false;
+                                                m_resultado.setSucesso(false);
+                                                break;
+                                            }
+
+                                            //fazer salvamento no banco caso de certo avisar no console
+                                            if (podeAgendar) {
+                                                M_Irrigacao salvarNoBanco = new M_Irrigacao();
+
+                                                salvarNoBanco.setDataIrrigacao(dataIrrigacao);
+                                                salvarNoBanco.setHoraIrrigacao(horaIrrigacao);
+                                                salvarNoBanco.setDataRegistro(LocalDateTime.now());
+                                                salvarNoBanco.setIntervalo(intervalo);
+                                                salvarNoBanco.setConcluida(false);
+                                                salvarNoBanco.getRegistroAutomatico(1);
+
+                                                r_irrigacao.save(salvarNoBanco);
+                                                m_resultado.setSucesso(true);
+                                            } else {
+                                                m_resultado.addMensagem("Não foi possivel agendar a irrigação de: < " + dataIrrigacao + " > e hora: < " + horaIrrigacao + " >" );
+                                                m_resultado.setSucesso(false);
+                                            }
+
+                                        }
+
+                                        podeAgendar = true;
+                                    } else {
+                                        // Conflito com a irrigação do dia anterior -> irrigação de ontem conflitooooooooooooo
+                                        m_resultado.addMensagem("Conflito com a irrigação do dia anterior que termina às < " + horaFimAnterior + " > batendo com o inicio de: < " + horaIrrigacao + " >");
+                                        podeAgendar = false;
+                                        m_resultado.setSucesso(false);
+                                    }
+                                } else {
+                                    // Não há irrigação no dia anterior, pode prosseguir
+                                    m_resultado.addMensagem("Nenhuma irrigação encontrada no dia anterior. Agendamento permitido.");
+                                    podeAgendar = true;
+                                }
+
 
                             } else {
                                 irrigaProximoDia = false;
 
                                 Optional<M_Irrigacao> m_irrigacao = r_irrigacao.findLastIrrigacaoBefore(dataIrrigacao, horaIrrigacao);
                                 //descobre o intervalo da ultima irrigação de hoje
-                                Integer intervaloAnterior = m_irrigacao.get().getIntervalo();
 
-                                for (int l = ((-intervaloAnterior) - 1); l <= intervalo; l++) { // descob com o interval se tem uma outra irriga nesse horario
-                                    LocalTime horaVerificada = horaIrrigacao.plusMinutes(l);
+                                if (m_irrigacao.isPresent()){
+                                    M_Irrigacao irrigacaoAnterior = m_irrigacao.get(); // Obtemos o objeto M_Irrigacao
+                                    int intervaloAnterior = irrigacaoAnterior.getIntervalo(); // Acessamos o intervalo
 
-                                    List<M_Irrigacao> irrigacoesNoMesmoHorario = r_irrigacao.findByDataIrrigacaoAndHoraIrrigacao(dataIrrigacao, horaVerificada);
-                                    //descobre se no tal horario tem irrigação ou não
+                                    for (int l = ((-intervaloAnterior) - 1); l <= intervalo; l++) {
+                                        // descob com o interval se tem uma outra irriga nesse horario
+                                        LocalTime horaVerificada = horaIrrigacao.plusMinutes(l);
 
-                                    if (!irrigacoesNoMesmoHorario.isEmpty()) {
-                                        if (l < 0) {
-                                            m_resultado.addMensagem("Já existe uma irrigação cujo intervalo passará pelo horário: " + horaIrrigacao);
-                                        } else {
-                                            m_resultado.addMensagem("Já existe uma irrigação que começará entre o horário: " + horaIrrigacao + " e " + horaIrrigacao.plusMinutes(intervalo));
+                                        List<M_Irrigacao> irrigacoesNoMesmoHorario = r_irrigacao.findByDataIrrigacaoAndHoraIrrigacao(dataIrrigacao, horaVerificada);
+                                        //puxa a ultima irrigação que tem no dia
+
+                                        if (!irrigacoesNoMesmoHorario.isEmpty()) {
+                                            if (l < 0) {
+                                                m_resultado.addMensagem("Já existe uma irrigação cujo intervalo passará pelo horário: " + horaIrrigacao);
+                                            } else {
+                                                m_resultado.addMensagem("Já existe uma irrigação que começará entre o horário: " + horaIrrigacao + " e " + horaIrrigacao.plusMinutes(intervalo));
+                                            }
+                                            podeAgendar = false;
+                                            m_resultado.setSucesso(false);
+                                            break;
                                         }
-                                        podeAgendar = false;
-                                        break;
+
+                                        //fazer salvamento no banco caso de certo avisar no console
+                                        if (podeAgendar) {
+                                            M_Irrigacao salvarNoBanco = new M_Irrigacao();
+
+                                            salvarNoBanco.setDataIrrigacao(dataIrrigacao.plusDays(j-1));
+                                            int testeArrumar = intervalo;
+                                            salvarNoBanco.setHoraIrrigacao(LocalTime.now().plusMinutes(testeArrumar));
+                                            testeArrumar = testeArrumar+intervalo;
+                                            salvarNoBanco.setDataRegistro(LocalDateTime.now());
+                                            salvarNoBanco.setIntervalo(intervalo);
+                                            salvarNoBanco.setConcluida(false);
+                                            salvarNoBanco.getRegistroAutomatico(1);
+
+                                            r_irrigacao.save(salvarNoBanco);
+                                            m_resultado.setSucesso(true);
+
+                                        } else {
+                                            m_resultado.addMensagem("Não foi possivel agendar a irrigação de: < " + dataIrrigacao + " > e hora: < " + horaIrrigacao + " >" );
+                                            m_resultado.setSucesso(false);
+                                        }
+
                                     }
 
                                 }
@@ -210,6 +322,7 @@ public class S_AgendaIrrigacao {
 
                     } else{
                         m_resultado.setAlerta("A primeira irrigação não pode ser no passado.");
+                        m_resultado.setSucesso(false);
                         break;
                     }
 
@@ -217,10 +330,10 @@ public class S_AgendaIrrigacao {
 
             }
 
-
-
         } catch (Exception e) {
+            e.printStackTrace();
             m_resultado.setAlerta("Operação encerrada por erro desconhecido.");
+            m_resultado.setSucesso(false);
         }
 
         String alerta = m_resultado.getAlerta();

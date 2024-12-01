@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
-import com.hidroponia.hidroponia.model.M_Comentario;
 
 @Entity
 @Table(name = "irrigacao")
@@ -42,6 +41,9 @@ public class M_Irrigacao {
     @ManyToOne
     @JoinColumn(name = "comentario_id", foreignKey = @ForeignKey(name = "FK_comentario"))
     private M_Comentario comentario; // Alterado para ser um objeto e não um ID
+
+    @Column(name = "registro_automatico", nullable = false) // garante que seja not null
+    private int registroAutomatico;
 
     // Getters e Setters
 
@@ -123,5 +125,13 @@ public class M_Irrigacao {
 
     public void setComentario(M_Comentario comentario) {
         this.comentario = comentario;
+    }
+
+    public int getRegistroAutomatico(int i) {
+        return registroAutomatico;
+    }
+
+    public void setRegistroAutomatico(int registroAutomatico) {
+        this.registroAutomatico = registroAutomatico;
     }
 }

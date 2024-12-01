@@ -8,11 +8,15 @@ public class M_Resultado {
     private List<String> mensagem; // Para mensagens múltiplas
     private String alerta; // Para mensagens de alerta único
 
-    // Construtor padrão
-    public M_Resultado(boolean sucesso, String string, String mensagemString) {
-        this.sucesso = sucesso;
-        this.mensagem = new ArrayList<>(); // Inicializa a lista de mensagens
-        this.alerta = ""; // Inicializa o alerta vazio
+    public M_Resultado() {
+        this.mensagem = new ArrayList<>();
+    }
+
+    public M_Resultado(boolean podeAgendar, String alerta, String string) {
+        this.sucesso = podeAgendar;
+        this.alerta = alerta;
+        this.mensagem = new ArrayList<>();
+        this.mensagem.add(string); // Adiciona a mensagem passada ao construtor
     }
 
     // Getters e Setters

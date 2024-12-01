@@ -1,6 +1,7 @@
 package com.hidroponia.hidroponia.controller;
 
 import com.hidroponia.hidroponia.model.M_Irrigacao;
+import com.hidroponia.hidroponia.model.M_Resultado;
 import com.hidroponia.hidroponia.repository.R_Irrigacao;
 import com.hidroponia.hidroponia.service.S_AgendaIrrigacao;
 
@@ -188,11 +189,29 @@ public class C_Irrigacao {
 
     }
 
-    //agendar irrigações
+    @GetMapping("/agendarAvanc")
+    public String mostrarProximasIrrigacoesAvanc(HttpSession session,
+                                                 Model model) {
+
+        String username = (String) session.getAttribute("username");
+
+
+        if (username != null) {
+
+            List<M_Irrigacao> proximasIrrigacoes = s_agendaIrrigacao.obterProximasIrrigacoes();
+            model.addAttribute("proximasIrrigacoes", proximasIrrigacoes);
+            return "/agendar-irrigacao"; // Nome do arquivo HTML
+
+        } else {
+            model.addAttribute("message", "Usuario não autorizado.");
+            return "redirect:/";
+        }
+    }
+
     @PostMapping("/agendarAvanc")
-    public String postAgendarIrrigAvanc(@RequestParam("datairrigacao") LocalDate dataIrrigacao,
-                                   @RequestParam("horairrigacao") LocalTime horaIrrigacao,
-                                   @RequestParam("intervalo") Integer intervalo,
+    public String postAgendarIrrigAvanc(@RequestParam("datairrigacaoAvanc") LocalDate dataIrrigacao,
+                                   @RequestParam("horairrigacaoAvanc") LocalTime horaIrrigacao,
+                                   @RequestParam("intervaloAvanc") Integer intervalo,
                                    @RequestParam("horasAvanc") LocalTime HoraIrrigacaoAvanc,
                                    @RequestParam("diaAvanc") int diaAvanc,
                                    @RequestParam("mesAvanc") int mesAvanc,
@@ -204,13 +223,20 @@ public class C_Irrigacao {
 
         if (username != null) {
 
+            M_Resultado m_resultado = s_agendaIrrigacao.validaAgendaAvanc(dataIrrigacao, horaIrrigacao, intervalo, HoraIrrigacaoAvanc,
+                                                                        diaAvanc, mesAvanc);
             //logica aq
-
-            return "redirect:/irrigacao/agendar";
+            if (m_resultado.isSucesso()){
+                model.addAttribute("mensagens",m_resultado.getMensagem());
+                model.addAttribute("alerta",m_resultado.getAlerta());
+            } else{
+                model.addAttribute("erro", "Não foi possivel efetuar o agendamento avançado.");
+            }
 
         } else {
             return "redirect:/";
         }
+        return "redirect:/irrigacao/agendarAvanc";
     }
 
 }
