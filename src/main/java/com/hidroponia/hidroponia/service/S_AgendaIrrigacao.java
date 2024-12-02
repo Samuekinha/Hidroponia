@@ -138,6 +138,24 @@ public class S_AgendaIrrigacao {
         m_resultado.addMensagem("Iniciou.");
         boolean podeAgendar = true;
 
+        //
+        for (LocalDate i = dataIrrigacao; i < dataFim; i.plusDays(1)) {
+            //percorre os dias partindo da data passada
+
+            //logica pra agendar irrigação no primeiro dia partindo de local date ->
+            horaDoDiaAtual = LocalTime.now().getHour();
+
+            for (LocalTime j = horaDoDiaAtual; j < ; j++) {
+
+            }
+
+            //logica pra agendar irrigação nos próximos dias partindo do principio p descobrir se tem uma
+            //irrigação sobrepondo o dia original dela mesma e passando para meia noite, depois o cadastro com
+            //base na resposta (sim ou não, onde sim entra na questão de ter q puxar as info e tratar)
+
+
+        }
+
         try {
 
             int HoraFormat = HoraIrrigacaoAvanc.getHour();
