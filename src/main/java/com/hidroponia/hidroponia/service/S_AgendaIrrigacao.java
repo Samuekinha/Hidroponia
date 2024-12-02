@@ -165,6 +165,10 @@ public class S_AgendaIrrigacao {
 
                 for (int j = 0; j < diaAvanc; j++) { //percorre qtde dias
 
+                    //coiseia a primeira irrigação
+                    int testeArrumar = 0;
+                    int testeArrumarAss = 0;
+
                     if (!agora.isAfter(horaIrrigacao)){ //garante que a irrigação não é no passado
 
                         //conta para saber se é de um dia ou vai sobrepor
@@ -232,9 +236,10 @@ public class S_AgendaIrrigacao {
                                             //fazer salvamento no banco caso de certo avisar no console
                                             if (podeAgendar) {
                                                 M_Irrigacao salvarNoBanco = new M_Irrigacao();
-
-                                                salvarNoBanco.setDataIrrigacao(dataIrrigacao);
-                                                salvarNoBanco.setHoraIrrigacao(horaIrrigacao);
+                                                salvarNoBanco.setDataIrrigacao(dataIrrigacao.plusDays(j-1));
+                                                testeArrumar = intervalo;
+                                                salvarNoBanco.setHoraIrrigacao(LocalTime.now().plusMinutes(testeArrumar));
+                                                testeArrumar = testeArrumar+intervalo;
                                                 salvarNoBanco.setDataRegistro(LocalDateTime.now());
                                                 salvarNoBanco.setIntervalo(intervalo);
                                                 salvarNoBanco.setConcluida(false);
@@ -293,12 +298,20 @@ public class S_AgendaIrrigacao {
 
                                         //fazer salvamento no banco caso de certo avisar no console
                                         if (podeAgendar) {
-                                            M_Irrigacao salvarNoBanco = new M_Irrigacao();
 
-                                            salvarNoBanco.setDataIrrigacao(dataIrrigacao.plusDays(j-1));
-                                            int testeArrumar = intervalo;
-                                            salvarNoBanco.setHoraIrrigacao(LocalTime.now().plusMinutes(testeArrumar));
-                                            testeArrumar = testeArrumar+intervalo;
+                                            //ajusta pra um bagulho ir recebendo essas coisas pra no fim so salvar todos
+                                            //de uma vez pra caso dar erro ele não deixar salvar tudo até resolver
+                                            //as pendencias
+
+                                            M_Irrigacao salvarNoBanco = new M_Irrigacao();
+                                            salvarNoBanco.setDataIrrigacao(dataIrrigacao.plusDays(j));
+
+
+                                            LocalTime horaIrrigacaoParaSalvar = horaIrrigacao.plusMinutes(testeArrumar);
+                                            testeArrumar = horaAvancValue + testeArrumarAss;
+                                            salvarNoBanco.setHoraIrrigacao(horaIrrigacaoParaSalvar);
+                                            testeArrumarAss = (testeArrumarAss + 1) + horaAvancValue;
+
                                             salvarNoBanco.setDataRegistro(LocalDateTime.now());
                                             salvarNoBanco.setIntervalo(intervalo);
                                             salvarNoBanco.setConcluida(false);

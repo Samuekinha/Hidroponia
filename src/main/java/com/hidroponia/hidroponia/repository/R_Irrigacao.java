@@ -47,11 +47,11 @@ public interface R_Irrigacao extends JpaRepository<M_Irrigacao, Long> {
     @Query("SELECT i FROM M_Irrigacao i ORDER BY i.dataIrrigacao ASC, i.horaIrrigacao ASC")
     List<M_Irrigacao> findAllIrrigacoesAsc();
 
-    @Query("SELECT i FROM M_Irrigacao i " +
-            "WHERE i.dataIrrigacao <= :dataAtual AND i.horaIrrigacao <= :horaAtual " +
-            "ORDER BY i.dataIrrigacao DESC, i.horaIrrigacao DESC")
+    @Query(value = "SELECT * FROM irrigacao " +
+            "WHERE data_irrigacao <= :dataAtual AND hora_irrigacao <= :horaAtual " +
+            "ORDER BY data_irrigacao DESC, hora_irrigacao DESC LIMIT 1",
+            nativeQuery = true)
     Optional<M_Irrigacao> findLastIrrigacaoBefore(@Param("dataAtual") LocalDate dataAtual,
                                                   @Param("horaAtual") LocalTime horaAtual);
-
 
 }
