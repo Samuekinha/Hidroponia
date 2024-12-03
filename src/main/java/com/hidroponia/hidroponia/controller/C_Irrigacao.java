@@ -212,9 +212,8 @@ public class C_Irrigacao {
     public String postAgendarIrrigAvanc(@RequestParam("datairrigacaoAvanc") LocalDate dataIrrigacao,
                                    @RequestParam("horairrigacaoAvanc") LocalTime horaIrrigacao,
                                    @RequestParam("intervaloAvanc") Integer intervalo,
-                                   @RequestParam("horasAvanc") LocalTime HoraIrrigacaoAvanc,
-                                   @RequestParam("diaAvanc") int diaAvanc,
-                                   @RequestParam("mesAvanc") int mesAvanc,
+                                   @RequestParam("dataFimAvanc") LocalDate dataFim,
+                                   @RequestParam("intervaloRecAvanc") LocalTime intervaloRecAvanc,
                                    Model model,
                                    HttpSession session,
                                    RedirectAttributes redirectAttributes) {
@@ -223,14 +222,13 @@ public class C_Irrigacao {
 
         if (username != null) {
 
-            M_Resultado m_resultado = s_agendaIrrigacao.validaAgendaAvanc(dataIrrigacao, horaIrrigacao, intervalo, HoraIrrigacaoAvanc,
-                                                                        diaAvanc, mesAvanc);
+            M_Resultado m_resultado = s_agendaIrrigacao.validaAgendaAvanc(dataIrrigacao, horaIrrigacao, intervalo, dataFim, intervaloRecAvanc);
             //logica aq
             if (m_resultado.isSucesso()){
                 model.addAttribute("mensagens",m_resultado.getMensagem());
                 model.addAttribute("alerta",m_resultado.getAlerta());
             } else{
-                model.addAttribute("erro", "Não foi possivel efetuar o agendamento avançado.");
+                model.addAttribute("erro", "O agendamento não obteve teve exito.");
             }
 
         } else {

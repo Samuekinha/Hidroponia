@@ -29,6 +29,10 @@ public class S_EnviaIrrigacao {
 
     private final R_Irrigacao r_irrigacao;
 
+    private M_Irrigacao m_irrigacao = new M_Irrigacao();
+
+    private final S_ArduinoComm s_arduinoComm;
+
     private static ScheduledExecutorService scheduler; // Para armazenar o scheduler
     private static Runnable currentCountdown; // Para armazenar o runnable do countdown
 
@@ -38,13 +42,17 @@ public class S_EnviaIrrigacao {
         return this.status; // Nunca retorna nulo
     }
 
-    public S_EnviaIrrigacao(R_Irrigacao r_irrigacao) {
+    public S_EnviaIrrigacao(R_Irrigacao r_irrigacao, S_ArduinoComm s_arduinoComm) {
         this.r_irrigacao = r_irrigacao;
+        this.s_arduinoComm = s_arduinoComm;
+
         this.status = new M_irrigacaoStatus();
-        // Inicialize valores padrão se necessário
         status.setCountdownSegundos(null);
         status.setIrrigacaoAtualData(null);
         status.setIrrigacaoAtualHora(null);
+
+        // Conectar ao Arduino em uma porta específica
+        s_arduinoComm.conectar("COM3"); // Substitua COM3 pela porta correta no seu sistema
     }
 
 
@@ -61,7 +69,7 @@ public class S_EnviaIrrigacao {
             Optional<M_Irrigacao> irrigacaoFutura = r_irrigacao.findNextIrrigacaoToday(dataAtual, horaAtual);
 
             if (!irrigacaoFutura.isEmpty()) {
-                M_Irrigacao m_irrigacao = irrigacaoFutura.get();  // Pega a irrigação encontrada
+                m_irrigacao = irrigacaoFutura.get();  // Pega a irrigação encontrada
                 LocalTime horaIrrigacao = m_irrigacao.getHoraIrrigacao();  // Acessa o campo intervalo da irrigação encontrada
                 horaAtual = LocalTime.now();
 
@@ -106,10 +114,23 @@ public class S_EnviaIrrigacao {
                 if (currentTime == 0 || currentTime == 1) {
                     logger.info("Iniciando irrigação via Arduino.");
 
-                    // enviar informação pra começar a irrigação
-                    //lembra de ajustar esse if pra ter tempo a mais pro arduino
+                    s_arduinoComm.desconectar();  // Desconectar antes d o envio do comando
+                    try {
+                        int intervalo = m_irrigacao.getIntervalo();
+                        int horaIrrigacao = m_irrigacao.getHoraIrrigacao().getHour();
+                        int minutoIrrigacao = m_irrigacao.getHoraIrrigacao().getMinute();
+
+                        s_arduinoComm.conectar("COM3");
+                        String comando = String.format("IRRIGA,HORA:%02d:%02d,INTERVALO:%d", horaIrrigacao, minutoIrrigacao, intervalo);
+                        s_arduinoComm.enviarComando(comando);
+                    } catch (Exception e) {
+                        logger.error("Erro ao enviar comando para o Arduino", e);
+                    }
 
                     status.setCountdownSegundos(currentTime);
+
+                    // Fechar a porta serial após o uso
+                    s_arduinoComm.desconectar();  // Desconectar após o envio do comando
 
                     // Após iniciar a irrigação, o contador deve ser pausado ou resetado
                     scheduler.shutdownNow();  // Cancela o countdown
