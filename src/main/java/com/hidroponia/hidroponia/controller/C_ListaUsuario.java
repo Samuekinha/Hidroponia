@@ -22,6 +22,6 @@ public class C_ListaUsuario {
     public String getListaUsuarios(Model model) {
         List<M_Usuario> usuarios = s_listaUsuario.listarUsuarios(); // Método que busca todos os usuários
 
-        return "chiq"; // Retorna o nome da view "lista.html"
+        return "fragments/lista-usuario"; // Retorna o nome da view "lista.html"
     }
 }
