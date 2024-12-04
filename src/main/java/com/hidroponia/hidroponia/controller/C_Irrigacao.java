@@ -72,8 +72,7 @@ public class C_Irrigacao {
 
     //agendar irrigações
     @PostMapping("/agendar")
-    public String postAgendarIrrig(@RequestParam("datairrigacao") LocalDate dataIrrigacao,
-                                   @RequestParam("horairrigacao") LocalTime horaIrrigacao,
+    public String postAgendarIrrig(@RequestParam("horairrigacao") LocalTime horaIrrigacao,
                                    @RequestParam("intervalo") Integer intervalo,
                                    Model model,
                                    HttpSession session,
@@ -84,7 +83,7 @@ public class C_Irrigacao {
         if (username != null) {
 
             // Valida a irrigação
-            if (s_agendaIrrigacao.validaAgendaIrrigacao(dataIrrigacao, horaIrrigacao, intervalo)) {
+            if (s_agendaIrrigacao.validaAgendaIrrigacao(horaIrrigacao, intervalo)) {
                 System.out.println("Irrigação agendada com sucesso!");
                 redirectAttributes.addFlashAttribute("message", "Irrigação agendada com sucesso!");
             } else {
@@ -120,7 +119,6 @@ public class C_Irrigacao {
 
     @PostMapping("/atualizar")
     public String atualizarAtividade(@RequestParam("id") Long id,
-                                     @RequestParam("datairrigacao") LocalDate dataIrrigacao,
                                      @RequestParam("horairrigacao") LocalTime horaIrrigacao,
                                      @RequestParam("intervalo") Integer intervalo,
                                      HttpSession session,
@@ -130,10 +128,9 @@ public class C_Irrigacao {
 
         if (username != null) {
 
-
             try {
                 // Chamada ao serviço
-                boolean atualizado = s_agendaIrrigacao.atualizarAtividade(id, dataIrrigacao, horaIrrigacao, intervalo);
+                boolean atualizado = s_agendaIrrigacao.atualizarAtividade(id, horaIrrigacao, intervalo);
 
                 if (atualizado) {
                     return "/fragments/lista-irrigacao-fragment :: fragmentListaIrrigacao";
@@ -160,7 +157,7 @@ public class C_Irrigacao {
 
         if (username != null) {
 
-            S_AgendaIrrigacao.deletarAtividade(id);
+            S_AgendaIrrigacao.deletarIrrigacao(id);
             return "/fragments/empty";
 
         } else {
@@ -209,11 +206,8 @@ public class C_Irrigacao {
     }
 
     @PostMapping("/agendarAvanc")
-    public String postAgendarIrrigAvanc(@RequestParam("datairrigacaoAvanc") LocalDate dataIrrigacao,
-                                   @RequestParam("horairrigacaoAvanc") LocalTime horaIrrigacao,
-                                   @RequestParam("intervaloAvanc") Integer intervalo,
-                                   @RequestParam("dataFimAvanc") LocalDate dataFim,
-                                   @RequestParam("intervaloRecAvanc") LocalTime intervaloRecAvanc,
+    public String postAgendarIrrigAvanc(@RequestParam("duracaoAvanc") Integer duracao,
+                                   @RequestParam("intervaloIrrigas") LocalTime intervalo,
                                    Model model,
                                    HttpSession session,
                                    RedirectAttributes redirectAttributes) {
@@ -222,10 +216,9 @@ public class C_Irrigacao {
 
         if (username != null) {
 
-            M_Resultado m_resultado = s_agendaIrrigacao.validaAgendaAvanc(dataIrrigacao, horaIrrigacao, intervalo, dataFim, intervaloRecAvanc);
+            M_Resultado m_resultado = s_agendaIrrigacao.validaAgendaAvanc(duracao, intervalo);
             //logica aq
             if (m_resultado.isSucesso()){
-                model.addAttribute("mensagens",m_resultado.getMensagem());
                 model.addAttribute("alerta",m_resultado.getAlerta());
             } else{
                 model.addAttribute("erro", "O agendamento não obteve teve exito.");

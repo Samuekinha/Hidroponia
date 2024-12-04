@@ -100,7 +100,7 @@ public class S_EnviaIrrigacao {
     }
 
     public void countDown(Integer intervaloTempo) {
-        Integer startTime = intervaloTempo;  // Começa a contagem em intervalo-1 segundos
+        Integer startTime = intervaloTempo;  // Começa a contagem em intervalo
 
         // Cria um novo scheduler para o countdown
         scheduler = Executors.newSingleThreadScheduledExecutor();

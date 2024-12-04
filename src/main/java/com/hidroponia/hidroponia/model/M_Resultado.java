@@ -5,18 +5,15 @@ import java.util.List;
 
 public class M_Resultado {
     private boolean sucesso;
-    private List<String> mensagem; // Para mensagens múltiplas
     private String alerta; // Para mensagens de alerta único
 
-    public M_Resultado() {
-        this.mensagem = new ArrayList<>();
-    }
-
-    public M_Resultado(boolean podeAgendar, String alerta, String string) {
+    public M_Resultado(boolean podeAgendar, String alerta) {
         this.sucesso = podeAgendar;
         this.alerta = alerta;
-        this.mensagem = new ArrayList<>();
-        this.mensagem.add(string); // Adiciona a mensagem passada ao construtor
+    }
+
+    public M_Resultado() {
+
     }
 
     // Getters e Setters
@@ -26,18 +23,6 @@ public class M_Resultado {
 
     public void setSucesso(boolean sucesso) {
         this.sucesso = sucesso;
-    }
-
-    public List<String> getMensagem() {
-        return mensagem;
-    }
-
-    public void addMensagem(String mensagem) {
-        this.mensagem.add(mensagem); // Adiciona uma nova mensagem à lista
-    }
-
-    public void setMensagem(List<String> mensagens) {
-        this.mensagem = mensagens; // Substitui a lista inteira de mensagens
     }
 
     public String getAlerta() {

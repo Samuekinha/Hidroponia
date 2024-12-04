@@ -37,24 +37,16 @@
                             <form action="/irrigacao/agendar" method="post" th:action="@{/irrigacao/agendar}"
                                   id="cadIrrigFrom">
                                 <div class="row mt-3">
-                                    <div class="col-5">
-                                        <label>Data irrigação:</label>
-                                        <input type="date" name="datairrigacao" id="datairrigacao" autocomplete="off">
-                                    </div>
-                                    <div class="col-2 d-flex justify-content-center">
-                                        <p class="md-line"></p>
-                                    </div>
-                                    <div class="col-5">
+
+                                    <div class="col-6">
                                         <label>Hora e min. irrigação:</label>
                                         <input type="time" name="horairrigacao" id="horairrigacao" autocomplete="off">
                                     </div>
-                                </div>
-
-                                <div class="row mt-3 d-flex justify-content-center">
                                     <div class="col-6">
                                         <label>Duração (em min.):</label>
                                         <input type="number" name="intervalo" id="intervalo" min="1" max="30" step="1">
                                     </div>
+
                                 </div>
 
                                 <div class="d-flex flex-column align-items-center mt-3">
@@ -78,48 +70,28 @@
                 <div class="row">
                     <div class="col-8">
                         <div class="tabela">
-                            <h4>Agendar Avançado</h4>
+                            <h4>Intervalo de recorrência:</h4>
                             <form action="/irrigacao/agendarAvanc" method="post" th:action="@{/irrigacao/agendarAvanc}"
                                   id="cadIrrigFormAvanc">
 
                                 <div class="row mt-3">
-                                    <div class="col-5">
-                                        <label>Data irrigação:</label>
-                                        <input type="date" name="datairrigacaoAvanc" id="datairrigacaoAvanc"
-                                               autocomplete="off">
+                                    <div class="col-6">
+                                        <label for="intervaloIrrigas">Intervalo entre irrigação:</label>
+                                        <input type="time" name="intervaloIrrigas" id="intervaloIrrigas" autocomplete="off"
+                                            min="00:01" max="01:30">
                                     </div>
-                                    <div class="col-2 d-flex justify-content-center">
-                                        <p class="md-line"></p>
-                                    </div>
-                                    <div class="col-5">
-                                        <label>Hora e min. irrigação:</label>
-                                        <input type="time" name="horairrigacaoAvanc" id="horairrigacaoAvanc"
-                                               autocomplete="off">
+
+                                    <div class="col-6">
+                                        <label>Duração (em min.):</label>
+                                        <input type="number" name="duracaoAvanc" id="duracaoAvanc" min="1" max="30" step="1">
                                     </div>
                                 </div>
 
                                 <div class="row mt-3 d-flex justify-content-center">
-                                    <div class="col-6">
-                                        <label>Duração (em min.):</label>
-                                        <input type="number" name="intervaloAvanc" id="intervaloAvanc" min="1" max="30" step="1">
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <!--bota um icone de "?" e explica oq cada uma precisa ter-->
+                                        <p>duração < intervalo</p>
                                     </div>
-                                </div>
-
-                                <h4 class="mt-2">Intervalo de recorrência:</h4>
-
-                                <div class="row mt-3">
-                                    <div class="col-6">
-                                        <label for="intervaloRecAvanc">Intervalo p/cada irrigação:</label>
-                                        <input type="time" name="intervaloRecAvanc" id="intervaloRecAvanc" autocomplete="off"
-                                            min="00:01" max="11:59">
-                                    </div>
-
-                                    <div class="col-6">
-                                        <label>Data Final:</label>
-                                        <input type="date" name="dataFimAvanc" id="dataFimAvanc"
-                                               autocomplete="off">
-                                    </div>
-
                                 </div>
 
                                 <div class="d-flex flex-column align-items-center mt-3">
@@ -134,6 +106,11 @@
                         <div th:insert="~{fragments/agendar-irrigacao-fragment :: fragment2}"></div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <p class="justify-content-center">criar as opções de pattern de irrigação</p>
+                </div>
+
             </div>
         </div>
     </div>
