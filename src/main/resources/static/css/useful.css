@@ -1,0 +1,53 @@
+/* Esconde o menu inicialmente */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    bottom: 100%; /* Posiciona o menu acima da barra */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.4); /* Fundo escuro */
+    padding: 10px;
+    border-radius: 5px;
+    width: 120px; /* Largura do dropdown */
+    text-align: center;
+    z-index: 1000;
+}
+
+/* Exibe o menu quando a classe 'show' está presente */
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(0, 0, 0, 0.4); /* Efeito hover nos itens */
+    color: white;
+}
+
+.overlay-div { /*barra inferior*/
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 45vh;
+    max-width: 600px;
+    height: 4vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    z-index: 1; /* Coloca abaixo de outros elementos */
+}
+
+.refA {
+    text-decoration: none; /* Remove o sublinhado */
+    color: inherit; /* Mantém a cor original, ou use uma cor específica, como 'white' */
+}

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Usuário</title>
     <link rel="stylesheet" href="cadastrar.css">
+    <link rel="stylesheet" href="/css/useful.css">
+
 </head>
 <body>
 
@@ -35,12 +37,31 @@
         <input type="submit" value="Cadastrar" id="submitCadastro">
     </form>
 
-    <div class="footer">
-        <p>© 2024 Seu Site. Todos os direitos reservados.</p>
+</div>
+
+<div class="overlay-div">
+    <div class="row w-100">
+        <div class="col-4 d-flex justify-content-start">
+            <a href="/home" class="fas fa-home"></a> <!-- Ícone de casinha no início -->
+        </div>
+        <div class="col-4 d-flex justify-content-center">
+            <a class="fas fa-bars toggle-dropdown"></a> <!-- Ícone de 3 barrinhas que abre o dropdown -->
+            <div class="dropdown-menu">
+                <a href="/irrigacao/agendar" class="dropdown-item">Agendar Irrigação</a>
+                <a href="/irrigacao/listar" class="dropdown-item">Lista Irrigações</a>
+                <a href="/usuario/cadastrar" class="dropdown-item">Cadastrar Usuario</a>
+                <a href="/usuario/lista-usuario" class="dropdown-item">Listar Usuarios</a>
+            </div>
+        </div>
+        <div class="col-4 d-flex justify-content-end">
+            <a class="fas fa-circle"></a> <!-- Ícone de bolinha no fim -->
+        </div>
     </div>
 </div>
 
 <script src="/index.js" defer></script>
+<script src="/js/useful.js" defer></script>
+
 
 </body>
 </html>

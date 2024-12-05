@@ -6,12 +6,17 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <!-- Font Aweasome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/useful.css">
+
     <title>Home</title>
 </head>
 <body>
@@ -37,21 +42,21 @@
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <h3>Info. da irrigação atual</h3>
-                            <p>Temperatura da água:</p>
-                            <p>12° graus</p>
                             <p>Temperatura do ambiente:</p>
-                            <p>20° graus</p>
+                            <p th:text="${temperatura != null ? temperatura + ' °C' : 'N/F'}"></p>
                             <p>Umidade do ambiente:</p>
-                            <p>34% umidez</p>
+                            <p th:text="${umidade != null ? umidade + ' %' : 'N/F'}"></p>
+                            <p>Ponto de orvalho:</p>
+                            <p th:text="${pontoOrvalho != null ? pontoOrvalho + ' °C' : 'N/F'}"></p>
                         </div>
                         <div class="carousel-item">
                             <h3>Info. da última irrigação</h3>
-                            <p>Temperatura da água:</p>
-                            <p>15° graus</p>
                             <p>Temperatura do ambiente:</p>
-                            <p>22° graus</p>
+                            <p th:text="${penultimaTemperatura != null ? temperatura + ' °C' : 'N/F'}"></p>
                             <p>Umidade do ambiente:</p>
-                            <p>24% umidez</p>
+                            <p th:text="${penultimaUmidade != null ? umidade + ' %' : 'N/F'}"></p>
+                            <p>Ponto de orvalho:</p>
+                            <p th:text="${penultimoPontoOrvalho != null ? pontoOrvalho + ' °C' : 'N/F'}"></p>
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
@@ -107,11 +112,7 @@
                             <a class="mb-1 botoes-redirecionamento w-75 text-center" href="/cadastrar">Cadastrar usuário</a>
                             <div class="bt-line"></div>
                         </div>
-
-                        <div class="row d-flex justify-content-center mt-4">
-                            <a class="mb-1 botoes-redirecionamento w-75 text-center" href="usuario/listausuarios">Lista usuários</a>
-                            <div class="bt-line"></div>
-                        </div>
+                        
                     </div>
 
                     <!-- Segunda coluna com 2 botões -->
@@ -133,27 +134,25 @@
 
             <div class="row blocoInfo">
                 <div class="row">
-                    <div class="col-6">
-                        <h3 class="textoInfo">Usuario atual:</h3>
-                        <span class="textoInfoTh" id="nomeUser"></span>
-                    </div>
-
-                    <div class="col-6">
-                        <h3 class="textoInfo d-flex justify-content-center">cargo:</h3>
-                        <span class="textoInfoTh" id="cargoUser"></span>
-                    </div>
-                </div>
-
-                <div class="row mt-2">
                     <div class="col-12">
-                        <h3 class="textoInfo d-flex justify-content-center">e-mail:</h3>
-                        <span class="textoInfoTh" id="emailUser"></span>
+                        <h3 class="textoInfo">Usuario atual:</h3>
+                        <span th:text="${userNomes}" class="textoInfoTh" id="nomeUser"></span>
                     </div>
                 </div>
             </div>
 
             <div class="container">
-                <a th:href="@{/logout}">Logout</a>
+
+            </div>
+
+            <p class="bt-line-large mt-3"></p>
+
+            <div class="row blocoInfo">
+                <div class="row">
+                    <div class="col-12">
+                        <a class="botoes-redirecionamento d-flex justify-content-center" th:href="@{/logout}">Logout</a>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -168,10 +167,9 @@
         <div class="col-4 d-flex justify-content-center">
             <a class="fas fa-bars toggle-dropdown"></a> <!-- Ícone de 3 barrinhas que abre o dropdown -->
             <div class="dropdown-menu">
-                <a href="/agendar-irrigacao" class="dropdown-item">Agendar Irrigação</a>
-                <a href="/lista-irrigacao" class="dropdown-item">Lista Irrigações</a>
-                <a href="/usuario/cadastrar" class="dropdown-item">Cadastrar Usuario</a>
-                <a href="/usuario/lista-usuario" class="dropdown-item">Listar Usuarios</a>
+                <a class="adelistar" href="/irrigacao/agendar" >Agendar Irrigação</a>
+                <a class="adelistar" href="/irrigacao/listar" >Lista Irrigações</a>
+                <a class="adelistar" href="/usuario/cadastrar">Cadastrar Usuario</a>
             </div>
         </div>
         <div class="col-4 d-flex justify-content-end">
@@ -185,8 +183,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-<script src="/js/home.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+
+<script src="/js/home.js" defer></script>
+<script src="/js/useful.js" defer></script>
+
 
 </body>
 </html>
