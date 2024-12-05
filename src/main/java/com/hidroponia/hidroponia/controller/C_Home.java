@@ -1,6 +1,7 @@
 package com.hidroponia.hidroponia.controller;
 
 import com.hidroponia.hidroponia.model.M_irrigacaoStatus;
+import com.hidroponia.hidroponia.service.S_ArduinoComm;
 import com.hidroponia.hidroponia.service.S_EnviaIrrigacao;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
@@ -8,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.Map;
