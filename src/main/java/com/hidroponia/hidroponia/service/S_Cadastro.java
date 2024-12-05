@@ -1,5 +1,6 @@
 package com.hidroponia.hidroponia.service;
 
+import com.hidroponia.hidroponia.model.M_Resultado;
 import com.hidroponia.hidroponia.model.M_Usuario;
 import com.hidroponia.hidroponia.repository.R_Usuario;
 import org.springframework.stereotype.Service;
@@ -7,35 +8,44 @@ import org.springframework.stereotype.Service;
 @Service
 public class S_Cadastro {
 
-    private final R_Usuario r_usuario;
+    private static R_Usuario r_usuario;
 
-    public S_Cadastro(R_Usuario rUsuario) {
-        r_usuario = rUsuario;
+
+    public S_Cadastro(R_Usuario r_usuario) {
+        this.r_usuario = r_usuario;
     }
 
     // Método para validar o cadastro
-    public boolean validaCadastro(String username, String senha, String confSenha, String email) {
+    public M_Resultado validaCadastro(String username, String senha, String confSenha, String email) {
         boolean podeSalvar = true;
+        M_Resultado m_resultado =  new M_Resultado();
         M_Usuario m_usuario = new M_Usuario();
 
         try {
-            // Lógica de validação
-            if (username == null || senha == null || email == null || !senha.equals(confSenha)) {
-                podeSalvar = false; // Retorna false se algum campo estiver inválido
+            // Aqui você pode adicionar a lógica para validar os dados
+            if (username == null || senha == null || email == null || !senha.equalsIgnoreCase(confSenha)) {
+                podeSalvar = false; // Retorna false se algum campo estiver vazio
+                m_resultado.setAlerta("Algum dos campos está sem vazio.");
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e){
             podeSalvar = false;
+            m_resultado.setAlerta("Erro desconhecido.");
         }
 
-        if (podeSalvar) {
+        if (podeSalvar){
             m_usuario.setUsername(username);
             m_usuario.setSenha(senha);
             m_usuario.setEmail(email);
 
-            r_usuario.save(m_usuario); // Salva o usuário no banco de dados
-            System.out.println("Cadastro realizado com sucesso!");
+            m_usuario = r_usuario.save(m_usuario);
         }
 
-        return podeSalvar;
+        String menssagem = m_resultado.getAlerta();
+
+        return new M_Resultado(podeSalvar, menssagem);
     }
+
+
+
 }

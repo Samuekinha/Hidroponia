@@ -83,7 +83,7 @@ public class C_Irrigacao {
         if (username != null) {
 
             // Valida a irrigação
-            if (s_agendaIrrigacao.validaAgendaIrrigacao(horaIrrigacao, intervalo)) {
+            if (s_agendaIrrigacao.validaAgendaIrrigacao(horaIrrigacao, intervalo).isSucesso()) {
                 System.out.println("Irrigação agendada com sucesso!");
                 redirectAttributes.addFlashAttribute("message", "Irrigação agendada com sucesso!");
             } else {
@@ -130,9 +130,7 @@ public class C_Irrigacao {
 
             try {
                 // Chamada ao serviço
-                boolean atualizado = s_agendaIrrigacao.atualizarAtividade(id, horaIrrigacao, intervalo);
-
-                if (atualizado) {
+                if (s_agendaIrrigacao.atualizarAtividade(id, horaIrrigacao, intervalo).isSucesso()) {
                     return "/fragments/lista-irrigacao-fragment :: fragmentListaIrrigacao";
                 } else {
                     // Retorna status 404 caso o ID não seja encontrado ou não atualizado
@@ -207,10 +205,10 @@ public class C_Irrigacao {
 
     @PostMapping("/agendarAvanc")
     public String postAgendarIrrigAvanc(@RequestParam("duracaoAvanc") Integer duracao,
-                                   @RequestParam("intervaloIrrigas") LocalTime intervalo,
-                                   Model model,
-                                   HttpSession session,
-                                   RedirectAttributes redirectAttributes) {
+                                        @RequestParam("intervaloIrrigas") LocalTime intervalo,
+                                        Model model,
+                                        HttpSession session,
+                                        RedirectAttributes redirectAttributes) {
 
         String username = (String) session.getAttribute("username");
 
@@ -231,4 +229,3 @@ public class C_Irrigacao {
     }
 
 }
-

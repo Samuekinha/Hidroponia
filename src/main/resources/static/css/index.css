@@ -145,3 +145,10 @@ a:hover {
     background-color: white;
 }
 
+.titulof{
+    display: flex;
+    justify-content: center;
+    color: white;
+    margin-bottom: 2px;
+}
+

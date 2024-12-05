@@ -25,7 +25,7 @@ public class S_AgendaIrrigacao {
         this.r_irrigacao = r_irrigacao;
     }
 
-    public Boolean validaAgendaIrrigacao(LocalTime horaIrrigacao, Integer intervalo) {
+    public M_Resultado validaAgendaIrrigacao(LocalTime horaIrrigacao, Integer intervalo) {
         Boolean podeAgendar = true;
         List<String> mensagens = new ArrayList<>();
         M_Resultado m_resultado = new M_Resultado();
@@ -64,7 +64,7 @@ public class S_AgendaIrrigacao {
                 m_irrigacao.setIntervalo(intervalo);
                 m_irrigacao.setConcluida(false);
                 r_irrigacao.save(m_irrigacao);
-                return true;
+                m_resultado.setAlerta("Irrigação agendada!");
             }
 
             // Exibir mensagens de erro
@@ -76,7 +76,9 @@ public class S_AgendaIrrigacao {
             e.printStackTrace(); // Para ajudar na depuração
         }
 
-        return false;
+        String mensagem = m_resultado.getAlerta();
+
+        return new M_Resultado(podeAgendar, mensagem);
     }
 
     public List<M_Irrigacao> obterProximasIrrigacoes() {
@@ -88,9 +90,11 @@ public class S_AgendaIrrigacao {
         return todasIrrigacoes.stream().limit(5).collect(Collectors.toList());
     }
 
-    public Boolean atualizarAtividade(Long id, LocalTime horaIrrigacao, Integer intervalo) {
+    public M_Resultado atualizarAtividade(Long id, LocalTime horaIrrigacao, Integer intervalo) {
         // Busca a entidade pelo ID
         Optional<M_Irrigacao> optionalIrrigacao = r_irrigacao.findById(id);
+        M_Resultado m_resultado = new M_Resultado();
+        boolean funcionou;
 
         if (optionalIrrigacao.isPresent()) {
             M_Irrigacao irrigacao = optionalIrrigacao.get();
@@ -103,10 +107,15 @@ public class S_AgendaIrrigacao {
             // Salva as mudanças no banco de dados
             r_irrigacao.save(irrigacao);
 
-            return true;
+            funcionou = true;
         } else {
-            return false;
+            m_resultado.setAlerta("Essa irrigação não foi encontrada ou não existe.");
+            funcionou = false;
         }
+
+        String mensagem = m_resultado.getAlerta();
+
+        return new M_Resultado(funcionou, mensagem);
     }
 
 

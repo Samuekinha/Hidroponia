@@ -40,10 +40,7 @@ public class M_Irrigacao {
 
     @ManyToOne
     @JoinColumn(name = "comentario_id", foreignKey = @ForeignKey(name = "FK_comentario"))
-    private M_Comentario comentario; // Alterado para ser um objeto e não um ID
-
-    @Column(name = "registro_automatico", nullable = false) // garante que seja not null
-    private int registroAutomatico;
+    private M_Comentario comentario; // Alterado para ser um objeto e não um ID;
 
     // Getters e Setters
 
@@ -127,11 +124,4 @@ public class M_Irrigacao {
         this.comentario = comentario;
     }
 
-    public int getRegistroAutomatico(int i) {
-        return registroAutomatico;
-    }
-
-    public void setRegistroAutomatico(int registroAutomatico) {
-        this.registroAutomatico = registroAutomatico;
-    }
 }

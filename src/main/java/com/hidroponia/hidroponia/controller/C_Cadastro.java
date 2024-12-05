@@ -3,6 +3,7 @@ package com.hidroponia.hidroponia.controller;
 import com.hidroponia.hidroponia.model.M_Usuario;
 import com.hidroponia.hidroponia.service.S_Cadastro;
 import com.hidroponia.hidroponia.service.S_Login;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +20,17 @@ public class C_Cadastro {
     }
 
     @GetMapping("/cadastrar")
-    public String getCadastro(){
-        return "/usuario/cadastrar";
+    public String getCadastro(HttpSession session,
+                              Model model){
+
+        String username = (String) session.getAttribute("username");
+        if (username != null) {
+            return "/usuario/cadastrar";
+        } else {
+            model.addAttribute("message", "Bem-vindo! Faça login.");
+            return "redirect:/login"; // Nome da página Thymeleaf
+        }
+
     }
 
     @PostMapping("/cadastrar")
@@ -28,12 +38,22 @@ public class C_Cadastro {
                                @RequestParam("senha") String senha,
                                @RequestParam("conf_senha") String conf_senha,
                                @RequestParam("email") String email,
+                               HttpSession session,
                                Model model) {
-        System.out.println("Requisição recebida: " + username);
-        // Se o login for bem-sucedido
-        if (s_cadastro.validaCadastro(username,senha,conf_senha,email)){
-            return "redirect:/home";
+
+        String name = (String) session.getAttribute("username");
+        if (name != null) {
+            if (s_cadastro.validaCadastro(username,senha,conf_senha,email).isSucesso()){
+                return "redirect:/usuario/cadastrar";
+            } else{
+                model.addAttribute("message", "erro validando cadasstro");
+                return "redirect:/usuario/cadastrar";
+            }
+        } else {
+            model.addAttribute("message", "Bem-vindo! Faça login.");
+            return "redirect:/login"; // Nome da página Thymeleaf
         }
-        return "redirect:/usuario/cadastrar";
+        // Se o login for bem-sucedido
+
     }
 }
